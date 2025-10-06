@@ -14,7 +14,7 @@ class CasellaTest {
 		assertFalse(c1.isDestapat());
 		try
 		{
-			c1 = new Casella(new Posicio(null));
+			c1 = new Casella(null);
 			assertTrue(false);
 		}catch(Exception e)
 		{
@@ -23,4 +23,3 @@ class CasellaTest {
 	}
 
 }
-

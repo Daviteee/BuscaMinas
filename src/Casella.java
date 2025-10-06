@@ -39,6 +39,11 @@ public class Casella {
 		else
 			teBandera = true;
 	}
+	
+	public void destaparCasella()
+	{
+		estaDestapat= true;
+	}
 	public boolean isDestapat()
 	{
 		return estaDestapat;

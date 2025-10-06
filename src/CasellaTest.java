@@ -48,6 +48,7 @@ class CasellaTest {
 		@Test
 		void DestaparCasellaTest()
 		{
+			//Comprovem que es pot destapar una casella tapada correctament.
 			p = new Posicio(7,10);
 			c = new Casella(p);
 			assertFalse(c.isDestapat());

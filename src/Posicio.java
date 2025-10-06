@@ -5,10 +5,26 @@ public class Posicio {
 	private int y;
 	public Posicio(int x,int y)
 	{
-		if(x<0 || x>12 || y<0 || y>12)
+		if(x<0)
 		{
-			throw new IllegalArgumentException("Els valors dels parametres de poscio son incorrectes");
+			throw new IllegalArgumentException("El valor del paràmetre de posció X es menor a 0");
 		}
+		
+		if(x>12)
+		{
+			throw new IllegalArgumentException("El valor del paràmetre de posció X es major a 12");
+		}
+		
+		if(y<0)
+		{
+			throw new IllegalArgumentException("El valor del paràmetre de posció Y es menor a 0");
+		}
+		
+		if(y>12)
+		{
+			throw new IllegalArgumentException("El valor del paràmetre de posició Y es major a 12");
+		}
+		
 		this.x = x;
 		this.y = y;
 	}

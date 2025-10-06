@@ -35,7 +35,7 @@ class CasellaTest {
 			
 		}
 		@Test
-		void PosarAndTreureBandera() {
+		void PosarAndTreureBanderaTest() {
 			//Comprovem que es pot posar banderas i treure correctament en una casella.
 			p = new Posicio(3,3);
 			c = new Casella(p);
@@ -43,5 +43,15 @@ class CasellaTest {
 			assertTrue(c.isBandera());
 			c.changeBandera();
 			assertFalse(c.isBandera());
+		}
+		
+		@Test
+		void DestaparCasellaTest()
+		{
+			p = new Posicio(7,10);
+			c = new Casella(p);
+			assertFalse(c.isDestapat());
+			c.destaparCasella();
+			assertTrue(c.isDestapat());
 		}
 }

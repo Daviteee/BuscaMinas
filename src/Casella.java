@@ -9,7 +9,7 @@ public class Casella {
 	public Casella(Posicio p)
 	{
 		if(p == null)
-			throw new IllegalArgumentException("Error la posició de la casella no por ser null");
+			throw new IllegalArgumentException("Error la posició de la casella no pot ser null");
 		
 		posCasella = p;
 		teMina = false;
@@ -30,6 +30,14 @@ public class Casella {
 	public boolean isBandera()
 	{
 		return teBandera;
+	}
+	
+	public void changeBandera()
+	{
+		if(teBandera)
+			teBandera = false;
+		else
+			teBandera = true;
 	}
 	public boolean isDestapat()
 	{

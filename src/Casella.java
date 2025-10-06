@@ -1,3 +1,4 @@
+
 public class Casella {
 
 	private Posicio posCasella;
@@ -19,6 +20,11 @@ public class Casella {
 	public boolean isMina()
 	{
 		return teMina;
+	}
+	
+	public void setMina()
+	{
+		teMina = true;
 	}
 	
 	public boolean isBandera()

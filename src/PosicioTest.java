@@ -22,8 +22,9 @@ class PosicioTest {
 		{
 			p = new Posicio(-1,6);
 			assertTrue(false);
-		}catch(Exception e)
-			e.err.println(e.getMessage());
+		}catch(Exception e) {
+			System.err.println(e.getMessage());
+		}
 		
 		p = new Posicio(1,6);
 		assertEquals(1,p.getX());
@@ -36,7 +37,9 @@ class PosicioTest {
 			p = new Posicio(13,6);
 			assertTrue(false);
 		}catch(Exception e)
-			e.err.println(e.getMessage());
+		{
+			System.err.println(e.getMessage());
+		}
 		
 		//Test partició d'equivalència amb y
 		
@@ -51,7 +54,9 @@ class PosicioTest {
 			p = new Posicio(10,-1);
 			assertTrue(false);
 		}catch(Exception e)
-			e.err.println(e.getMessage());
+		{
+			System.err.println(e.getMessage());
+		}
 		
 		p = new Posicio(10,1);
 		assertEquals(10,p.getX());
@@ -64,7 +69,9 @@ class PosicioTest {
 			p = new Posicio(10,13);
 			assertTrue(false);
 		}catch(Exception e)
-			e.err.println(e.getMessage());
+		{
+			System.err.println(e.getMessage());
+		}
 	}
 
 }

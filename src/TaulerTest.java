@@ -10,13 +10,15 @@ class TaulerTest {
 	{
 		//Comrpovem que el tauler inicial s'inicialitza correctament amb totes les caselles corresponents.
 		t1= new Tauler();
-		for(int i=0;i<12;i++)
-			for(int j=0;j<12;j++)
+		for(int i=0;i<13;i++)
+			for(int j=0;j<13;j++)
 			{
 				assertFalse(t1.getCasella(i,j).isBandera());
 				assertFalse(t1.getCasella(i,j).isMina());
 				assertFalse(t1.getCasella(i,j).isDestapat());
 
 			}
+		
 	}
+
 }

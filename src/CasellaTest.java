@@ -3,18 +3,22 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 class CasellaTest {
-
+	
+	Posicio p;
+	Casella c;
 	@Test
 	void Constructor() {
-		Posicio p1 = new Posicio(3,2);
-		Casella c1 = new Casella(p1);	
-		assertEquals(p1,c1.getPosicio());
-		assertFalse(c1.isMina());
-		assertFalse(c1.isBandera());
-		assertFalse(c1.isDestapat());
+		//Comprovem que el constructor genera correctament la casella amb la posició assingada, sense mina, sense bandera i tapada.
+		p = new Posicio(3,2);
+		c = new Casella(p);	
+		assertEquals(p,c.getPosicio());
+		assertFalse(c.isMina());
+		assertFalse(c.isBandera());
+		assertFalse(c.isDestapat());
+		//Comprovem que dona una excepció si pasem null la posició.
 		try
 		{
-			c1 = new Casella(null);
+			c = new Casella(null);
 			assertTrue(false);
 		}catch(Exception e)
 		{
@@ -23,10 +27,21 @@ class CasellaTest {
 	}
 		@Test
 		void PosarMinaTest() {
-			Posicio p2 = new Posicio(10,7);
-			Casella c2 = new Casella(p2);	
-			c2.setMina();
-			assertTrue(c2.isMina());
+			//Comprovem que l'assingació de la mina a una casella es fa correctament.
+			p = new Posicio(10,7);
+			c = new Casella(p);	
+			c.setMina();
+			assertTrue(c.isMina());
 			
+		}
+		@Test
+		void PosarAndTreureBandera() {
+			//Comprovem que es pot posar banderas i treure correctament en una casella.
+			p = new Posicio(3,3);
+			c = new Casella(p);
+			c.changeBandera();
+			assertTrue(c.isBandera());
+			c.changeBandera();
+			assertFalse(c.isBandera());
 		}
 }

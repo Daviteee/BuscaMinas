@@ -21,5 +21,12 @@ class CasellaTest {
 			System.err.println(e.getMessage());
 		}
 	}
-
+		@Test
+		void PosarMinaTest() {
+			Posicio p2 = new Posicio(10,7);
+			Casella c2 = new Casella(p2);	
+			c2.setMina();
+			assertTrue(c2.isMina());
+			
+		}
 }

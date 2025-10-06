@@ -8,7 +8,7 @@ class CasellaTest {
 	void Constructor() {
 		Posicio p1 = new Posicio(3,2);
 		Casella c1 = new Casella(p1);	
-		assertEquals(p,c1.getPosicio());
+		assertEquals(p1,c1.getPosicio());
 		assertFalse(c1.isMina());
 		assertFalse(c1.isBandera());
 		assertFalse(c1.isDestapat());
@@ -23,3 +23,4 @@ class CasellaTest {
 	}
 
 }
+

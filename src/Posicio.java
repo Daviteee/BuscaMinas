@@ -7,17 +7,17 @@ public class Posicio {
 	{
 		if(x<0)
 		{
-			throw new IllegalArgumentException("El valor del paràmetre de posció X es menor a 0");
+			throw new IllegalArgumentException("El valor del paràmetre de posició X es menor a 0");
 		}
 		
 		if(x>12)
 		{
-			throw new IllegalArgumentException("El valor del paràmetre de posció X es major a 12");
+			throw new IllegalArgumentException("El valor del paràmetre de posició X es major a 12");
 		}
 		
 		if(y<0)
 		{
-			throw new IllegalArgumentException("El valor del paràmetre de posció Y es menor a 0");
+			throw new IllegalArgumentException("El valor del paràmetre de posició Y es menor a 0");
 		}
 		
 		if(y>12)

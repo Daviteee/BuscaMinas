@@ -1,17 +1,13 @@
 
 public class Casella {
 
-	private Posicio posCasella;
 	private boolean teMina;
 	private boolean teBandera;
 	private boolean estaDestapat;
 	
-	public Casella(Posicio p)
+	public Casella()
 	{
-		if(p == null)
-			throw new IllegalArgumentException("Error la posició de la casella no pot ser null");
 		
-		posCasella = p;
 		teMina = false;
 		teBandera = false;
 		estaDestapat = false;
@@ -49,7 +45,4 @@ public class Casella {
 		return estaDestapat;
 	}
 	
-	public Posicio getPosicio() {
-		return posCasella;
-	}
 }

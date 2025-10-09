@@ -76,6 +76,9 @@ class CasellaTest {
 			c.setNumMinesVoltant(1);
 			assertEquals(1, c.getNumMinesVoltant()); //Valor limit interior
 			
+			c.setNumMinesVoltant(4);
+			assertEquals(4, c.getNumMinesVoltant()); //Valor limit interior
+			
 			c.setNumMinesVoltant(7);
 			assertEquals(7, c.getNumMinesVoltant()); //Valor limit interior
 			

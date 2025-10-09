@@ -18,6 +18,7 @@ class CasellaTest {
 		assertFalse(c.isMina());
 		assertFalse(c.isBandera());
 		assertFalse(c.isDestapat());
+		assertEquals(0, c.getNumMinesVoltant());
 	}
 		@Test
 		void PosarMinaTest() {
@@ -42,6 +43,42 @@ class CasellaTest {
 			assertFalse(c.isDestapat());
 			c.destaparCasella();
 			assertTrue(c.isDestapat());
+		}
+		
+		@Test
+		void setNumMinesVoltantTest() {
+			
+			//Comprovem que es pot posar el nombre de mines al voltant correctament.
+			//Particions equivalents: (0 - 8): Particions equivalents
+			c.setNumMinesVoltant(0);
+			assertEquals(0, c.getNumMinesVoltant()); //Valor frontera
+			
+			c.setNumMinesVoltant(8);
+			assertEquals(8, c.getNumMinesVoltant()); //Valor frontera
+			
+			
+			try {
+				c.setNumMinesVoltant(-1); //Valor limit
+				assertTrue(false);
+				
+			}catch(Exception e) {
+				System.err.println(e.getMessage());
+			}
+			
+			try {
+				c.setNumMinesVoltant(9); //Valor limit
+				assertTrue(false);
+				
+			}catch(Exception e) {
+				System.err.println(e.getMessage());
+			}
+			
+			c.setNumMinesVoltant(1);
+			assertEquals(1, c.getNumMinesVoltant()); //Valor limit interior
+			
+			c.setNumMinesVoltant(7);
+			assertEquals(7, c.getNumMinesVoltant()); //Valor limit interior
+			
 		}
 		
 		

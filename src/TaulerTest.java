@@ -267,7 +267,7 @@ class TaulerTest {
 	void setMinaTest() {
 		t1.setMina(0, 0);
 		assertTrue(t1.getCasella(0,0).isMina());
-		
+		t1.setMina(12, 12);
 		assertTrue(t1.getCasella(12,12).isMina());
 		try {
 			t1.setMina(-1, 13);

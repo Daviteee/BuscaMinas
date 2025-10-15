@@ -262,4 +262,19 @@ class TaulerTest {
 		assertNotNull(t1.getCasella(4, 8));
 
 	}
+	
+	@Test
+	void setMinaTest() {
+		t1.setMina(0, 0);
+		assertTrue(t1.getCasella(0,0).isMina());
+		
+		assertTrue(t1.getCasella(12,12).isMina());
+		try {
+			t1.setMina(-1, 13);
+			assertTrue(false);
+		}catch(Exception e) {
+			System.err.println(e.getMessage());
+		}
+		
+	}
 }

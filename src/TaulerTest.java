@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 class TaulerTest {
- 
+
 	Tauler t1;
 	
 	@BeforeEach
@@ -275,6 +275,43 @@ class TaulerTest {
 		}catch(Exception e) {
 			System.err.println(e.getMessage());
 		}
+	}
+	
+	private boolean te10Mines(){
+		int n_mines = 0;
+		for(int i=0;i<13;i++)
+			for(int j=0;j<13;j++){
+				if(t1.getCasella(i,j).isMina())
+					n_mines ++ ;
+				if(n_mines == 10)
+					return true;
+			}
+		return false;
+	}
+	@Test
+	void generaMinesRandomTest() {
+		t1.generaMinesRandom(0,0);
+		assertFalse(t1.getCasella(0, 0).isMina());
+		assertFalse(t1.getCasella(1, 0).isMina());
+		assertFalse(t1.getCasella(0, 1).isMina());
+		assertFalse(t1.getCasella(1, 1).isMina());
+		
+		assertTrue(te10Mines());
+		
+		t1 = new Tauler();
+		
+		t1.generaMinesRandom(12,12);
+		assertFalse(t1.getCasella(12, 12).isMina());
+		assertFalse(t1.getCasella(11, 12).isMina());
+		assertFalse(t1.getCasella(12, 11).isMina());
+		assertFalse(t1.getCasella(11, 11).isMina());
+		
+		assertTrue(te10Mines());
+		
+		
+		
 		
 	}
+	
+	
 }

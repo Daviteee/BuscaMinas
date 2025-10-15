@@ -288,6 +288,7 @@ class TaulerTest {
 			}
 		return false;
 	}
+	
 	@Test
 	void generaMinesRandomTest() {
 		t1.generaMinesRandom(0,0);
@@ -300,18 +301,99 @@ class TaulerTest {
 		
 		t1 = new Tauler();
 		
-		t1.generaMinesRandom(12,12);
-		assertFalse(t1.getCasella(12, 12).isMina());
-		assertFalse(t1.getCasella(11, 12).isMina());
-		assertFalse(t1.getCasella(12, 11).isMina());
-		assertFalse(t1.getCasella(11, 11).isMina());
+		t1.generaMinesRandom(0,12);
+		assertFalse(t1.getCasella(0, 12).isMina());
+		assertFalse(t1.getCasella(1, 12).isMina());
+		assertFalse(t1.getCasella(1, 11).isMina());
+		assertFalse(t1.getCasella(0, 11).isMina());
+
+		assertTrue(te10Mines());
+		
+		t1 = new Tauler();
+		
+		t1.generaMinesRandom(12,0);
+		assertFalse(t1.getCasella(12, 0).isMina());
+		assertFalse(t1.getCasella(11, 0).isMina());
+		assertFalse(t1.getCasella(12, 1).isMina());
+		assertFalse(t1.getCasella(11, 1).isMina());
 		
 		assertTrue(te10Mines());
 		
+		t1 = new Tauler();
+		
+		t1.generaMinesRandom(12,12);
+		assertFalse(t1.getCasella(12, 12).isMina());
+		assertFalse(t1.getCasella(11, 11).isMina());
+		assertFalse(t1.getCasella(12, 11).isMina());
+		assertFalse(t1.getCasella(11, 12).isMina());
+		
+		assertTrue(te10Mines());
+		
+		t1 = new Tauler();
+		
+		t1.generaMinesRandom(0,6);
+		assertFalse(t1.getCasella(0, 6).isMina());
+		assertFalse(t1.getCasella(0, 5).isMina());
+		assertFalse(t1.getCasella(0, 7).isMina());
+		assertFalse(t1.getCasella(1, 5).isMina());
+		assertFalse(t1.getCasella(1, 6).isMina());
+		assertFalse(t1.getCasella(1, 7).isMina());
+
+		assertTrue(te10Mines());
 		
 		
+		t1 = new Tauler();
+		
+		t1.generaMinesRandom(6,0);
+		assertFalse(t1.getCasella(6, 0).isMina());
+		assertFalse(t1.getCasella(5, 0).isMina());
+		assertFalse(t1.getCasella(7, 0).isMina());
+		assertFalse(t1.getCasella(5, 1).isMina());
+		assertFalse(t1.getCasella(6, 1).isMina());
+		assertFalse(t1.getCasella(7, 1).isMina());
+
+		assertTrue(te10Mines());
+		
+		t1 = new Tauler();
+		
+		t1.generaMinesRandom(6,12);
+		assertFalse(t1.getCasella(6, 12).isMina());
+		assertFalse(t1.getCasella(6, 11).isMina());
+		assertFalse(t1.getCasella(5, 12).isMina());
+		assertFalse(t1.getCasella(7, 12).isMina());
+		assertFalse(t1.getCasella(5, 11).isMina());
+		assertFalse(t1.getCasella(7, 11).isMina());
+		
+		assertTrue(te10Mines());
+		
+		t1 = new Tauler();
+		
+		t1.generaMinesRandom(12,6);
+		assertFalse(t1.getCasella(12,6).isMina());
+		assertFalse(t1.getCasella(11, 6).isMina());
+		assertFalse(t1.getCasella(12, 5).isMina());
+		assertFalse(t1.getCasella(12, 7).isMina());
+		assertFalse(t1.getCasella(11, 5).isMina());
+		assertFalse(t1.getCasella(11, 7).isMina());
+		
+		assertTrue(te10Mines());
+		
+		t1 = new Tauler();
+		
+		t1.generaMinesRandom(6,6);
+		assertFalse(t1.getCasella(6,6).isMina());
+		assertFalse(t1.getCasella(5, 5).isMina());
+		assertFalse(t1.getCasella(5, 6).isMina());
+		assertFalse(t1.getCasella(5, 7).isMina());
+		assertFalse(t1.getCasella(6, 5).isMina());
+		assertFalse(t1.getCasella(6, 7).isMina());
+		assertFalse(t1.getCasella(7, 5).isMina());
+		assertFalse(t1.getCasella(7, 6).isMina());
+		assertFalse(t1.getCasella(7, 7).isMina());
+
+		
+		assertTrue(te10Mines());
 		
 	}
-	
 	
 }

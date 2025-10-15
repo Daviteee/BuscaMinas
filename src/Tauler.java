@@ -1,4 +1,5 @@
 
+
 public class Tauler {
 
 	private static final int MIDA = 13;
@@ -17,5 +18,10 @@ public class Tauler {
 		if(x > 12 || y > 12 || x < 0 || y < 0)
 			throw new IllegalArgumentException("Error la posició que demanes està fora dels límits del tauler");
 		return tauler[x][y];
+	}
+	
+	public void setMina(int x, int y) {
+
+		getCasella(x, y).setMina();
 	}
 }

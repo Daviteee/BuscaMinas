@@ -45,8 +45,11 @@ public class Tauler {
 	        	continue;
 	        }
 	        
-	        getCasella(xMina, yMina).setMina(); //Posem la casella generada correctament com una mina (mina = true)
-	        nMines++; //Augmentem el nombre de mines ben col·locades al tauler.
+	        if(!getCasella(xMina, yMina).isMina()) {
+	        	getCasella(xMina, yMina).setMina(); //Posem la casella generada correctament com una mina (mina = true)
+		        nMines++; //Augmentem el nombre de mines ben col·locades al tauler.
+	        }
+	        
 		}
 		
 	}

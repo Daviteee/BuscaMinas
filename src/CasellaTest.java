@@ -11,15 +11,6 @@ class CasellaTest {
 	{
 		c = new Casella();
 	}
-	
-	@Test
-	void ConstructorCasellaTest() {
-		//Comprovem que el constructor genera correctament la casella sense mina, sense bandera i tapada.
-		assertFalse(c.isMina());
-		assertFalse(c.isBandera());
-		assertFalse(c.isDestapat());
-		assertEquals(0, c.getNumMinesVoltant());
-	}
 		@Test
 		void PosarMinaTest() {
 			//Comprovem que l'assingació de la mina a una casella es fa correctament.

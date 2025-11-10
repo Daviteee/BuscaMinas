@@ -22,12 +22,6 @@ public class Tauler {
 		return tauler[x][y];
 	}
 	
-	public void setMina(int x, int y) {
-
-		//Utilitzem el mètode getCasella en comptes d'accedir a casella[][]
-		//per evitar tornar a fer la precondició del límit del tauler pels valor de paràmetres x,y.
-		getCasella(x, y).setMina();
-	}
 	
 	public void generaMinesRandom(int xPlayer, int yPlayer) {
 		

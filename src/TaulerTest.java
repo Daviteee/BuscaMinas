@@ -253,7 +253,7 @@ class TaulerTest {
 	}
 	
 	@Test
-	void ChangeBanderaTest() {
+	void changeBanderaTest() {
 		//Test que comprova que una bandera es col·loca correctament al tauler i a més a més que fa un control dels límits del tauler.
 		int []valors_x = new int [] {0,0,0,0,0,1,1,1,1,12,12,12,12,12,11,11,11,11,11,6,6,6,6,6};
 		int []valors_y = new int [] {0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11};
@@ -267,6 +267,11 @@ class TaulerTest {
 		for(int i = 0; i < valors_x.length;i++)
 			llançarExcepcionsChangeBandera(valors_x[i],valors_y[i]);
 		
+	}
+	
+	@Test
+	void setNumMinesVoltantTest() {
+		// Test que comprovara que el nombre de mines de les caselles sigui correctament generat.
 	}
 	
 }

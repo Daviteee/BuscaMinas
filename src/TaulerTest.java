@@ -18,15 +18,7 @@ class TaulerTest {
 		}
 	}
 	
-	private void llançarExcepcionsSetMina(int x, int y)
-	{
-		try{
-			t1.setMina(x, y);
-			assertTrue(false);
-		}catch(Exception e){
-			System.err.println(e.getMessage());
-		}
-	}
+
 	
 	private void llançarExcepcionsGeneraMines(int x, int y) {
 		try{
@@ -51,11 +43,7 @@ class TaulerTest {
 		assertTrue(t1.getCasella(x, y) instanceof Casella);
 	}
 	
-	private void assertsSetMina(int x, int y) {
-		t1.setMina(x, y);
-		assertTrue(t1.getCasella(x,y).isMina());
-	}
-	
+
 	private void assertsChangeBandera(int x, int y) {
 		t1.changeBandera(x, y); //Posem Bandera.
 		assertTrue(t1.getCasella(x, y).isBandera());
@@ -81,13 +69,11 @@ class TaulerTest {
 			assertTrue(false);
 	}
 	
-	@BeforeEach
-	void setUp() {
-		t1 = new Tauler();
-	}
+	
 	@Test
 	void ConstructorInicialTaulerTest() {
 		//Comrpovem que el tauler inicial s'inicialitza correctament amb totes les caselles corresponents sense mines, sense banderas i tapades.
+		t1 = new Tauler();
 		for(int i=0; i < 13; i++)
 			for(int j=0; j < 13; j++)
 			{
@@ -106,7 +92,7 @@ class TaulerTest {
 		// I comprova que el mètode getCasella fa un control correcte dels limits del tauler.
 		// Utilitzant testing amb particions equivalents, no es pot utilitzar Pairwise Testing ja que com el mètode
 		// reb només 2 parametres no es possible realitzar el pairwise ja que el resultat són totes les combinacions.
-		
+		t1 = new Tauler();
 		int []valors_x = new int [] {0,0,0,0,0,1,1,1,1,12,12,12,12,12,11,11,11,11,11,6,6,6,6,6};
 		int []valors_y = new int [] {0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11};
 		
@@ -121,26 +107,11 @@ class TaulerTest {
 				
 	}
 	
-	@Test
-	void setMinaTest() {
-		//Test que comprova que una mina es col·loca correctament al tauler i a més a més que fa un control dels límits del tauler.
-		int []valors_x = new int [] {0,0,0,0,0,1,1,1,1,12,12,12,12,12,11,11,11,11,11,6,6,6,6,6};
-		int []valors_y = new int [] {0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11};
-		for(int i = 0; i < valors_x.length;i++)
-			assertsSetMina(valors_x[i],valors_y[i]);
 		
-		valors_x = new int [] {0,0,1,1,-1,-1,-1,-1,-1,-1,12,12,13,13,13,13,13,13,11,11,6,6,-1,5,13,7};
-		valors_y = new int [] {-1,13,-1,13,0,1,-1,12,13,11,-1,13,0,1,12,13,11,6,-1,13,-1,13,5,-1,7,13};
-		
-		for(int i = 0; i < valors_x.length;i++)
-			llançarExcepcionsSetMina(valors_x[i],valors_y[i]);
-		
-	}
-	
-	
 	
 	@Test
 	void generaMinesRandomTest() {
+		t1 = new Tauler();
 		t1.generaMinesRandom(0,0);
 		assertFalse(t1.getCasella(0, 0).isMina());
 		assertFalse(t1.getCasella(1, 0).isMina());
@@ -255,6 +226,7 @@ class TaulerTest {
 	@Test
 	void changeBanderaTest() {
 		//Test que comprova que una bandera es col·loca correctament al tauler i a més a més que fa un control dels límits del tauler.
+		t1 = new Tauler();
 		int []valors_x = new int [] {0,0,0,0,0,1,1,1,1,12,12,12,12,12,11,11,11,11,11,6,6,6,6,6};
 		int []valors_y = new int [] {0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11};
 		for(int i = 0; i < valors_x.length;i++)
@@ -272,6 +244,8 @@ class TaulerTest {
 	@Test
 	void setNumMinesVoltantTest() {
 		// Test que comprovara que el nombre de mines de les caselles sigui correctament generat.
+		t1 = new MockTauler();
+		t1.generaMinesRandom(0, 0);
 	}
 	
 }

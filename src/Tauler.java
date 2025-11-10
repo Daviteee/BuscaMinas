@@ -4,7 +4,7 @@ import java.util.Random;
 public class Tauler {
 
 	private static final int MIDA = 13;
-	private Casella[][]tauler;
+	protected Casella[][]tauler;
 	public Tauler()
 	{
 		tauler = new Casella[MIDA][MIDA];
@@ -23,7 +23,7 @@ public class Tauler {
 	}
 	
 	
-	public void generaMinesRandom(int xPlayer, int yPlayer) {
+	protected void generaMinesRandom(int xPlayer, int yPlayer) {
 		
 		if(xPlayer > 12 || yPlayer > 12 || xPlayer < 0 || yPlayer < 0){ 
 			//Precondició dels límits del tauler segons les coordenades del clic del jugador.
@@ -57,4 +57,34 @@ public class Tauler {
 		getCasella(x, y).changeBandera();
 	}
 	
+	public void setNumMinesVoltant() {
+		for(int i = 0; i < MIDA; i++)
+			for(int j = 0; j < MIDA;j++) {
+				int mines = comptarNumMines(i, j);
+	            tauler[i][j].setNumMinesVoltant(mines);
+			}
+				
+	}
+	
+	private int comptarNumMines(int x, int y) {
+	    int count = 0;
+
+	    for (int dx = -1; dx <= 1; dx++) {
+	        for (int dy = -1; dy <= 1; dy++) {
+
+	            if (dx == 0 && dy == 0) 
+	                continue; // 
+
+	            int nx = x + dx;
+	            int ny = y + dy;
+
+	            if (nx >= 0 && nx < MIDA && ny >= 0 && ny < MIDA) {
+	                if (tauler[nx][ny].isMina()) {
+	                    count++;
+	                }
+	            }
+	        }
+	    }
+	    return count;
+	}
 }

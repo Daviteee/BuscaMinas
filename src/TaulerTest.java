@@ -244,8 +244,11 @@ class TaulerTest {
 	@Test
 	void setNumMinesVoltantTest() {
 		// Test que comprovara que el nombre de mines de les caselles sigui correctament generat.
-		t1 = new MockTauler();
-		t1.generaMinesRandom(0, 0);
+		t1 = new MockTauler(); //Utilitzem el mock per realitzar el tauler predeterminat.
+		t1.generaMinesRandom(1, 0);//Realitzem el cas 1-0.
+		t1.setNumMinesVoltant();
+		assertEquals(0,t1.getCasella(0, 0).getNumMinesVoltant());
+		
 	}
 	
 }

@@ -81,8 +81,8 @@ class TaulerTest {
 		// Utilitzant testing amb particions equivalents, no es pot utilitzar Pairwise Testing ja que com el mètode
 		// reb només 2 parametres no es possible realitzar el pairwise ja que el resultat són totes les combinacions.
 		
-		int []valors_x = new int [] {0,0,0,0,0,1,1,1,1,12,12,12,12,12,11,11,11,11,11,6,6,6,6,6,6};
-		int []valors_y = new int [] {0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11,6};
+		int []valors_x = new int [] {0,0,0,0,0,1,1,1,1,12,12,12,12,12,11,11,11,11,11,6,6,6,6,6};
+		int []valors_y = new int [] {0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11};
 		
 		for(int i = 0; i < valors_x.length;i++)
 				assertsGetCasella(valors_x[i],valors_y[i]);
@@ -98,8 +98,8 @@ class TaulerTest {
 	@Test
 	void setMinaTest() {
 		//Test que comprova que una mina es col·loca correctament al tauler i a més a més que fa un control dels límits del tauler.
-		int []valors_x = new int [] {0,0,0,0,0,1,1,1,1,12,12,12,12,12,11,11,11,11,11,6,6,6,6,6,6};
-		int []valors_y = new int [] {0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11,6};
+		int []valors_x = new int [] {0,0,0,0,0,1,1,1,1,12,12,12,12,12,11,11,11,11,11,6,6,6,6,6};
+		int []valors_y = new int [] {0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11};
 		for(int i = 0; i < valors_x.length;i++)
 			assertsSetMina(valors_x[i],valors_y[i]);
 		

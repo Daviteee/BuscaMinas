@@ -28,6 +28,15 @@ class TaulerTest {
 		}
 	}
 	
+	private void llançarExcepcionsGeneraMines(int x, int y) {
+		try{
+			t1.generaMinesRandom(x, y);
+			assertTrue(false);
+		}catch(Exception e){
+			System.err.println(e.getMessage());
+		}
+	}
+	
 	//Fem el mateix per els asserts
 	private void assertsGetCasella(int x, int y) {
 		assertTrue(t1.getCasella(x, y) instanceof Casella);
@@ -216,6 +225,13 @@ class TaulerTest {
 		assertFalse(t1.getCasella(7, 7).isMina());
 
 		te10Mines();
+		
+		//Casos de prova que llencen excepcions (fora dels limits del tauler):
+		int []valors_x = new int [] {0,0,1,1,-1,-1,-1,-1,-1,-1,12,12,13,13,13,13,13,13,11,11,6,6,-1,5,13,7};
+		int []valors_y = new int [] {-1,13,-1,13,0,1,-1,12,13,11,-1,13,0,1,12,13,11,6,-1,13,-1,13,5,-1,7,13};
+		
+		for(int i = 0; i < valors_x.length;i++)
+			llançarExcepcionsGeneraMines(valors_x[i],valors_y[i]);
 		
 	}
 	

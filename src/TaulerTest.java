@@ -37,6 +37,15 @@ class TaulerTest {
 		}
 	}
 	
+	private void llançarExcepcionsChangeBandera(int x, int y) {
+		try{
+			t1.changeBandera(x, y);
+			assertTrue(false);
+		}catch(Exception e){
+			System.err.println(e.getMessage());
+		}
+	}
+	
 	//Fem el mateix per els asserts
 	private void assertsGetCasella(int x, int y) {
 		assertTrue(t1.getCasella(x, y) instanceof Casella);
@@ -45,6 +54,14 @@ class TaulerTest {
 	private void assertsSetMina(int x, int y) {
 		t1.setMina(x, y);
 		assertTrue(t1.getCasella(x,y).isMina());
+	}
+	
+	private void assertsChangeBandera(int x, int y) {
+		t1.changeBandera(x, y); //Posem Bandera.
+		assertTrue(t1.getCasella(x, y).isBandera());
+		
+		t1.getCasella(x, y).changeBandera(); //Treiem Bandera.
+		assertFalse(t1.getCasella(x, y).isBandera());
 	}
 	
 	//Mètode privat per comprovar si al tauler hi han 10 mines.
@@ -232,6 +249,23 @@ class TaulerTest {
 		
 		for(int i = 0; i < valors_x.length;i++)
 			llançarExcepcionsGeneraMines(valors_x[i],valors_y[i]);
+		
+	}
+	
+	@Test
+	void ChangeBanderaTest() {
+		//Test que comprova que una bandera es col·loca correctament al tauler i a més a més que fa un control dels límits del tauler.
+		int []valors_x = new int [] {0,0,0,0,0,1,1,1,1,12,12,12,12,12,11,11,11,11,11,6,6,6,6,6};
+		int []valors_y = new int [] {0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11};
+		for(int i = 0; i < valors_x.length;i++)
+			assertsChangeBandera(valors_x[i],valors_y[i]);
+		
+		// Valors que han de llançar excepció
+		valors_x = new int [] {0,0,1,1,-1,-1,-1,-1,-1,-1,12,12,13,13,13,13,13,13,11,11,6,6,-1,5,13,7};
+		valors_y = new int [] {-1,13,-1,13,0,1,-1,12,13,11,-1,13,0,1,12,13,11,6,-1,13,-1,13,5,-1,7,13};
+		
+		for(int i = 0; i < valors_x.length;i++)
+			llançarExcepcionsChangeBandera(valors_x[i],valors_y[i]);
 		
 	}
 	

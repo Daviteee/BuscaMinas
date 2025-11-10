@@ -1,3 +1,4 @@
+
 import java.util.Random;
 
 public class Tauler {
@@ -55,4 +56,11 @@ public class Tauler {
 	        
 		}	
 	}
+	public void changeBandera(int x, int y) {
+		// Canviem l'atribut bandera de la casella indicada (si era true -> false, i al revés).
+		//Utilitzem el mètode getCasella en comptes d'accedir a casella[][]
+		//per evitar tornar a fer la precondició del límit del tauler pels valor de paràmetres x,y.
+		getCasella(x, y).changeBandera();
+	}
+	
 }

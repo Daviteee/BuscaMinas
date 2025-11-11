@@ -117,8 +117,55 @@ public class MockTauler extends Tauler{
 			}
 			break;
 		case 5: // Posició del tauler 12,12
+			switch(yPlayer) {
+			case 0:
+				// No hi ha cap miina al voltant de la posició 12,12
+				break;
+			case 1: // Cas on al voltant de la posició 12,12 hiha 1 mina.
+				tauler[12][11].setMina();
+				break;
+			case 2: // Cas on al voltant de la posició 12,12 hi han 2 mines.
+				tauler[12][11].setMina();
+				tauler[11][11].setMina();
+				break;
+			case 3: // Cas on al voltant de la posició 12,12 hi han 3 mines.
+				tauler[12][11].setMina();
+				tauler[11][11].setMina();
+				tauler[11][12].setMina();
+				break;
+			}
 			break;
 		case 6: // Posició del tauler 6,12
+			switch(yPlayer) {
+			case 0:
+				// No hiha cap mina al voltant de la posició 6,12
+				break;
+			case 1: // Cas on al voltant de la posició 6,12 hi han 1 mina.
+				tauler[6][11].setMina();
+				break;
+			case 2: // Cas on al voltant de la posició 6,12 hi han 2 mines.
+				tauler[6][11].setMina();
+				tauler[5][11].setMina();
+				break;
+			case 3: // Cas on al voltant de la posició 6,12 hi han 3 mines.
+				tauler[6][11].setMina();
+				tauler[5][11].setMina();
+				tauler[7][11].setMina();
+				break;
+			case 4: // Cas on al voltant de la posició 6,12 hi han 4 mines.
+				tauler[6][11].setMina();
+				tauler[5][11].setMina();
+				tauler[7][11].setMina();
+				tauler[5][12].setMina();
+				break;
+			case 5: // Cas on al voltant de la posició 6,12 hi han 5 mines.
+				tauler[6][11].setMina();
+				tauler[5][11].setMina();
+				tauler[7][11].setMina();
+				tauler[5][12].setMina();
+				tauler[7][12].setMina();
+				break;
+			}
 			break;
 		case 7: // Posició del tauler 0,12
 			break;

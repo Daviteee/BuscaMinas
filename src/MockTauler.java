@@ -168,10 +168,114 @@ public class MockTauler extends Tauler{
 			}
 			break;
 		case 7: // Posició del tauler 0,12
+			switch(yPlayer) {
+			case 0:
+				// No hi ha cap miina al voltant de la posició 0,12
+				break;
+			case 1: // Cas on al voltant de la posició 0,12 hiha 1 mina.
+				tauler[0][11].setMina();
+				break;
+			case 2: // Cas on al voltant de la posició 0,12 hi han 2 mines.
+				tauler[0][11].setMina();
+				tauler[1][11].setMina();
+				break;
+			case 3: // Cas on al voltant de la posició 0,12 hi han 3 mines.
+				tauler[0][11].setMina();
+				tauler[1][11].setMina();
+				tauler[1][12].setMina();
+				break;
+			}
 			break;
-		case 8: // Posició del tauler 6,0
+		case 8: // Posició del tauler 0,6
+			switch(yPlayer) {
+			case 0:
+				// No hiha cap mina al voltant de la posició 0,6
+				break;
+			case 1: // Cas on al voltant de la posició 0,6 hi han 1 mina.
+				tauler[0][5].setMina();
+				break;
+			case 2: // Cas on al voltant de la posició 0,6 hi han 2 mines.
+				tauler[0][5].setMina();
+				tauler[1][5].setMina();
+				break;
+			case 3: // Cas on al voltant de la posició 0,6 hi han 3 mines.
+				tauler[0][5].setMina();
+				tauler[1][5].setMina();
+				tauler[1][6].setMina();
+				break;
+			case 4: // Cas on al voltant de la posició 0,6 hi han 4 mines.
+				tauler[0][5].setMina();
+				tauler[0][5].setMina();
+				tauler[1][6].setMina();
+				tauler[1][7].setMina();
+				break;
+			case 5: // Cas on al voltant de la posició 0,6 hi han 5 mines (max).
+				tauler[0][5].setMina();
+				tauler[1][5].setMina();
+				tauler[1][6].setMina();
+				tauler[1][7].setMina();
+				tauler[0][7].setMina();
+				break;
+			}
 			break;
 		case 9: // Posició del tauler 6,6
+			switch(yPlayer) {
+			case 0:
+				// No hiha cap mina al voltant de la posició 6,6
+				break;
+			case 1: // Cas on al voltant de la posició 6,6 hi han 1 mina.
+				tauler[5][5].setMina();
+				break;
+			case 2: // Cas on al voltant de la posició 6,6 hi han 2 mines.
+				tauler[5][5].setMina();
+				tauler[5][6].setMina();
+				break;
+			case 3: // Cas on al voltant de la posició 6,6 hi han 3 mines.
+				tauler[5][5].setMina();
+				tauler[5][6].setMina();
+				tauler[5][7].setMina();
+				break;
+			case 4: // Cas on al voltant de la posició 6,6 hi han 4 mines.
+				tauler[5][5].setMina();
+				tauler[5][6].setMina();
+				tauler[5][7].setMina();
+				tauler[6][5].setMina();
+				break;
+			case 5: // Cas on al voltant de la posició 6,6 hi han 5 mines (max).
+				tauler[5][5].setMina();
+				tauler[5][6].setMina();
+				tauler[5][7].setMina();
+				tauler[6][5].setMina();
+				tauler[6][7].setMina();
+				break;
+			case 6: // Cas on al voltant de la posició 6,6 hi han 6 mines (max).
+				tauler[5][5].setMina();
+				tauler[5][6].setMina();
+				tauler[5][7].setMina();
+				tauler[6][5].setMina();
+				tauler[6][7].setMina();
+				tauler[7][5].setMina();
+				break;
+			case 7: // Cas on al voltant de la posició 6,6 hi han 7 mines (max).
+				tauler[5][5].setMina();
+				tauler[5][6].setMina();
+				tauler[5][7].setMina();
+				tauler[6][5].setMina();
+				tauler[6][7].setMina();
+				tauler[7][5].setMina();
+				tauler[7][6].setMina();
+				break;
+			case 8: // Cas on al voltant de la posició 6,6 hi han 8 mines (max).
+				tauler[5][5].setMina();
+				tauler[5][6].setMina();
+				tauler[5][7].setMina();
+				tauler[6][5].setMina();
+				tauler[6][7].setMina();
+				tauler[7][5].setMina();
+				tauler[7][6].setMina();
+				tauler[7][7].setMina();
+				break;
+			}
 			break;
 		default:
 		}

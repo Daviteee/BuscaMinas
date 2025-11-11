@@ -1,3 +1,4 @@
+
 public class MockTauler extends Tauler{
 	
 	// Mock object de la classe Tauler per facilitar els casos de prova que requereixen generació de taulers especifics.
@@ -33,6 +34,36 @@ public class MockTauler extends Tauler{
 			}
 			break;
 		case 2: // Posició del tauler 6,0
+			switch(yPlayer) {
+			case 0:
+				// No hi ha cap miina al voltant de la posició 6,0
+				break;
+			case 1: // Cas on al voltant de la posició 6,0 hi ha 1 mina
+				tauler[5][0].setMina();
+				break;
+			case 2: // Cas on al voltant de la posició 6,0 hi han 2 mines
+				tauler[5][0].setMina();
+				tauler[5][1].setMina();
+				break;
+			case 3: // Cas on al voltant de la posició 6,0 hi han 3 mines
+				tauler[5][0].setMina();
+				tauler[5][1].setMina();
+				tauler[6][1].setMina();
+				break;
+			case 4: // Cas on al voltant de la posició 6,0 hi han 4 mines
+				tauler[5][0].setMina();
+				tauler[5][1].setMina();
+				tauler[6][1].setMina();
+				tauler[7][0].setMina();
+				break;
+			case 5: // Cas on al voltant de la posició 6,0 hi han 5 mines (max)
+				tauler[5][0].setMina();
+				tauler[5][1].setMina();
+				tauler[6][1].setMina();
+				tauler[7][0].setMina();
+				tauler[7][1].setMina();
+				break;
+			}
 			break;
 		case 3: // Posició del tauer 12,0
 			break;

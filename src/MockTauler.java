@@ -89,10 +89,10 @@ public class MockTauler extends Tauler{
 			case 0:
 				// No hiha cap mina al voltant de la posició 12,6
 				break;
-			case 1: // Cas on al voltant de la posició 12,6 hi han 3 mines.
+			case 1: // Cas on al voltant de la posició 12,6 hi han 1 mina.
 				tauler[12][5].setMina();
 				break;
-			case 2: // Cas on al voltant de la posició 12,6 hi han 3 mines.
+			case 2: // Cas on al voltant de la posició 12,6 hi han 2 mines.
 				tauler[12][5].setMina();
 				tauler[11][5].setMina();
 				break;
@@ -101,13 +101,13 @@ public class MockTauler extends Tauler{
 				tauler[11][5].setMina();
 				tauler[11][6].setMina();
 				break;
-			case 4: // Cas on al voltant de la posició 12,6 hi han 3 mines.
+			case 4: // Cas on al voltant de la posició 12,6 hi han 4 mines.
 				tauler[12][5].setMina();
 				tauler[11][5].setMina();
 				tauler[11][6].setMina();
 				tauler[11][7].setMina();
 				break;
-			case 5: // Cas on al voltant de la posició 12,6 hi han 3 mines.
+			case 5: // Cas on al voltant de la posició 12,6 hi han 5 mines.
 				tauler[12][5].setMina();
 				tauler[11][5].setMina();
 				tauler[11][6].setMina();

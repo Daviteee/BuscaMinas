@@ -205,7 +205,7 @@ public class MockTauler extends Tauler{
 				break;
 			case 4: // Cas on al voltant de la posició 0,6 hi han 4 mines.
 				tauler[0][5].setMina();
-				tauler[0][5].setMina();
+				tauler[1][5].setMina();
 				tauler[1][6].setMina();
 				tauler[1][7].setMina();
 				break;

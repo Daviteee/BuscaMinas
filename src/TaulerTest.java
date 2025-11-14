@@ -486,12 +486,11 @@ class TaulerTest {
 		// o que el seu destapament ha de provocar el destapament d'altres caselles adjacents.
 		
 		t1 = new MockTauler(); // Instancies el Tauler Mock per posar mines on volguem
-		t1.generaMinesRandom(0, 0);
+		t1.generaMinesRandom(1, 1); // Posem 1 mina a la posició 0,1
 		t1.setNumMinesVoltant();
 		assertEquals(1, t1.getCasella(1, 1).getNumMinesVoltant()); // Comprovem que el numero de mines es correcte (1)
 		t1.destapaCasella(1, 1); // Destapem la casella 1,1
 		assertTrue(t1.getCasella(1, 1).isDestapat()); // Comprovem que ha sigut destapada
-		
 	}
 	
 }

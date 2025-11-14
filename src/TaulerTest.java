@@ -491,6 +491,31 @@ class TaulerTest {
 		assertEquals(1, t1.getCasella(1, 1).getNumMinesVoltant()); // Comprovem que el numero de mines es correcte (1)
 		t1.destapaCasella(1, 1); // Destapem la casella 1,1
 		assertTrue(t1.getCasella(1, 1).isDestapat()); // Comprovem que ha sigut destapada
+		
+		// Comprovació de que amb 2 mines destapa les del voltant d'una casella amb 0 mines al voltant.
+		t1 = new MockTauler();
+		t1.getCasella(1, 2).setMina(); // Posem una mina a la posició 1,2
+		t1.getCasella(2, 1).setMina(); // Posem una mina a la posició 2,1
+		t1.setNumMinesVoltant();
+		t1.destapaCasella(0, 0); // Destapem la casella 0,0 (hauría de tenir el numero 0)
+		// Caselles que haurien d'estar destapades per l'algorisme:
+		assertTrue(t1.getCasella(0, 0).isDestapat());
+		assertTrue(t1.getCasella(0, 1).isDestapat());
+		assertTrue(t1.getCasella(1, 0).isDestapat());
+		assertTrue(t1.getCasella(1, 1).isDestapat());
+		assertFalse(t1.getCasella(1, 2).isDestapat());
+		assertFalse(t1.getCasella(2, 1).isDestapat());
+		
+		// Comprovació de que si no posem cap mina al tauler es destapa tot sencer:
+		t1 = new MockTauler();
+		t1.destapaCasella(0, 0);
+		for(int i = 0; i < 13; i++) {
+			for(int j = 0; j < 13; j++) {
+				assertTrue(t1.getCasella(i, j).isDestapat());
+			}
+		}
+		
+		
 	}
 	
 }

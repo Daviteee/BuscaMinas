@@ -6,6 +6,7 @@ public class Tauler {
 
 	private static final int MIDA = 13;
 	protected Casella[][]tauler;
+	
 	public Tauler()
 	{
 		tauler = new Casella[MIDA][MIDA];
@@ -23,6 +24,9 @@ public class Tauler {
 		return tauler[x][y];
 	}
 	
+	public boolean isMina(int x, int y) {
+		return getCasella(x, y).isMina();
+	}
 	
 	protected void generaMinesRandom(int xPlayer, int yPlayer) {
 		
@@ -51,6 +55,7 @@ public class Tauler {
 	        
 		}	
 	}
+	
 	public void changeBandera(int x, int y) {
 		// Canviem l'atribut bandera de la casella indicada (si era true -> false, i al revés).
 		//Utilitzem el mètode getCasella en comptes d'accedir a casella[][]
@@ -87,32 +92,26 @@ public class Tauler {
 	}
 	
 	public void destapaCasella(int x, int y) {
-		
 	    Casella c = getCasella(x, y);
 
 	    // Si ja está destapada o té bandera, no fem res.
 	    if (c.isDestapat() || c.isBandera()) {
 	        return;
 	    }
-
 	    // Destapem la casella.
 	    c.destaparCasella();
-
 	    // Si es una mina, acabem (game over)
 	    if (c.isMina()) {
 	        return;
 	    }
 	    
 	    if (c.getNumMinesVoltant() == 0) {
-	    	
 	        for (int dx = -1; dx <= 1; dx++) {
 	            for (int dy = -1; dy <= 1; dy++) {
 	                if (dx == 0 && dy == 0)
 	                    continue; // no repetir la mateix acasella
-	                
 	                int nx = x + dx;
 	                int ny = y + dy;
-	                
 	                if (nx >= 0 && nx < MIDA && ny >= 0 && ny < MIDA) {
 	                    destapaCasella(nx, ny);
 	                    

@@ -20,7 +20,8 @@ class JocTest {
 	@Test
     public void clicDretTest() {
 		// Test que comproba que el clic Dret possa la bandera correctament.
-        Joc joc = new Joc();
+		Tauler t1 = new Tauler();
+        Joc joc = new Joc(t1);
         joc.clicDret(2, 2); // Posem bandera a la posició 2,2
         assertTrue(joc.getTauler().getCasella(2, 2).isBandera()); // Comprovem que la bandera s'ha possat
         
@@ -36,6 +37,14 @@ class JocTest {
 		Tauler t1 = new Tauler();
 		Joc joc = new Joc(t1); // Constructor per parametres
 		assertEquals(t1, joc.getTauler());
+	}
+	
+	@Test
+	public void clicEsquerraTest() {
+		Tauler t1 = new Tauler();
+		Joc joc = new Joc(t1);
+		joc.clicEsquerra(0,0); // Destapem la casella 0,0
+		assertTrue(joc.getTauler().getCasella(0,0).isDestapat());
 	}
 	
 

@@ -92,26 +92,32 @@ public class Tauler {
 	}
 	
 	public void destapaCasella(int x, int y) {
+		
 	    Casella c = getCasella(x, y);
 
 	    // Si ja está destapada o té bandera, no fem res.
 	    if (c.isDestapat() || c.isBandera()) {
 	        return;
 	    }
+
 	    // Destapem la casella.
 	    c.destaparCasella();
+
 	    // Si es una mina, acabem (game over)
 	    if (c.isMina()) {
 	        return;
 	    }
 	    
 	    if (c.getNumMinesVoltant() == 0) {
+	    	
 	        for (int dx = -1; dx <= 1; dx++) {
 	            for (int dy = -1; dy <= 1; dy++) {
 	                if (dx == 0 && dy == 0)
 	                    continue; // no repetir la mateix acasella
+	                
 	                int nx = x + dx;
 	                int ny = y + dy;
+	                
 	                if (nx >= 0 && nx < MIDA && ny >= 0 && ny < MIDA) {
 	                    destapaCasella(nx, ny);
 	                    
@@ -119,5 +125,18 @@ public class Tauler {
 	            }
 	        }
 	    }
+	}
+	
+	public boolean totesDestapadesSenseMines() {
+		// Mètode que comprova que totes les caselles que no son mines estan destapades (per comprovar que ha guanyat el jugador o no)
+	    for (int i = 0; i < MIDA; i++) {
+	        for (int j = 0; j < MIDA; j++) {
+	            Casella c = getCasella(i, j);
+	            if (!c.isMina() && !c.isDestapat()) {
+	                return false;
+	            }
+	        }
+	    }
+	    return true;
 	}
 }

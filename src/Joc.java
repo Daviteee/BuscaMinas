@@ -18,6 +18,10 @@ public class Joc {
     	return this.tauler;
     }
     
+    public boolean getPartidaAcabada() {
+    	return this.partidaAcabada;
+    }
+    
     public void clicDret(int x, int y) {
         if (partidaAcabada)
             return;

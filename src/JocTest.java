@@ -4,6 +4,18 @@ import org.junit.jupiter.api.Test;
 
 class JocTest {
 	
+	@Test
+	public void TestJoc() {
+		Joc joc = new Joc(); // Constructor per defecte
+		assertEquals(null, joc.getTauler());
+		assertFalse(joc.getPartidaAcabada());
+		
+		Tauler t1 = new Tauler();
+		Joc joc1 = new Joc(t1); // Constructor per parametres
+		assertEquals(t1, joc1.getTauler());
+		assertFalse(joc1.getPartidaAcabada());
+	}
+	
 
 	@Test
     public void clicDretTest() {

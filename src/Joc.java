@@ -28,5 +28,24 @@ public class Joc {
 
         tauler.changeBandera(x, y);
     }
+    
+    public void clicEsquerra(int x, int y) {
+    	if (partidaAcabada)
+            return;
+
+        tauler.destapaCasella(x, y); // Destapem la casella indicada
+
+        if (tauler.getCasella(x, y).isMina()) {
+            partidaAcabada = true;
+            // Mostrar explosió i actualitzar tauler
+            return;
+        }
+
+        if (tauler.totesDestapadesSenseMines()) {
+            partidaAcabada = true;
+            // Mostrar victoria i actulaitzar tauler
+            return;
+        }
+    }
 
 }

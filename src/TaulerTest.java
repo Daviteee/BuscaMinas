@@ -44,7 +44,6 @@ class TaulerTest {
 		assertTrue(t1.getCasella(x, y) instanceof Casella);
 	}
 	
-
 	private void assertsChangeBandera(int x, int y) {
 		t1.changeBandera(x, y); //Posem Bandera.
 		assertTrue(t1.getCasella(x, y).isBandera());
@@ -70,7 +69,6 @@ class TaulerTest {
 			assertTrue(false);
 	}
 	
-	
 	@Test
 	void ConstructorInicialTaulerTest() {
 		//Comrpovem que el tauler inicial s'inicialitza correctament amb totes les caselles corresponents sense mines, sense banderas i tapades.
@@ -83,8 +81,6 @@ class TaulerTest {
 				assertFalse(t1.getCasella(i,j).isDestapat());
 			}		
 	}
-	
-	
 	
 	@Test
 	void getCasellaTest() {
@@ -483,7 +479,7 @@ class TaulerTest {
 	@Test
 	void destapaCasellaTest() {
 		// Test que comprova que una casella ha estat destapada correctament, segons les circumstancies hi ha caselles que no s'han de destapar
-		// o que el seu destapament ha de provocar el destapament d'altres caselles adjacents.
+		// o que el seu destapament ha de provocar el destapament d'altres caselles adjacents. Per això utilitzarem un Mock de Tauler.
 		
 		t1 = new MockTauler(); // Instancies el Tauler Mock per posar mines on volguem
 		t1.generaMinesRandom(1, 1); // Posem 1 mina a la posició 0,1
@@ -514,8 +510,14 @@ class TaulerTest {
 				assertTrue(t1.getCasella(i, j).isDestapat());
 			}
 		}
-		
-		
+	}
+	
+	@Test
+	public void totesDestapadesSenseMinesTest() {
+		t1 = new MockTauler(); // Creem un tauler mock.
+		assertFalse(t1.totesDestapadesSenseMines()); // Inicialment cal que cap estigui destapada.
+		t1.destapaCasella(0, 0); // Destapem una casella i com no te cap mina el tauler es destapen totes.
+		assertTrue(t1.totesDestapadesSenseMines()); // Després de destaparles totes sense mines cal que ens retorni true.
 	}
 	
 }

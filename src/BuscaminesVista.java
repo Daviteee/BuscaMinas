@@ -1,3 +1,8 @@
+package vista;
+
+import controlador.Joc;
+import model.Casella;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -54,4 +59,65 @@ public class BuscaminesVista extends JFrame {
         actualitzar();
     }
 
+    // Llegeix el tauler des de joc.getTauler() i actualitza tots els botons.
+    // Detecta si la partida ha acabat i mostra missatge de victòria/derrota.
+    public void actualitzar() {
+        // pot ser que joc.getTauler() sigui null si no s'ha inicialitzat; protegim-nos
+        if (joc == null || joc.getTauler() == null) return;
+
+        // actualitzar la quadrícula segons el model
+        for (int i = 0; i < mida; i++) {
+            for (int j = 0; j < mida; j++) {
+                try {
+                    var c = joc.getTauler().getCasella(i, j);
+                    JButton b = botons[i][j];
+
+                    if (c.isDestapat()) {
+                        // casella destapada: mostrar mina o numero i desactivar
+                        if (c.isMina()) {
+                            b.setText("💣");
+                        } else {
+                            int n = c.getNumMinesVoltant();
+                            b.setText(n == 0 ? "" : String.valueOf(n));
+                        }
+                        b.setEnabled(false);
+                    } else {
+                        // casella tapada
+                        if (c.isBandera()) {
+                            b.setText("🚩");
+                        } else {
+                            b.setText("");
+                        }
+                        b.setEnabled(!joc.getPartidaAcabada()); // Si partida acabada, no es pot clicar
+                    }
+                } catch (IllegalArgumentException ex) {
+                    // Si getCasella lança excepció (clic fora dels límits) simplement ignorem
+                    botons[i][j].setEnabled(false);
+                    botons[i][j].setText("");
+                }
+            }
+        }
+
+        // Si la partida està acabada, detectem si s'ha perdut (alguna mina destapada) o s'ha guanyat
+        if (joc.getPartidaAcabada()) {
+            boolean minaDestapada = false;
+            outer:
+            for (int i = 0; i < mida; i++) {
+                for (int j = 0; j < mida; j++) {
+                    try {
+                        var c = joc.getTauler().getCasella(i, j);
+                        if (c.isMina() && c.isDestapat()) {
+                            minaDestapada = true;
+                            break outer;
+                        }
+                    } catch (IllegalArgumentException ignored) {}
+                }
+            }
+            if (minaDestapada) {
+                JOptionPane.showMessageDialog(this, "¡Has perdido!");
+            } else {
+                JOptionPane.showMessageDialog(this, "¡Has ganado!");
+            }
+        }
+    }
 }

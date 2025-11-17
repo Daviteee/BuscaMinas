@@ -25,6 +25,14 @@ public class Joc {
     	return this.tauler;
     }
     
+    public BuscaminesVista getVista() {
+    	return this.vista;
+    }
+    
+    public void setVista(BuscaminesVista v) {
+    	this.vista = v;
+    }
+    
     public boolean getPartidaAcabada() {
     	return this.partidaAcabada;
     }

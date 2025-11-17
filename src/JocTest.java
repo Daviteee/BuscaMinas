@@ -12,6 +12,7 @@ class JocTest {
 	public void TestJoc() {
 		Joc joc = new Joc(); // Constructor per defecte
 		assertEquals(null, joc.getTauler());
+		assertEquals(null, joc.getVista());
 		assertFalse(joc.getPartidaAcabada());
 		
 		Tauler t1 = new Tauler();

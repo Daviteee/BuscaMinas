@@ -1,6 +1,10 @@
+package controlador;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
+import model.Tauler;
 
 class JocTest {
 	
@@ -11,7 +15,7 @@ class JocTest {
 		assertFalse(joc.getPartidaAcabada());
 		
 		Tauler t1 = new Tauler();
-		Joc joc1 = new Joc(t1); // Constructor per parametres
+		Joc joc1 = new Joc(t1, 13); // Constructor per parametres (Tauler i mida)
 		assertEquals(t1, joc1.getTauler());
 		assertFalse(joc1.getPartidaAcabada());
 	}

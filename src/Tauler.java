@@ -56,9 +56,8 @@ public class Tauler {
 		int nMines = 0; //Número de mines al teuler.
 		
 		while(nMines < nMaxMines) { //Iterem fins que hi hagi 30 mines al tauler ben col·locades.
-			Random random = new Random();
-	        int xMina = random.nextInt(13); //Generació de x aleatòriament del 0 al 12.
-	        int yMina = random.nextInt(13); //Generació de y aleatòriament del 0 al 12.
+	        int xMina = myRandom.nextInt(13); //Generació de x aleatòriament del 0 al 12.
+	        int yMina = myRandom.nextInt(13); //Generació de y aleatòriament del 0 al 12.
 	        
 	        if( Math.abs(xMina - xPlayer) <= 1 && Math.abs(yMina - yPlayer) <= 1) { 
 	        	//La posició aleatòria generada de la mina està dins de les 8 del voltant on el jugador a fet el clic inicial.

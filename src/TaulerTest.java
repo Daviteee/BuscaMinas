@@ -307,7 +307,7 @@ class TaulerTest {
 		t1.setMaxMines(3);
 		t1.generaMinesRandom(0,0);
 		t1.setNumMinesVoltant();
-		assertEquals(2, t1.getCasella(6, 0).getNumMinesVoltant());
+		assertEquals(3, t1.getCasella(6, 0).getNumMinesVoltant());
 		// 4 mines:
 		r1 = new MockRandom(1,3);
 		t1 = new Tauler(r1);

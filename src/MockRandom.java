@@ -8,7 +8,7 @@ public class MockRandom extends Random{
 	MockRandom(int opcio1,int opcio2){
 		this.opcio1 = opcio1; //Per saber quins valors de x o y retornar
 		this.opcio2 = opcio2;
-		this.n_mina  = -1;
+		this.n_mina  = 0;
 		this.is_x = true;
 	}
 	public int nextInt(int x) {

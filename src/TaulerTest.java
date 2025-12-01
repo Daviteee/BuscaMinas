@@ -1,5 +1,7 @@
 
 package model;
+
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Random;
@@ -320,12 +322,13 @@ class TaulerTest {
 		t1.generaMinesRandom(0,0);
 		t1.setNumMinesVoltant();
 		assertEquals(5, t1.getCasella(6, 0).getNumMinesVoltant());
+	}
 		
 		
 	
 	@Test
 	void destapaCasellaTest() {
-		r1 = new MockRandom();
+		r1 = new MockRandom(0,0);
 		// Test que comprova que una casella ha estat destapada correctament, segons les circumstancies hi ha caselles que no s'han de destapar
 		// o que el seu destapament ha de provocar el destapament d'altres caselles adjacents. Per això utilitzarem un Mock de Tauler.
 		

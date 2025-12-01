@@ -1,374 +1,149 @@
-
 package model;
-
-
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.Random;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
-class TaulerTest {
+public class Tauler {
 
-	Tauler t1;
-	Random r1;
+	private static final int MIDA = 13;
+	protected Casella[][]tauler;
+	int nMaxMines;
 	
-	//Realitzem una funció per llançar les excepcions del mètode getCasella
-	private void llançarExcepcionsCasella(int x, int y){
-		try{
-			t1.getCasella(x, y);
-			assertTrue(false);
-		}catch(Exception e){
-			System.err.println(e.getMessage());
-		}
+	public Tauler(){
+		tauler = new Casella[MIDA][MIDA];
+		for(int i = 0; i < MIDA; i++)
+			for(int j = 0; j < MIDA;j++)
+				tauler[i][j] = new Casella();
+		nMaxMines = 30;
+		//Postcondició per comporvar que s'ha iniciat correctament en 30 mines
+		assert(nMaxMines == 30) : "Error el número màxim de mines no s'ha inciat correctament";
+		 		
 	}
 	
-	
-	private void llançarExcepcionsGeneraMines(int x, int y) {
-		try{
-			t1.generaMinesRandom(x, y);
-			assertTrue(false);
-		}catch(Exception e){
-			System.err.println(e.getMessage());
-		}
+	public Casella getCasella(int x,int y){
+		//Precondició dels límits del tauler.
+		if(x > 12 || y > 12 || x < 0 || y < 0)
+			throw new IllegalArgumentException("Error la posició que demanes està fora dels límits del tauler");
+		return tauler[x][y];
 	}
 	
-	private void llançarExcepcionsChangeBandera(int x, int y) {
-		try{
-			t1.changeBandera(x, y);
-			assertTrue(false);
-		}catch(Exception e){
-			System.err.println(e.getMessage());
-		}
+	public boolean isMina(int x, int y) {
+		return getCasella(x, y).isMina();
 	}
-	
-	//Fem el mateix per els asserts
-	private void assertsGetCasella(int x, int y) {
-		assertTrue(t1.getCasella(x, y) instanceof Casella);
+	public void setMaxMines(int n){
+		nMaxMines = n;
+		//Postcondició per comporvar que s´ha fet correctament el setter
+		assert(nMaxMines == n) : "Error el número màxim de mines no concideix amb el paràmetre rebut al setter";
+
 	}
-	
-	private void assertsChangeBandera(int x, int y) {
-		t1.changeBandera(x, y); //Posem Bandera.
-		assertTrue(t1.getCasella(x, y).isBandera());
+
+	public void generaMinesRandom(int xPlayer, int yPlayer) {
 		
-		t1.getCasella(x, y).changeBandera(); //Treiem Bandera.
-		assertFalse(t1.getCasella(x, y).isBandera());
+		if(xPlayer > 12 || yPlayer > 12 || xPlayer < 0 || yPlayer < 0){ 
+			//Precondició dels límits del tauler segons les coordenades del clic del jugador.
+        	throw new IllegalArgumentException("Les coordenades del clic de l'usuari no són correctes (fora dels limits del tauler)");
+        }
+		
+		int nMines = 0; //Número de mines al teuler.
+		
+		while(nMines < nMaxMines) { //Iterem fins que hi hagi 30 mines al tauler ben col·locades.
+			Random random = new Random();
+	        int xMina = random.nextInt(13); //Generació de x aleatòriament del 0 al 12.
+	        int yMina = random.nextInt(13); //Generació de y aleatòriament del 0 al 12.
+	        
+	        if( Math.abs(xMina - xPlayer) <= 1 && Math.abs(yMina - yPlayer) <= 1) { 
+	        	//La posició aleatòria generada de la mina està dins de les 8 del voltant on el jugador a fet el clic inicial.
+	        	// La norma del buscamines diu que quan clica no pot haver-hi una mina en les 8 caselles del voltant. Per tant, tornem a generar.
+	        	continue;
+	        }
+	        
+	        if(!tauler[xMina][yMina].isMina()) {
+	        	tauler[xMina][yMina].setMina(); //Posem la casella generada correctament com una mina (mina = true) però abans comprovem que la casella no té mina.
+		        nMines++; //Augmentem el nombre de mines ben col·locades al tauler.
+	        }
+	        
+		}	
 	}
 	
-	//Mètode privat per comprovar si al tauler hi han 10 mines.
-	private void te30Mines(){
-		int n_mines = 0;
-		for(int i=0;i<13;i++)
-			for(int j=0;j<13;j++){
-				if(t1.getCasella(i,j).isMina())
-					n_mines ++ ;
-				if(n_mines == 30) {
-					assertTrue(true);
-					break;
-				}
+	public void changeBandera(int x, int y) {
+		// Canviem l'atribut bandera de la casella indicada (si era true -> false, i al revés).
+		//Utilitzem el mètode getCasella en comptes d'accedir a casella[][]
+		//per evitar tornar a fer la precondició del límit del tauler pels valor de paràmetres x,y.
+		getCasella(x, y).changeBandera();
+	}
+	
+	public void setNumMinesVoltant() {
+		for(int i = 0; i < MIDA; i++)
+			for(int j = 0; j < MIDA;j++) {
+				int mines = comptarNumMines(i, j);
+	            tauler[i][j].setNumMinesVoltant(mines);
 			}
-		
-		if(n_mines < 30)
-			assertTrue(false);
-	}
-	
-	@Test
-	void ConstructorInicialTaulerTest() {
-		//Comrpovem que el tauler inicial s'inicialitza correctament amb totes les caselles corresponents sense mines, sense banderas i tapades.
-		r1 = new Random();
-		t1 = new Tauler(r1);
-		for(int i=0; i < 13; i++)
-			for(int j=0; j < 13; j++)
-			{
-				assertFalse(t1.getCasella(i,j).isBandera());
-				assertFalse(t1.getCasella(i,j).isMina());
-				assertFalse(t1.getCasella(i,j).isDestapat());
-			}		
-	}
-	
-	@Test
-	void getCasellaTest() {
-		// Test del GetCasella, mètode que apartir de dos parametres d'entrada (x i y) retorna la casella corresponent
-		// a la coordenada indicada pels paràmetres d'entrada dins del tauler.
-		// I comprova que el mètode getCasella fa un control correcte dels limits del tauler.
-		// Utilitzant testing amb particions equivalents, no es pot utilitzar Pairwise Testing ja que com el mètode
-		// reb només 2 parametres no es possible realitzar el pairwise ja que el resultat són totes les combinacions.
-		r1 = new Random();
-		t1 = new Tauler(r1);
-		int []valors_x = new int [] {0,0,0,0,0,1,1,1,1,12,12,12,12,12,11,11,11,11,11,6,6,6,6,6};
-		int []valors_y = new int [] {0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11};
-		
-		for(int i = 0; i < valors_x.length;i++)
-				assertsGetCasella(valors_x[i],valors_y[i]);
-		
-		valors_x = new int [] {0,0,1,1,-1,-1,-1,-1,-1,-1,12,12,13,13,13,13,13,13,11,11,6,6,-1,5,13,7};
-		valors_y = new int [] {-1,13,-1,13,0,1,-1,12,13,11,-1,13,0,1,12,13,11,6,-1,13,-1,13,5,-1,7,13};
-				
-		for(int i = 0; i < valors_x.length;i++)
-			llançarExcepcionsCasella(valors_x[i],valors_y[i]);
 				
 	}
 	
-		
-	
-	@Test
-	void generaMinesRandomTest() {
-		r1 = new Random();
-		t1 = new Tauler(r1);
-		t1.generaMinesRandom(0,0);
-		assertFalse(t1.getCasella(0, 0).isMina());
-		assertFalse(t1.getCasella(1, 0).isMina());
-		assertFalse(t1.getCasella(0, 1).isMina());
-		assertFalse(t1.getCasella(1, 1).isMina());
-		
-		te30Mines();
-		
-		t1 = new Tauler(r1);
-		
-		t1.generaMinesRandom(0,12);
-		assertFalse(t1.getCasella(0, 12).isMina());
-		assertFalse(t1.getCasella(1, 12).isMina());
-		assertFalse(t1.getCasella(1, 11).isMina());
-		assertFalse(t1.getCasella(0, 11).isMina());
+	private int comptarNumMines(int x, int y) {
+	    int count = 0;
 
-		te30Mines();
-		
-		t1 = new Tauler(r1);
-		
-		t1.generaMinesRandom(12,0);
-		assertFalse(t1.getCasella(12, 0).isMina());
-		assertFalse(t1.getCasella(11, 0).isMina());
-		assertFalse(t1.getCasella(12, 1).isMina());
-		assertFalse(t1.getCasella(11, 1).isMina());
-		
-		te30Mines();
-		
-		t1 = new Tauler(r1);
-		
-		t1.generaMinesRandom(12,12);
-		assertFalse(t1.getCasella(12, 12).isMina());
-		assertFalse(t1.getCasella(11, 11).isMina());
-		assertFalse(t1.getCasella(12, 11).isMina());
-		assertFalse(t1.getCasella(11, 12).isMina());
-		
-		te30Mines();
-		
-		t1 = new Tauler(r1);
-		
-		t1.generaMinesRandom(0,6);
-		assertFalse(t1.getCasella(0, 6).isMina());
-		assertFalse(t1.getCasella(0, 5).isMina());
-		assertFalse(t1.getCasella(0, 7).isMina());
-		assertFalse(t1.getCasella(1, 5).isMina());
-		assertFalse(t1.getCasella(1, 6).isMina());
-		assertFalse(t1.getCasella(1, 7).isMina());
-
-		te30Mines();
-		
-		
-		t1 = new Tauler(r1);
-		
-		t1.generaMinesRandom(6,0);
-		assertFalse(t1.getCasella(6, 0).isMina());
-		assertFalse(t1.getCasella(5, 0).isMina());
-		assertFalse(t1.getCasella(7, 0).isMina());
-		assertFalse(t1.getCasella(5, 1).isMina());
-		assertFalse(t1.getCasella(6, 1).isMina());
-		assertFalse(t1.getCasella(7, 1).isMina());
-
-		te30Mines();
-		
-		t1 = new Tauler(r1);
-		
-		t1.generaMinesRandom(6,12);
-		assertFalse(t1.getCasella(6, 12).isMina());
-		assertFalse(t1.getCasella(6, 11).isMina());
-		assertFalse(t1.getCasella(5, 12).isMina());
-		assertFalse(t1.getCasella(7, 12).isMina());
-		assertFalse(t1.getCasella(5, 11).isMina());
-		assertFalse(t1.getCasella(7, 11).isMina());
-		
-		te30Mines();
-		
-		t1 = new Tauler(r1);
-		
-		t1.generaMinesRandom(12,6);
-		assertFalse(t1.getCasella(12,6).isMina());
-		assertFalse(t1.getCasella(11, 6).isMina());
-		assertFalse(t1.getCasella(12, 5).isMina());
-		assertFalse(t1.getCasella(12, 7).isMina());
-		assertFalse(t1.getCasella(11, 5).isMina());
-		assertFalse(t1.getCasella(11, 7).isMina());
-		
-		te30Mines();
-		
-		t1 = new Tauler(r1);
-		
-		t1.generaMinesRandom(6,6);
-		assertFalse(t1.getCasella(6,6).isMina());
-		assertFalse(t1.getCasella(5, 5).isMina());
-		assertFalse(t1.getCasella(5, 6).isMina());
-		assertFalse(t1.getCasella(5, 7).isMina());
-		assertFalse(t1.getCasella(6, 5).isMina());
-		assertFalse(t1.getCasella(6, 7).isMina());
-		assertFalse(t1.getCasella(7, 5).isMina());
-		assertFalse(t1.getCasella(7, 6).isMina());
-		assertFalse(t1.getCasella(7, 7).isMina());
-
-		te30Mines();
-		
-		//Casos de prova que llencen excepcions (fora dels limits del tauler):
-		int []valors_x = new int [] {0,0,1,1,-1,-1,-1,-1,-1,-1,12,12,13,13,13,13,13,13,11,11,6,6,-1,5,13,7};
-		int []valors_y = new int [] {-1,13,-1,13,0,1,-1,12,13,11,-1,13,0,1,12,13,11,6,-1,13,-1,13,5,-1,7,13};
-		
-		for(int i = 0; i < valors_x.length;i++)
-			llançarExcepcionsGeneraMines(valors_x[i],valors_y[i]);
-		
+	    for (int dx = -1; dx <= 1; dx++) {
+	        for (int dy = -1; dy <= 1; dy++) {
+	            if (dx == 0 && dy == 0) 
+	                continue;
+	            int nx = x + dx;
+	            int ny = y + dy;
+	            if (nx >= 0 && nx < MIDA && ny >= 0 && ny < MIDA) {
+	                if (tauler[nx][ny].isMina()) {
+	                    count++;
+	                }
+	            }
+	        }
+	    }
+	    return count;
 	}
 	
-	@Test
-	void changeBanderaTest() {
-		//Test que comprova que una bandera es col·loca correctament al tauler i a més a més que fa un control dels límits del tauler.
-		r1 = new Random();
-		t1 = new Tauler(r1);
-		int []valors_x = new int [] {0,0,0,0,0,1,1,1,1,12,12,12,12,12,11,11,11,11,11,6,6,6,6,6};
-		int []valors_y = new int [] {0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11};
-		for(int i = 0; i < valors_x.length;i++)
-			assertsChangeBandera(valors_x[i],valors_y[i]);
+	public void destapaCasella(int x, int y) {
 		
-		// Valors que han de llançar excepció
-		valors_x = new int [] {0,0,1,1,-1,-1,-1,-1,-1,-1,12,12,13,13,13,13,13,13,11,11,6,6,-1,5,13,7};
-		valors_y = new int [] {-1,13,-1,13,0,1,-1,12,13,11,-1,13,0,1,12,13,11,6,-1,13,-1,13,5,-1,7,13};
-		
-		for(int i = 0; i < valors_x.length;i++)
-			llançarExcepcionsChangeBandera(valors_x[i],valors_y[i]);
-		
+	    Casella c = getCasella(x, y);
+
+	    // Si ja está destapada o té bandera, no fem res.
+	    if (c.isDestapat() || c.isBandera()) {
+	        return;
+	    }
+
+	    // Destapem la casella.
+	    c.destaparCasella();
+
+	    // Si es una mina, acabem (game over)
+	    if (c.isMina()) {
+	        return;
+	    }
+	    
+	    if (c.getNumMinesVoltant() == 0) {
+	    	
+	        for (int dx = -1; dx <= 1; dx++) {
+	            for (int dy = -1; dy <= 1; dy++) {
+	                if (dx == 0 && dy == 0)
+	                    continue; // no repetir la mateix acasella
+	                
+	                int nx = x + dx;
+	                int ny = y + dy;
+	                
+	                if (nx >= 0 && nx < MIDA && ny >= 0 && ny < MIDA) {
+	                    destapaCasella(nx, ny);
+	                    
+	                }
+	            }
+	        }
+	    }
 	}
 	
-	@Test
-	void setNumMinesVoltantTest() {
-		// Test que comprova el numero de mines al voltant de cada casella (casos especials i regulars) sigui correctament generat.
-		// Caselles (0,0), (6,0), (12,0), (12,6), (12,12), (6,12), (0,12), (0,6) i (6,6).
-		// Amb aquests casos tindrem cantonades, laterals i casella central del tauler comprobats amb tots els nombres de mines possibles.
-		
-		// El numero de mines pot ser: 0, 1, 2, 3, 4, 5, 6, 7 i 8.
-		// Depenent de la casella (cantonades max 3, laterals max 5 i qualsevol altre max 8).
-		
-		// Particions equivalents: Per les cantonades comprovem els valors frontera (0 i 3) i valors limit interiors (1 i 2).
-		// Per els laterals comprovem valors frontera (0 i 5), valors limit interiors (1 i 4) i un del mig (2 o 3)
-		// Per les caselles amb 8 caselles adjacents comprovem valors frontera (0 i 8), valors limits interiors (1 i 7) i un del mig (2, 3, 4, 5 o 6)
-		// No comprovem valors com el -1 perque es impossible que el comptador de mines al voltant generi aquest tipus de valor.
-		// El valor 0 frontera ja es comprova a la classe casella amb la postcondició del constructor que ho inicialitza a 0.
-		//assert(numMinesVoltant == 0) : "Error la casella s'ha iniciat amb un número de mines al seu voltant";
-		
-		// Casella 0,0 (cantonada adalt esquerra):
-		
-		// 1 mina:
-		r1 = new MockRandom(0,0);
-		t1 = new Tauler(r1);
-		t1.setMaxMines(1);
-		t1.generaMinesRandom(11,0);
-		t1.setNumMinesVoltant();
-		assertEquals(1, t1.getCasella(0, 0).getNumMinesVoltant());
-		// 2 mines:
-		r1 = new MockRandom(0,1);
-		t1 = new Tauler(r1);
-		t1.setMaxMines(2);
-		t1.generaMinesRandom(11,0); 
-		t1.setNumMinesVoltant();
-		assertEquals(2, t1.getCasella(0, 0).getNumMinesVoltant());
-		// 3 mines:
-		r1 = new MockRandom(0,2);
-		t1 = new Tauler(r1);
-		t1.setMaxMines(3);
-		t1.generaMinesRandom(11,0);
-		t1.setNumMinesVoltant();
-		assertEquals(3, t1.getCasella(0, 0).getNumMinesVoltant());
-		
-		// Casella 6,0 (lateral esquerre):
-		
-		// 1 mina:
-		r1 = new MockRandom(1,0);
-		t1 = new Tauler(r1);
-		t1.setMaxMines(1);
-		t1.generaMinesRandom(0,0);
-		t1.setNumMinesVoltant();
-		assertEquals(1, t1.getCasella(6, 0).getNumMinesVoltant());
-		// 2 mines
-		r1 = new MockRandom(1,1);
-		t1 = new Tauler(r1);
-		t1.setMaxMines(2);
-		t1.generaMinesRandom(0,0);
-		t1.setNumMinesVoltant();
-		assertEquals(2, t1.getCasella(6, 0).getNumMinesVoltant());
-		// 3 mines
-		r1 = new MockRandom(1,2);
-		t1 = new Tauler(r1);
-		t1.setMaxMines(3);
-		t1.generaMinesRandom(0,0);
-		t1.setNumMinesVoltant();
-		assertEquals(2, t1.getCasella(6, 0).getNumMinesVoltant());
-		// 4 mines:
-		r1 = new MockRandom(1,3);
-		t1 = new Tauler(r1);
-		t1.setMaxMines(4);
-		t1.generaMinesRandom(0,0);
-		t1.setNumMinesVoltant();
-		assertEquals(4, t1.getCasella(6, 0).getNumMinesVoltant());
-		// 5 mines: (valor frontera)
-		r1 = new MockRandom(1,4);
-		t1 = new Tauler(r1);
-		t1.setMaxMines(5);
-		t1.generaMinesRandom(0,0);
-		t1.setNumMinesVoltant();
-		assertEquals(5, t1.getCasella(6, 0).getNumMinesVoltant());
-		
-		
-	
-	@Test
-	void destapaCasellaTest() {
-		r1 = new MockRandom();
-		// Test que comprova que una casella ha estat destapada correctament, segons les circumstancies hi ha caselles que no s'han de destapar
-		// o que el seu destapament ha de provocar el destapament d'altres caselles adjacents. Per això utilitzarem un Mock de Tauler.
-		
-		t1 = new Tauler(r1); // Instancies el Tauler Mock per posar mines on volguem
-		t1.generaMinesRandom(1, 1); // Posem 1 mina a la posició 0,1
-		t1.setNumMinesVoltant();
-		assertEquals(1, t1.getCasella(1, 1).getNumMinesVoltant()); // Comprovem que el numero de mines es correcte (1)
-		t1.destapaCasella(1, 1); // Destapem la casella 1,1
-		assertTrue(t1.getCasella(1, 1).isDestapat()); // Comprovem que ha sigut destapada
-		
-		// Comprovació de que amb 2 mines destapa les del voltant d'una casella amb 0 mines al voltant.
-		t1 = new Tauler(r1);
-		t1.getCasella(1, 2).setMina(); // Posem una mina a la posició 1,2
-		t1.getCasella(2, 1).setMina(); // Posem una mina a la posició 2,1
-		t1.setNumMinesVoltant();
-		t1.destapaCasella(0, 0); // Destapem la casella 0,0 (hauría de tenir el numero 0)
-		// Caselles que haurien d'estar destapades per l'algorisme:
-		assertTrue(t1.getCasella(0, 0).isDestapat());
-		assertTrue(t1.getCasella(0, 1).isDestapat());
-		assertTrue(t1.getCasella(1, 0).isDestapat());
-		assertTrue(t1.getCasella(1, 1).isDestapat());
-		assertFalse(t1.getCasella(1, 2).isDestapat());
-		assertFalse(t1.getCasella(2, 1).isDestapat());
-		
-		// Comprovació de que si no posem cap mina al tauler es destapa tot sencer:
-		t1 = new Tauler(r1);
-		t1.destapaCasella(0, 0);
-		for(int i = 0; i < 13; i++) {
-			for(int j = 0; j < 13; j++) {
-				assertTrue(t1.getCasella(i, j).isDestapat());
-			}
-		}
+	public boolean totesDestapadesSenseMines() {
+		// Mètode que comprova que totes les caselles que no son mines estan destapades (per comprovar que ha guanyat el jugador o no)
+	    for (int i = 0; i < MIDA; i++) {
+	        for (int j = 0; j < MIDA; j++) {
+	            Casella c = getCasella(i, j);
+	            if (!c.isMina() && !c.isDestapat()) {
+	                return false;
+	            }
+	        }
+	    }
+	    return true;
 	}
-	
-	@Test
-	public void totesDestapadesSenseMinesTest() {
-		r1 = new Random();
-		t1 = new Tauler(r1);
-		assertFalse(t1.totesDestapadesSenseMines()); // Inicialment cal que cap estigui destapada.
-		t1.destapaCasella(0, 0); // Destapem una casella i com no te cap mina el tauler es destapen totes.
-		assertTrue(t1.totesDestapadesSenseMines()); // Després de destaparles totes sense mines cal que ens retorni true.
-	}
-	
 }

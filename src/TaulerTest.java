@@ -327,7 +327,7 @@ class TaulerTest {
 			t1.setMaxMines(i+1);
 			t1.generaMinesRandom(0,0);
 			t1.setNumMinesVoltant();
-			assertEquals(i+1, t1.getNumMinesVoltant(0,6));
+			assertEquals(i+1, t1.getNumMinesVoltant(6,6));
 		}
 	}
 		

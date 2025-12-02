@@ -30,26 +30,25 @@ public class Tauler {
 		//Precondició dels límits del tauler.
 		if(x > 12 || y > 12 || x < 0 || y < 0)
 			throw new IllegalArgumentException("Error la posició que demanes està fora dels límits del tauler");
-		invariant();
 		return tauler[x][y];
 	}
 	
+	//Utilitzem getCasella per comprovar els límits del tauler i l'invariant.
 	public boolean isMina(int x, int y) {
-		invariant();
 		return getCasella(x, y).isMina();
 	}
 	
+	//Utilitzem getCasella per comprovar els límits del tauler i l'invariant.
 	public boolean isBandera(int x,int y) {
-		invariant();
 		return getCasella(x, y).isBandera();
-	}
 	
+	//Utilitzem getCasella per comprovar els límits del tauler i l'invariant.
 	public int getNumMinesVoltant(int x, int y) {
-		invariant();
 		return getCasella(x,y).getNumMinesVoltant();
 	}
+	
+	//Utilitzem getCasella per comprovar els límits del tauler i l'invariant.
 	public boolean isDestapat(int x, int y) {
-		invariant();
 		return getCasella(x,y).isDestapat();
 	}
 	

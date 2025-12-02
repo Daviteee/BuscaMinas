@@ -24,6 +24,14 @@ class TaulerTest {
 		}
 	}
 	
+	private void llançarExcepcionsDestapaCasella(int x, int y){
+		try{
+			t1.destapaCasella(x, y);
+			assertTrue(false);
+		}catch(Exception e){
+			System.err.println(e.getMessage());
+		}
+	}
 	
 	private void llançarExcepcionsGeneraMines(int x, int y) {
 		try{
@@ -639,6 +647,74 @@ class TaulerTest {
 				assertTrue(t1.getCasella(i, j).isDestapat());
 			}
 		}
+		//Comprovació de que no es destapa una casella amb una bandera
+		r1 = new Random();
+		t1 = new Tauler(r1);
+		t1.changeBandera(0, 0);
+		t1.changeBandera(0, 1);
+		t1.destapaCasella(0, 0);
+		assertFalse(t1.getCasella(0,0).isDestapat());
+		t1.destapaCasella(0, 1);
+        assertFalse(t1.getCasella(0,1).isDestapat());
+		t1.destapaCasella(1,0);
+        assertTrue(t1.getCasella(1,0).isDestapat());
+        //Tornem a destapar una casella que ja esta destapada no hauria de passar res.
+		t1.destapaCasella(1,0);
+        assertTrue(t1.getCasella(1,0).isDestapat());
+        
+        //Destapar casella amb número > 0 → no expandir
+        r1 = new MockRandom(0,0); // Mina a 0,1
+        t1 = new Tauler(r1);
+        t1.setMaxMines(1);
+        t1.generaMinesRandom(12, 12);
+        t1.setNumMinesVoltant();
+        t1.destapaCasella(0,0); // 0,0 té número 1 al costat de la mina
+
+        assertTrue(t1.getCasella(0,0).isDestapat());
+        assertFalse(t1.getCasella(0,2).isDestapat());
+        assertFalse(t1.getCasella(1,0).isDestapat());
+        assertFalse(t1.getCasella(1,1).isDestapat());
+        
+        //Destapar una mina → només destapa la mina
+        r1 = new MockRandom(0,0); // Mina a 0,1
+        t1 = new Tauler(r1);
+        t1.setMaxMines(1);
+        t1.generaMinesRandom(12, 12);
+        t1.destapaCasella(0,1); // Mina
+        assertTrue(t1.getCasella(0,1).isDestapat());
+        assertFalse(t1.getCasella(0,0).isDestapat()); // no ha d’afectar veïns
+        assertFalse(t1.getCasella(1,1).isDestapat());
+        
+        //Expansió de zeros amb barrera de números
+        r1 = new MockRandom(1,1); // Mines en 5,0 i 5,1
+        t1 = new Tauler(r1);
+        t1.setMaxMines(2);
+        t1.generaMinesRandom(12,12);
+        t1.setNumMinesVoltant();
+        t1.destapaCasella(12,12); // zona llunyana sense mines
+
+        assertTrue(t1.getCasella(12,12).isDestapat());
+        assertTrue(t1.getCasella(11,12).isDestapat());
+        assertTrue(t1.getCasella(12,11).isDestapat());
+        // Les caselles amb números al voltant de mines no s’expandeixen més
+        assertFalse(t1.getCasella(5,0).isDestapat());
+        assertFalse(t1.getCasella(5,1).isDestapat());
+
+        //Bandera talla expansió
+        r1 = new MockRandom(1,1); // Mines en 5,0 i 5,1
+        t1 = new Tauler(r1);
+        t1.changeBandera(11,11);
+        t1.destapaCasella(12,12);
+        assertTrue(t1.getCasella(12,12).isDestapat());
+        assertFalse(t1.getCasella(11,11).isDestapat()); // bandera talla expansió
+        
+        
+      //Casos de prova que llencen excepcions (fora dels limits del tauler):
+      		int []valors_x = new int [] {0,0,1,1,-1,-1,-1,-1,-1,-1,12,12,13,13,13,13,13,13,11,11,6,6,-1,5,13,7};
+      		int []valors_y = new int [] {-1,13,-1,13,0,1,-1,12,13,11,-1,13,0,1,12,13,11,6,-1,13,-1,13,5,-1,7,13};
+      		
+      		for(int i = 0; i < valors_x.length;i++)
+      			llançarExcepcionsDestapaCasella(valors_x[i],valors_y[i]);
 	}
 	
 	@Test

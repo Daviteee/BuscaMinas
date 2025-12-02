@@ -632,8 +632,7 @@ class TaulerTest {
         assertFalse(t1.getCasella(5, 1).isDestapat());
 
 		// Comprovació de que si no posem cap mina al tauler es destapa tot sencer:
-		t1 = new Tauler(r1);
-		t1.setMaxMines(0);		
+		t1 = new Tauler(r1);	
 		t1.destapaCasella(0, 0);
 		for(int i = 0; i < 13; i++) {
 			for(int j = 0; j < 13; j++) {

@@ -21,7 +21,7 @@ public class Tauler {
 	}
 	
 	public void invariant() {
-		assert(nMaxMines > 0): "Error el número màxim de mines es menor a 0";
+		assert(nMaxMines >= 0): "Error el número màxim de mines es menor a 0";
 		assert(myRandom != null): "Error l'atribut del tipus Random és null";
 	}
 	

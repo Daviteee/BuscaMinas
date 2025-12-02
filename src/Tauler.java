@@ -41,6 +41,7 @@ public class Tauler {
 	//Utilitzem getCasella per comprovar els límits del tauler i l'invariant.
 	public boolean isBandera(int x,int y) {
 		return getCasella(x, y).isBandera();
+	}
 	
 	//Utilitzem getCasella per comprovar els límits del tauler i l'invariant.
 	public int getNumMinesVoltant(int x, int y) {

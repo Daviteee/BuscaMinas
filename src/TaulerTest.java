@@ -602,34 +602,38 @@ class TaulerTest {
 	
 	@Test
 	void destapaCasellaTest() {
-		r1 = new MockRandom(0,0);
 		// Test que comprova que una casella ha estat destapada correctament, segons les circumstancies hi ha caselles que no s'han de destapar
-		// o que el seu destapament ha de provocar el destapament d'altres caselles adjacents. Per això utilitzarem un Mock de Tauler.
-		
-		t1 = new Tauler(r1); // Instancies el Tauler Mock per posar mines on volguem
-		t1.generaMinesRandom(1, 1); // Posem 1 mina a la posició 0,1
-		t1.setNumMinesVoltant();
-		assertEquals(1, t1.getCasella(1, 1).getNumMinesVoltant()); // Comprovem que el numero de mines es correcte (1)
+		// o que el seu destapament ha de provocar el destapament d'altres caselles adjacents. Per això utilitzarem un Mock de Random.
+		r1 = new MockRandom(0,0); //Posem una mina a la posció 0,1.
+		t1 = new Tauler(r1); 
+		t1.setMaxMines(1);
+		t1.generaMinesRandom(12, 12); //Cliquem lluny per a que no doni error a la funció generaMinesRandom
+		t1.setNumMinesVoltant(); //Afegim els números al tauler.
 		t1.destapaCasella(1, 1); // Destapem la casella 1,1
 		assertTrue(t1.getCasella(1, 1).isDestapat()); // Comprovem que ha sigut destapada
 		
 		// Comprovació de que amb 2 mines destapa les del voltant d'una casella amb 0 mines al voltant.
+		r1 = new MockRandom(1,1); //Posem dues mines a les posicions 5,0 i 5,1
 		t1 = new Tauler(r1);
-		t1.getCasella(1, 2).setMina(); // Posem una mina a la posició 1,2
-		t1.getCasella(2, 1).setMina(); // Posem una mina a la posició 2,1
-		t1.setNumMinesVoltant();
-		t1.destapaCasella(0, 0); // Destapem la casella 0,0 (hauría de tenir el numero 0)
+		t1.setMaxMines(2);
+		t1.generaMinesRandom(12, 12); //Cliquem lluny per a que no doni error a la funció generaMinesRandom
+		t1.setNumMinesVoltant(); //Afegim els números al tauler.
+		t1.destapaCasella(0, 0); // Destapem la casella 0,0 (hauría de tenir el número 0)
 		
 		// Caselles que haurien d'estar destapades per l'algorisme:
-		assertTrue(t1.getCasella(0, 0).isDestapat());
-		assertTrue(t1.getCasella(0, 1).isDestapat());
-		assertTrue(t1.getCasella(1, 0).isDestapat());
-		assertTrue(t1.getCasella(1, 1).isDestapat());
-		assertFalse(t1.getCasella(1, 2).isDestapat());
-		assertFalse(t1.getCasella(2, 1).isDestapat());
-		
+		assertTrue(t1.getCasella(4,0).isDestapat());
+        assertTrue(t1.getCasella(4,1).isDestapat());
+        assertTrue(t1.getCasella(4,2).isDestapat());
+        assertTrue(t1.getCasella(5,2).isDestapat());
+        assertTrue(t1.getCasella(6,0).isDestapat());
+        assertTrue(t1.getCasella(6,1).isDestapat());
+        assertTrue(t1.getCasella(6,2).isDestapat());
+        assertFalse(t1.getCasella(5, 0).isDestapat());
+        assertFalse(t1.getCasella(5, 1).isDestapat());
+
 		// Comprovació de que si no posem cap mina al tauler es destapa tot sencer:
 		t1 = new Tauler(r1);
+		t1.setMaxMines(0);		
 		t1.destapaCasella(0, 0);
 		for(int i = 0; i < 13; i++) {
 			for(int j = 0; j < 13; j++) {

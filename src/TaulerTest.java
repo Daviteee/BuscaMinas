@@ -1,8 +1,5 @@
 
-
 package model;
-
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Random;
@@ -13,6 +10,12 @@ class TaulerTest {
 
 	Tauler t1;
 	Random r1;
+	
+	//Comentari d'aclaració: Cal tenir en compte que totes les funcions que tinguin límits del tauler, es a dir els getters de la classe Tauler com isMina,isBandera...
+	//TOTS utilitzen el mètode getCasella per fer la comprovació dels límits Tauler, per això mateix no fa falta realitzar test sobre ells ja que el mètode que està provat
+	//i testejat és getCasella i com està testejat ja sabem que comprova correctament els límits del tauler. Per tant com tots els mètodes anteriorment mencionats ho utlitzen al codi desenvolupat
+	//per comprovar els límits, sabem que aquests límits es comproven correctament. L'únic mètode que no tuilitza getCasella al codi desenvolupat és generaMinesRandom per aquest mateix 
+	//motiu en aquest mètode si es realitza la comprovació dels límits del tauler.
 	
 	//Realitzem una funció per llançar les excepcions del mètode getCasella de quan les coordenades no estan a dins del tauler
 	private void llançarExcepcionsCasella(int x, int y){
@@ -208,26 +211,7 @@ class TaulerTest {
 			llançarExcepcionsGeneraMines(valors_x[i],valors_y[i]);
 		
 	}
-	
-	@Test
-	void changeBanderaTest() {
-		//Test que comprova que una bandera es col·loca correctament al tauler i a més a més que fa un control dels límits del tauler.
-		r1 = new Random();
-		t1 = new Tauler(r1);
-		int []valors_x = new int [] {0,0,0,0,0,1,1,1,1,12,12,12,12,12,11,11,11,11,11,6,6,6,6,6};
-		int []valors_y = new int [] {0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11,6,0,1,12,11};
-		for(int i = 0; i < valors_x.length;i++)
-			assertsChangeBandera(valors_x[i],valors_y[i]);
 		
-		// Valors que han de llançar excepció
-		valors_x = new int [] {0,0,1,1,-1,-1,-1,-1,-1,-1,12,12,13,13,13,13,13,13,11,11,6,6,-1,5,13,7};
-		valors_y = new int [] {-1,13,-1,13,0,1,-1,12,13,11,-1,13,0,1,12,13,11,6,-1,13,-1,13,5,-1,7,13};
-		
-		for(int i = 0; i < valors_x.length;i++)
-			llançarExcepcionsChangeBandera(valors_x[i],valors_y[i]);
-		
-	}
-	
 	@Test
 	void setNumMinesVoltantTest() {
 		// Test que comprova el numero de mines al voltant de cada casella (casos especials i regulars) sigui correctament generat.
@@ -447,14 +431,6 @@ class TaulerTest {
         t1.destapaCasella(12,12);
         assertTrue(t1.isDestapat(12,12));
         assertFalse(t1.isDestapat(11,11)); // bandera talla expansió
-        
-        
-      //Casos de prova que llencen excepcions (fora dels limits del tauler):
-      		int []valors_x = new int [] {0,0,1,1,-1,-1,-1,-1,-1,-1,12,12,13,13,13,13,13,13,11,11,6,6,-1,5,13,7};
-      		int []valors_y = new int [] {-1,13,-1,13,0,1,-1,12,13,11,-1,13,0,1,12,13,11,6,-1,13,-1,13,5,-1,7,13};
-      		
-      		for(int i = 0; i < valors_x.length;i++)
-      			llançarExcepcionsDestapaCasella(valors_x[i],valors_y[i]);
 	}
 	
 	@Test

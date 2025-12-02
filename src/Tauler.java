@@ -38,6 +38,21 @@ public class Tauler {
 		invariant();
 		return getCasella(x, y).isMina();
 	}
+	
+	public boolean isBandera(int x,int y) {
+		invariant();
+		return getCasella(x, y).isBandera();
+	}
+	
+	public int getNumMinesVoltant(int x, int y) {
+		invariant();
+		return getCasella(x,y).getNumMinesVoltant();
+	}
+	public boolean isDestapat(int x, int y) {
+		invariant();
+		return getCasella(x,y).isDestapat();
+	}
+	
 	public void setMaxMines(int n){
 		invariant();
 		nMaxMines = n;

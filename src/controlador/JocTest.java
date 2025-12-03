@@ -15,23 +15,23 @@ class JocTest {
 		Random r = new Random();
 		Tauler t1 = new Tauler(r);
 		//Constructor per paràmetres per comprovar que s'inicialitza correctament, es comprova amb postcondicions al codi desenvolupat.Si no surt error es correcte.
-		Joc joc1 = new Joc(t1); // Constructor per parametres (Tauler)
-		BuscaminesVista vista  = new MockBuscaminesVista(joc1); //Creem un mock de la vista.
+		Joc joc = new Joc(t1); // Constructor per parametres (Tauler)
+		BuscaminesVista vista  = new MockBuscaminesVista(joc); //Creem un mock de la vista.
 		vista.initVista(); //La vista és genera a partir del mock (no fa res)
 		
 		//Afegim la vista al controlador (el mockObject). Comprovem que s'inicia correctament la vista al controlador. Això es comprova mitjançant postcondicions
 		//al codi desenvolupat si no surt error està correcte.
-		joc1.crearVistaDelJoc(vista); 
+		joc.crearVistaDelJoc(vista); 
 		
 		//Comprovació de les excepcions que han de sortir al constructor. Si tauler és null o si la vista és null. Aquestes comrpovacions es fan al codi desenvolupat
 		//mitjançant precondicions.
 		try {
-	    	joc1 = new Joc(null);
+	    	joc = new Joc(null);
 	    }catch(AssertionError e) {
 	    	System.err.println(e.getMessage());
 	    }
 		try {
-	    	joc1.crearVistaDelJoc(null);
+	    	joc.crearVistaDelJoc(null);
 	    }catch(AssertionError e) {
 	    	System.err.println(e.getMessage());
 	    }
@@ -44,6 +44,10 @@ class JocTest {
 		Random r = new Random();
 		Tauler t1 = new Tauler(r);
         Joc joc = new Joc(t1);
+        BuscaminesVista vista  = new MockBuscaminesVista(joc); //Creem un mock de la vista.
+		vista.initVista(); //La vista és genera a partir del mock (no fa res)
+		joc.crearVistaDelJoc(vista); 
+		
         joc.clicDret(2, 2); // Posem bandera a la posició 2,2
         assertTrue(joc.getTauler().getCasella(2, 2).isBandera()); // Comprovem que la bandera s'ha possat
         
@@ -76,7 +80,10 @@ class JocTest {
 	public void clicEsquerraTest() {
 		Random r = new Random();
 		Tauler t1 = new Tauler(r);
-		Joc joc = new Joc(t1);
+        Joc joc = new Joc(t1);
+        BuscaminesVista vista  = new MockBuscaminesVista(joc); //Creem un mock de la vista.
+		vista.initVista(); //La vista és genera a partir del mock (no fa res)
+		joc.crearVistaDelJoc(vista); 
 		joc.clicEsquerra(0,0); // Destapem la casella 0,0
 		assertTrue(joc.getTauler().getCasella(0,0).isDestapat());
 	}

@@ -3,11 +3,10 @@ package controlador;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Random;
-
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import model.Tauler;
 import vista.BuscaminesVista;
+import vista.MockBuscaminesVista;
 
 class JocTest {
 	
@@ -17,7 +16,9 @@ class JocTest {
 		Tauler t1 = new Tauler(r);
 		//Constructor per paràmetres per comprovar que s'inicialitza correctament, es comprova amb postcondicions al codi desenvolupat.Si no surt error es correcte.
 		Joc joc1 = new Joc(t1); // Constructor per parametres (Tauler)
-		
+		BuscaminesVista vista  = new MockBuscaminesVista(joc1);
+		vista.initVista();
+		joc1.crearVistaDelJoc(vista);
 		//Comprovem a més a més que si el tauler es null ha de donar error.
 		try {
 	    	joc1 = new Joc(null);
@@ -31,8 +32,9 @@ class JocTest {
 	@Test
     public void clicDretTest() {
 		// Test que comproba que el clic Dret possa la bandera correctament.
-		Tauler t1 = new Tauler();
-        Joc joc = new Joc(t1, 13);
+		Random r = new Random();
+		Tauler t1 = new Tauler(r);
+        Joc joc = new Joc(t1);
         joc.clicDret(2, 2); // Posem bandera a la posició 2,2
         assertTrue(joc.getTauler().getCasella(2, 2).isBandera()); // Comprovem que la bandera s'ha possat
         
@@ -45,23 +47,27 @@ class JocTest {
 	
 	@Test
 	public void getTaulerTest() {
-		Tauler t1 = new Tauler();
-		Joc joc = new Joc(t1, 13); // Constructor per parametres
+		Random r = new Random();
+		Tauler t1 = new Tauler(r);
+		Joc joc = new Joc(t1); // Constructor per parametres
 		assertEquals(t1, joc.getTauler());
 	}
 	
 	@Test
 	public void getVistaTest() {
-		Joc joc = new Joc();
-		BuscaminesVista v = new BuscaminesVista(joc, 13);
+		Random r = new Random();
+		Tauler t1 = new Tauler(r);
+		Joc joc = new Joc(t1);
+		BuscaminesVista v = new BuscaminesVista(joc);
 		joc.setVista(v);
 		assertEquals(v, joc.getVista());
 	}
 	
 	@Test
 	public void clicEsquerraTest() {
-		Tauler t1 = new Tauler();
-		Joc joc = new Joc(t1, 13);
+		Random r = new Random();
+		Tauler t1 = new Tauler(r);
+		Joc joc = new Joc(t1);
 		joc.clicEsquerra(0,0); // Destapem la casella 0,0
 		assertTrue(joc.getTauler().getCasella(0,0).isDestapat());
 	}

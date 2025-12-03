@@ -16,16 +16,25 @@ class JocTest {
 		Tauler t1 = new Tauler(r);
 		//Constructor per paràmetres per comprovar que s'inicialitza correctament, es comprova amb postcondicions al codi desenvolupat.Si no surt error es correcte.
 		Joc joc1 = new Joc(t1); // Constructor per parametres (Tauler)
-		BuscaminesVista vista  = new MockBuscaminesVista(joc1);
-		vista.initVista();
-		joc1.crearVistaDelJoc(vista);
-		//Comprovem a més a més que si el tauler es null ha de donar error.
+		BuscaminesVista vista  = new MockBuscaminesVista(joc1); //Creem un mock de la vista.
+		vista.initVista(); //La vista és genera a partir del mock (no fa res)
+		
+		//Afegim la vista al controlador (el mockObject). Comprovem que s'inicia correctament la vista al controlador. Això es comprova mitjançant postcondicions
+		//al codi desenvolupat si no surt error està correcte.
+		joc1.crearVistaDelJoc(vista); 
+		
+		//Comprovació de les excepcions que han de sortir al constructor. Si tauler és null o si la vista és null. Aquestes comrpovacions es fan al codi desenvolupat
+		//mitjançant precondicions.
 		try {
 	    	joc1 = new Joc(null);
 	    }catch(AssertionError e) {
 	    	System.err.println(e.getMessage());
 	    }
-		
+		try {
+	    	joc1.crearVistaDelJoc(null);
+	    }catch(AssertionError e) {
+	    	System.err.println(e.getMessage());
+	    }
 	}
 	
 

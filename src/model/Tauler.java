@@ -10,20 +10,23 @@ public class Tauler {
 	private Random myRandom; //Atribut per poder utilitzar el MockObject de Random i generar les mines a on volem.
 	
 	public Tauler(Random r){
+		// Precondició per comprovar que el random no és null.
+		assert(r != null) : "Error, el random indicat per parametres es null!";
+		
 		this.myRandom = r;
 		tauler = new Casella[MIDA][MIDA];
 		for(int i = 0; i < MIDA; i++)
 			for(int j = 0; j < MIDA;j++)
 				tauler[i][j] = new Casella();
 		this.nMaxMines = 30;
-		//Postcondicions per comporvar que s'ha inicialitzat correctament en 30 mines i el myRandom
+		
+		//Postcondicions per comporvar que s'ha inicialitzat correctament en 30 mines i el myRandom.
 		assert(this.nMaxMines == 30) : "Error el número màxim de mines no s'ha incialitzat correctament";
 		assert(this.myRandom == r) : "Error l'atribut del tipus Random no s'ha inicialitzat correctament";
 	}
 	
 	public void invariant() {
 		assert(nMaxMines >= 0): "Error el número màxim de mines es menor a 0";
-		assert(myRandom != null): "Error l'atribut del tipus Random és null";
 	}
 	
 	public Casella getCasella(int x,int y){

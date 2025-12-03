@@ -62,13 +62,20 @@ class TaulerTest {
 		//Comrpovem que el tauler inicial s'inicialitza correctament amb totes les caselles corresponents sense mines, sense banderas i tapades.
 		r1 = new Random();
 		t1 = new Tauler(r1);
-		for(int i=0; i < 13; i++)
-			for(int j=0; j < 13; j++)
-			{
+		for(int i=0; i < 13; i++) {
+			for(int j=0; j < 13; j++){
 				assertFalse(t1.isBandera(i,j));
 				assertFalse(t1.isMina(i,j));
 				assertFalse(t1.isDestapat(i,j));
-			}		
+			}
+		}
+		
+		// Cas on inicialitzem el random del tauler en null (no s'ha de poder)
+		try{
+			t1 = new Tauler(null);
+		}catch(AssertionError e) {
+			System.err.println(e.getMessage());
+		}
 	}
 	
 	@Test
@@ -477,6 +484,17 @@ class TaulerTest {
 		t1.setNumMinesVoltant();
 		t1.destapaCasella(0, 0);
 		assertFalse(t1.totesDestapadesSenseMines());
+	}
+	
+	@Test
+	void setMaxMinesTest() {
+	    // Comprovar assert de nMaxMines >= 0
+		Tauler tNegatiu = new Tauler(new Random());
+	    try {
+	    	tNegatiu.setMaxMines(-1);
+	    }catch(AssertionError e) {
+	    	System.err.println(e.getMessage());
+	    }
 	}
 	
 }

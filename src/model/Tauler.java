@@ -6,8 +6,8 @@ public class Tauler {
 
 	private static final int MIDA = 13;
 	protected Casella[][]tauler;
-	int nMaxMines;
-	Random myRandom; //Atribut per poder utilitzar el MockObject de Random i generar les mines a on volem.
+	private int nMaxMines;
+	private Random myRandom; //Atribut per poder utilitzar el MockObject de Random i generar les mines a on volem.
 	
 	public Tauler(Random r){
 		this.myRandom = r;

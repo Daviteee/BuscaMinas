@@ -8,16 +8,27 @@ public class Joc {
     private boolean partidaAcabada;
     private BuscaminesVista vista;
 
-    public Joc(Tauler t) { // Constructor per parametres
+    public Joc(Tauler t) { //Constructor per paràmetres amb el paràmetre de la vista per poder utilitzar el mock
     	//Precondició per comprovar que hi ha tauler.
     	assert(t != null):"Error el tauler és null";	
+    	
     	this.partidaAcabada = false;
     	this.tauler = t; 
+    	this.vista = null; //Inicialitzem la vista a null al constructor.
+    	
     	//Postcondicions per comprovar que s'ha iniciat correctament el joc abans de generar la vista.
     	assert(!this.partidaAcabada):"Error la partida s'ha inicialitzat acabada(incorrecte)";
     	assert(this.tauler == t):"Error el tauler no s'ha iniciat correctament amb el tauler per paràmetre";
-    	this.vista = new BuscaminesVista(this); // Inicialitzem la vista amb el Joc.
-    	vista.actualitzar(); // Pintem el tauler amb l'estat inicial.
+    	assert(this.vista == null):"Error la vista no s'ha iniciat a null correctament";
+    }
+    
+    public void crearVistaDelJoc(BuscaminesVista vista) { //Funció que asigna la vista del joc al controlador joc.
+    	//Precondició per comprovar que hi ha vista.
+    	assert(vista != null):"Error la vista és null";	
+    	this.vista = vista;
+    	//Postcondició per comprovar que s'ha instanciat correctament la vista.
+    	assert(this.vista == vista):"Error la vista no s'ha instanciat correctament amb la vista per paràmetres";	
+    	this.vista.actualitzar(); //Printem el tauler inicial (si és mock no farà res).
     }
     
     public Tauler getTauler() {

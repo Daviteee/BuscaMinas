@@ -1,5 +1,4 @@
 package controlador;
-
 import model.Tauler;
 import vista.BuscaminesVista;
 
@@ -8,17 +7,16 @@ public class Joc {
 	private Tauler tauler;
     private boolean partidaAcabada;
     private BuscaminesVista vista;
-    
-    public Joc(){ // Constructor per defecte
+
+    public Joc(Tauler t) { // Constructor per parametres
+    	//Precondició per comprovar que hi ha tauler.
+    	assert(t != null):"Error el tauler és null";	
     	this.partidaAcabada = false;
-    	this.tauler = null;
-    	this.vista = null;
-    }
-    
-    public Joc(Tauler t, int mida) { // Constructor per parametres
-    	this.partidaAcabada = false;
-    	this.tauler = t;
-    	this.vista = new BuscaminesVista(this, mida); // Inicialitzem la vista amb el Joc i la mida del tauler.
+    	this.tauler = t; 
+    	//Postcondicions per comprovar que s'ha iniciat correctament el joc abans de generar la vista.
+    	assert(!this.partidaAcabada):"Error la partida s'ha inicialitzat acabada(incorrecte)";
+    	assert(this.tauler == t):"Error el tauler no s'ha iniciat correctament amb el tauler per paràmetre";
+    	this.vista = new BuscaminesVista(this); // Inicialitzem la vista amb el Joc.
     	vista.actualitzar(); // Pintem el tauler amb l'estat inicial.
     }
     

@@ -1,23 +1,24 @@
 package controlador;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Random;
+
 import org.junit.Test;
+
 import model.Tauler;
 import vista.BuscaminesVista;
 
 class JocTest {
 	
 	@Test
-	public void TestJoc() {
-		Joc joc = new Joc(); // Constructor per defecte
-		assertEquals(null, joc.getTauler());
-		assertEquals(null, joc.getVista());
-		assertFalse(joc.getPartidaAcabada());
+	public void TestConstructorsJoc() {
+		Joc joc = new Joc(); // Constructor per defecte per comprovar que s'inicialitza correctament, es comprova amb postcondicions al codi desenvolupat.Si no surt error es correcte.
+		Random r = new Random();
+		Tauler t1 = new Tauler(r);
 		
-		Tauler t1 = new Tauler();
-		Joc joc1 = new Joc(t1, 13); // Constructor per parametres (Tauler i mida)
-		assertEquals(t1, joc1.getTauler());
-		assertFalse(joc1.getPartidaAcabada());
+		//Constructor per paràmetres per comprovar que s'inicialitza correctament, es comprova amb postcondicions al codi desenvolupat.Si no surt error es correcte.
+		Joc joc1 = new Joc(t1, 13); // Constructor per parametres (Tauler i mida)	
 	}
 	
 

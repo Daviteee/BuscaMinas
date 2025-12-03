@@ -12,13 +12,19 @@ import vista.BuscaminesVista;
 class JocTest {
 	
 	@Test
-	public void TestConstructorsJoc() {
-		Joc joc = new Joc(); // Constructor per defecte per comprovar que s'inicialitza correctament, es comprova amb postcondicions al codi desenvolupat.Si no surt error es correcte.
+	public void TestConstructorPerParàmetresJoc() {
 		Random r = new Random();
 		Tauler t1 = new Tauler(r);
-		
 		//Constructor per paràmetres per comprovar que s'inicialitza correctament, es comprova amb postcondicions al codi desenvolupat.Si no surt error es correcte.
-		Joc joc1 = new Joc(t1, 13); // Constructor per parametres (Tauler i mida)	
+		Joc joc1 = new Joc(t1); // Constructor per parametres (Tauler)
+		
+		//Comprovem a més a més que si el tauler es null ha de donar error.
+		try {
+	    	joc1 = new Joc(null);
+	    }catch(AssertionError e) {
+	    	System.err.println(e.getMessage());
+	    }
+		
 	}
 	
 

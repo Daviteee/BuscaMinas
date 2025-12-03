@@ -7,12 +7,15 @@ import java.awt.*;
 
 public class BuscaminesVista extends JFrame {
 
-    private final JButton[][] botons;
+    private JButton[][] botons;
     private static final int MIDA = 13;   
     private final Joc joc;
 
     public BuscaminesVista(Joc joc) {
-        this.joc = joc;
+    	this.joc = joc;
+    }
+    
+    public void  initVista() {
 
         setTitle("Buscaminas");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

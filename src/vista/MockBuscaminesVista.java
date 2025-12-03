@@ -8,10 +8,12 @@ public class MockBuscaminesVista extends BuscaminesVista{
 	public MockBuscaminesVista(Joc joc) {
 		super(joc);
 	}
-	
-	//Aquesta funció no fa res perquè només volem que no es mostri la vista quan realitzem els tests de joc
-	public void actualitzar() {
+	//Aquesta funció no fa res ja que no ha d'iniciar cap vista
+	public void initVista() {
 		
+	}
+	//Aquesta funció no fa res perquè només volem que no es mostri la vista quan realitzem els tests de joc
+	public void actualitzar() {		
 	}
 }
 

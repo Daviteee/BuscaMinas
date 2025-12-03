@@ -1,30 +1,29 @@
 package vista;
 
 import controlador.Joc;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class BuscaminesVista extends JFrame {
 
     private final JButton[][] botons;
-    private final int mida;
+    private static final int MIDA = 13;   
     private final Joc joc;
 
-    public BuscaminesVista(Joc joc, int mida) {
+    public BuscaminesVista(Joc joc) {
         this.joc = joc;
-        this.mida = mida;
-        
+
         setTitle("Buscaminas");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(mida, mida));
+        setLayout(new GridLayout(MIDA, MIDA));
 
-        botons = new JButton[mida][mida];
+        botons = new JButton[MIDA][MIDA];
 
-        for (int i = 0; i < mida; i++) {
-            for (int j = 0; j < mida; j++) {
+        for (int i = 0; i < MIDA; i++) {
+            for (int j = 0; j < MIDA; j++) {
                 JButton b = new JButton();
                 b.setPreferredSize(new Dimension(40, 40));
-                
                 botons[i][j] = b;
 
                 final int x = i;
@@ -61,12 +60,12 @@ public class BuscaminesVista extends JFrame {
     // Llegeix el tauler des de joc.getTauler() i actualitza tots els botons.
     // Detecta si la partida ha acabat i mostra missatge de victòria/derrota.
     public void actualitzar() {
-        // pot ser que joc.getTauler() sigui null si no s'ha inicialitzat.
+        // pot ser que joc.getTauler() sigui null si no s'ha inicialitzat; protegim-nos
         if (joc == null || joc.getTauler() == null) return;
 
         // actualitzar la quadrícula segons el model
-        for (int i = 0; i < mida; i++) {
-            for (int j = 0; j < mida; j++) {
+        for (int i = 0; i < MIDA; i++) {
+            for (int j = 0; j < MIDA; j++) {
                 try {
                     var c = joc.getTauler().getCasella(i, j);
                     JButton b = botons[i][j];
@@ -87,10 +86,10 @@ public class BuscaminesVista extends JFrame {
                         } else {
                             b.setText("");
                         }
-                        b.setEnabled(!joc.getPartidaAcabada()); // si partida acabada, no es pot clicar
+                        b.setEnabled(!joc.getPartidaAcabada()); // Si partida acabada, no es pot clicar
                     }
                 } catch (IllegalArgumentException ex) {
-                    // si getCasella lança excepció (fora límits) simplement ignorem
+                    // Si getCasella lança excepció (clic fora dels límits) simplement ignorem
                     botons[i][j].setEnabled(false);
                     botons[i][j].setText("");
                 }
@@ -101,8 +100,8 @@ public class BuscaminesVista extends JFrame {
         if (joc.getPartidaAcabada()) {
             boolean minaDestapada = false;
             outer:
-            for (int i = 0; i < mida; i++) {
-                for (int j = 0; j < mida; j++) {
+            for (int i = 0; i < MIDA; i++) {
+                for (int j = 0; j < MIDA; j++) {
                     try {
                         var c = joc.getTauler().getCasella(i, j);
                         if (c.isMina() && c.isDestapat()) {

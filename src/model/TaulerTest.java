@@ -227,7 +227,6 @@ class TaulerTest {
 		// En aquest test la crida al mètode generaMinesRandom no té cap rellevància en el resultat del test però es necessàri per poder fer els següents
 		// passos del test, per això la crida al mètode sempre envia les coordenades 0,0. Perque no influeix en el resultat.
 		
-		
 		// Casella 0,0 (cantonada adalt esquerra):
 		// Generem els següents casos de mines al voltant de la casella 0,0 a traves d'un bucle:
 		for(int i=-1;i<3;i++) {
@@ -433,11 +432,51 @@ class TaulerTest {
 	
 	@Test
 	public void totesDestapadesSenseMinesTest() {
+		
+		// Cas on estan totes tapades (retorna false)
 		r1 = new Random();
 		t1 = new Tauler(r1);
 		assertFalse(t1.totesDestapadesSenseMines()); // Inicialment cal que cap estigui destapada.
+		
+		// Cas on estan totes destapades i sense mines (returnoa true)
 		t1.destapaCasella(0, 0); // Destapem una casella i com no te cap mina el tauler es destapen totes.
 		assertTrue(t1.totesDestapadesSenseMines()); // Després de destaparles totes sense mines cal que ens retorni true.
+		
+		// Cas on hiha una mina destapada, game over (retorna false)
+		r1 = new MockRandom(1, 0);
+		t1 = new Tauler(r1);
+		t1.setMaxMines(1);
+		t1.generaMinesRandom(0, 0);
+		t1.setNumMinesVoltant();
+		t1.destapaCasella(5, 0);
+		assertFalse(t1.totesDestapadesSenseMines());
+		
+		// Cas on les mines estan tapades i les altres destapades (retorna true)
+		r1 = new MockRandom(1, 1);
+		t1 = new Tauler(r1);
+		t1.setMaxMines(2);
+		t1.generaMinesRandom(0, 0);
+		t1.setNumMinesVoltant();
+		t1.destapaCasella(0, 0);
+		assertTrue(t1.totesDestapadesSenseMines());
+		
+		// Cas on totes les caselles son mines menys on cliquem (retorna true)
+		r1 = new MockRandom(9, 0);
+		t1 = new Tauler(r1);
+		t1.setMaxMines(165); // Numero de mines
+		t1.generaMinesRandom(0, 0);
+		t1.setNumMinesVoltant();
+		t1.destapaCasella(0, 0);
+		assertTrue(t1.totesDestapadesSenseMines());
+		
+		// Cas on estan totes destapades menys una que no té mina (retorna false)
+		r1 = new MockRandom(8, 7);
+		t1 = new Tauler(r1);
+		t1.setMaxMines(8);
+		t1.generaMinesRandom(0, 0);
+		t1.setNumMinesVoltant();
+		t1.destapaCasella(0, 0);
+		assertFalse(t1.totesDestapadesSenseMines());
 	}
 	
 }

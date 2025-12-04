@@ -108,20 +108,17 @@ class JocTest {
 		assertFalse(joc.isDestapat(0, 0)); // Comprovem que no s'ha destapat la casella amb la bandera.
 		
 		// Cas on destapem una mina (la casella SI que es destapa, però la partida acaba)
-		r = new MockRandom(3, 0);
+		r = new MockRandom(8, 7);
 		t1 = new Tauler(r);
-		t1.generaMinesRandom(0, 0);
 		t1.setMaxMines(1);
         joc = new Joc(t1);
         vista  = new MockBuscaminesVista(joc); //Creem un mock de la vista.
 		vista.initVista(); //La vista és genera a partir del mock (no fa res)
 		joc.crearVistaDelJoc(vista); 
-		joc.clicEsquerra(12,5); // Destapem la casella 12,5 (casella amb mina, predefinida pel MockRandom)
+		joc.clicEsquerra(0, 0); 
+		joc.clicEsquerra(5, 5); // Destapem la casella 12,5 (casella amb mina, predefinida pel MockRandom)
 		assertTrue(joc.isDestapat(12, 5)); // Comprovem que la casella s'ha destapat.
 		assertTrue(joc.getPartidaAcabada()); // Comprovem que la partida s'ha acabat.
-		
-		
-		
 	}
 	
 

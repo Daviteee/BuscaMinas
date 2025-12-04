@@ -1,3 +1,4 @@
+
 package vista;
 
 import controlador.Joc;
@@ -26,7 +27,7 @@ public class BuscaminesVista extends JFrame {
         for (int i = 0; i < MIDA; i++) {
             for (int j = 0; j < MIDA; j++) {
                 JButton b = new JButton();
-                b.setPreferredSize(new Dimension(40, 40));
+                b.setPreferredSize(new Dimension(50, 50));
                 botons[i][j] = b;
 
                 final int x = i;
@@ -35,7 +36,7 @@ public class BuscaminesVista extends JFrame {
                 // Clic esquerre -> destapar casella
                 b.addActionListener(e -> {
                     joc.clicEsquerra(x, y);
-                    actualitzar();
+                    
                 });
 
                 // Clic dret -> posar/treure bandera
@@ -43,7 +44,7 @@ public class BuscaminesVista extends JFrame {
                     public void mousePressed(java.awt.event.MouseEvent evt) {
                         if (evt.getButton() == java.awt.event.MouseEvent.BUTTON3) {
                             joc.clicDret(x, y);
-                            actualitzar();
+                            
                         }
                     }
                 });
@@ -55,36 +56,32 @@ public class BuscaminesVista extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
-
-        // primer pintat segons l'estat actual del tauler
-        actualitzar();
     }
 
     // Llegeix el tauler des de joc.getTauler() i actualitza tots els botons.
     // Detecta si la partida ha acabat i mostra missatge de victòria/derrota.
     public void actualitzar() {
         // pot ser que joc.getTauler() sigui null si no s'ha inicialitzat; protegim-nos
-        if (joc == null || joc.getTauler() == null) return;
+        if (joc == null) return;
 
         // actualitzar la quadrícula segons el model
         for (int i = 0; i < MIDA; i++) {
             for (int j = 0; j < MIDA; j++) {
                 try {
-                    var c = joc.getTauler().getCasella(i, j);
                     JButton b = botons[i][j];
 
-                    if (c.isDestapat()) {
+                    if (joc.isDestapat(i, j)) {
                         // casella destapada: mostrar mina o numero i desactivar
-                        if (c.isMina()) {
+                        if (joc.isMina(i, j)) {
                             b.setText("💣");
                         } else {
-                            int n = c.getNumMinesVoltant();
+                            int n = joc.getNumMinesVoltant(i, j);
                             b.setText(n == 0 ? "" : String.valueOf(n));
                         }
                         b.setEnabled(false);
                     } else {
                         // casella tapada
-                        if (c.isBandera()) {
+                        if (joc.isBandera(i, j)) {
                             b.setText("🚩");
                         } else {
                             b.setText("");
@@ -106,8 +103,7 @@ public class BuscaminesVista extends JFrame {
             for (int i = 0; i < MIDA; i++) {
                 for (int j = 0; j < MIDA; j++) {
                     try {
-                        var c = joc.getTauler().getCasella(i, j);
-                        if (c.isMina() && c.isDestapat()) {
+                        if (joc.isMina(i, j) && joc.isDestapat(i, j)) {
                             minaDestapada = true;
                             break outer;
                         }

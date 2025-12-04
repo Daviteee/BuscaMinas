@@ -36,14 +36,6 @@ public class Joc {
     	return this.tauler;
     }
     
-    public BuscaminesVista getVista() {
-    	return this.vista;
-    }
-    
-    public void setVista(BuscaminesVista v) {
-    	this.vista = v;
-    }
-    
     public boolean getPartidaAcabada() {
     	return this.partidaAcabada;
     }
@@ -64,6 +56,10 @@ public class Joc {
     
     public boolean isBandera(int x, int y) {
     	return tauler.isBandera(x, y);
+    }
+    
+    public boolean isDestapat(int x, int y) {
+    	return tauler.isDestapat(x, y);
     }
     
     public void clicEsquerra(int x, int y) {

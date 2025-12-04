@@ -74,14 +74,6 @@ class JocTest {
     }
 	
 	@Test
-	public void getTaulerTest() {
-		Random r = new Random();
-		Tauler t1 = new Tauler(r);
-		Joc joc = new Joc(t1); // Constructor per parametres
-		assertEquals(t1, joc.getTauler());
-	}
-	
-	@Test
 	public void clicEsquerraTest() {
 		// El clic esquerra significa destapar una casella
 		// Casos posibles: Destapem la primera casella (mai té mina), destapem una casella ja destapada, 

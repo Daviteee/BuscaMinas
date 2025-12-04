@@ -36,15 +36,16 @@ public class BuscaminesVista extends JFrame {
                 // Clic esquerre -> destapar casella
                 b.addActionListener(e -> {
                     joc.clicEsquerra(x, y);
-                    
+                    actualitzar();
                 });
+
 
                 // Clic dret -> posar/treure bandera
                 b.addMouseListener(new java.awt.event.MouseAdapter() {
                     public void mousePressed(java.awt.event.MouseEvent evt) {
                         if (evt.getButton() == java.awt.event.MouseEvent.BUTTON3) {
                             joc.clicDret(x, y);
-                            
+                            actualitzar();
                         }
                     }
                 });
@@ -56,6 +57,8 @@ public class BuscaminesVista extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+        
+        actualitzar();
     }
 
     // Llegeix el tauler des de joc.getTauler() i actualitza tots els botons.

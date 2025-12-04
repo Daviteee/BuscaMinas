@@ -31,41 +31,41 @@ public class Joc {
     	assert(this.vista == vista):"Error la vista no s'ha instanciat correctament amb la vista per paràmetres";	
     	this.vista.actualitzar(); //Printem el tauler inicial (si és mock no farà res).
     }
-    
-    public Tauler getTauler() {
-    	return this.tauler;
-    }
-    
+
     public boolean getPartidaAcabada() {
     	return this.partidaAcabada;
     }
     
-    public void setPartidaAcabada(boolean game) {
-    	this.partidaAcabada = game;
+    public boolean isBandera(int x, int y) {
+    	return this.tauler.isBandera(x, y);
+    }
+    
+    public boolean isDestapat(int x, int y) {
+    	return this.tauler.isDestapat(x, y);
+    }
+    
+    public boolean isMina(int x, int y) {
+    	return this.tauler.isMina(x, y);
+    }
+    
+    public int getNumMinesVoltant(int x, int y) {
+    	return this.tauler.getNumMinesVoltant(x, y);	
     }
     
     public void clicDret(int x, int y) {
         if (partidaAcabada)
             return;
-        if(!tauler.isDestapat(x, y)) { 
+        if(!this.tauler.isDestapat(x, y)) { 
         	// Si la casella esta tapada, podrem posar la bandera.
-        	tauler.changeBandera(x, y);
-            vista.actualitzar();
+        	this.tauler.changeBandera(x, y);
+            this.vista.actualitzar();
         }
     }
     
-    public boolean isBandera(int x, int y) {
-    	return tauler.isBandera(x, y);
-    }
-    
-    public boolean isDestapat(int x, int y) {
-    	return tauler.isDestapat(x, y);
-    }
-    
     public void clicEsquerra(int x, int y) {
-    	if (partidaAcabada)
+    	if (this.partidaAcabada)
             return;
-    	if(tauler.getCasella(x, y).isBandera())
+    	if(this.tauler.getCasella(x, y).isBandera())
     		return;
 
     	// Si és el primer clic → generar mines al voltant
@@ -73,7 +73,7 @@ public class Joc {
     	
     	for(int i = 0; i < 13; i++) {
     		for(int j = 0; j < 13; j++) {
-    			if(tauler.getCasella(i, j).isDestapat()) {
+    			if(this.tauler.getCasella(i, j).isDestapat()) {
     				primerClic = false;
     				break;
     			}
@@ -81,25 +81,24 @@ public class Joc {
     	}
 
         if (primerClic) {
-            tauler.generaMinesRandom(x, y);
-            tauler.setNumMinesVoltant();
+            this.tauler.generaMinesRandom(x, y);
+            this.tauler.setNumMinesVoltant();
         }
     	
-    	
-        tauler.destapaCasella(x, y); // Destapem la casella indicada
+        this.tauler.destapaCasella(x, y); // Destapem la casella indicada
 
-        if (tauler.getCasella(x, y).isMina()) { // ESTA MAL
-            partidaAcabada = true;
+        if (this.tauler.getCasella(x, y).isMina()) {
+            this.partidaAcabada = true;
             // Mostrar explosió i actualitzar tauler
             return;
         }
 
-        if (tauler.totesDestapadesSenseMines()) {
-            partidaAcabada = true;
+        if (this.tauler.totesDestapadesSenseMines()) {
+            this.partidaAcabada = true;
             // Mostrar victoria i actulaitzar tauler
             return;
         }
-        vista.actualitzar();
+        this.vista.actualitzar();
     }
 
 }

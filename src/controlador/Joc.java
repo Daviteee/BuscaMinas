@@ -1,3 +1,4 @@
+
 package controlador;
 import model.Tauler;
 import vista.BuscaminesVista;
@@ -54,9 +55,15 @@ public class Joc {
     public void clicDret(int x, int y) {
         if (partidaAcabada)
             return;
-
-        tauler.changeBandera(x, y);
-        vista.actualitzar();
+        if(tauler.isDestapat(x, y)) { 
+        	// Si la casella esta tapada, podrem posar la bandera.
+        	tauler.changeBandera(x, y);
+            vista.actualitzar();
+        }
+    }
+    
+    public boolean isBandera(int x, int y) {
+    	return tauler.isBandera(x, y);
     }
     
     public void clicEsquerra(int x, int y) {

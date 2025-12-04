@@ -5,12 +5,14 @@ import java.util.Random;
 public class MockRandom extends Random{
 	int opcio1,opcio2,n_mina;
 	boolean is_x;
-	MockRandom(int opcio1,int opcio2){
+	
+	public MockRandom(int opcio1,int opcio2){
 		this.opcio1 = opcio1; //Per saber quins valors de x o y retornar
 		this.opcio2 = opcio2;
 		this.n_mina  = 0;
 		this.is_x = true;
 	}
+	
 	public int nextInt(int x) {
 		// Retornar els valors que nosaltres volguem entre (0 - x)
 		int[][][][] valor = {

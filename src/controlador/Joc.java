@@ -55,7 +55,7 @@ public class Joc {
     public void clicDret(int x, int y) {
         if (partidaAcabada)
             return;
-        if(tauler.isDestapat(x, y)) { 
+        if(!tauler.isDestapat(x, y)) { 
         	// Si la casella esta tapada, podrem posar la bandera.
         	tauler.changeBandera(x, y);
             vista.actualitzar();

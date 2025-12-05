@@ -1,5 +1,5 @@
-
 package controlador;
+
 import model.Tauler;
 import vista.BuscaminesVista;
 
@@ -8,19 +8,22 @@ public class Joc {
 	private Tauler tauler;
     private boolean partidaAcabada;
     private BuscaminesVista vista;
+    private int banderesRestants;
 
     public Joc(Tauler t) { //Constructor per paràmetres on li pasem el tauler del joc.
     	//Precondició per comprovar que hi ha tauler.
-    	assert(t != null):"Error el tauler és null";	
+    	assert(t != null) : "Error el tauler és null";	
     	
     	this.partidaAcabada = false;
+    	this.banderesRestants = 30;
     	this.tauler = t; 
     	this.vista = null; //Inicialitzem la vista a null al constructor.
     	
     	//Postcondicions per comprovar que s'ha iniciat correctament el joc abans de generar la vista.
-    	assert(!this.partidaAcabada):"Error la partida s'ha inicialitzat acabada(incorrecte)";
-    	assert(this.tauler == t):"Error el tauler no s'ha iniciat correctament amb el tauler per paràmetre";
-    	assert(this.vista == null):"Error la vista no s'ha iniciat a null correctament";
+    	assert(!this.partidaAcabada) : "Error la partida s'ha inicialitzat acabada(incorrecte)";
+    	assert(this.banderesRestants == 30) : "Error, el numero de banderes no s'ha inicialitzat correctament";
+    	assert(this.tauler == t) : "Error el tauler no s'ha iniciat correctament amb el tauler per paràmetre";
+    	assert(this.vista == null) : "Error la vista no s'ha iniciat a null correctament";
     }
     
     public void crearVistaDelJoc(BuscaminesVista vista) { //Funció que asigna la vista del joc al controlador joc, s'utilitza per poder instanciar un mock de vista correctament.
@@ -30,6 +33,10 @@ public class Joc {
     	//Postcondició per comprovar que s'ha instanciat correctament la vista.
     	assert(this.vista == vista):"Error la vista no s'ha instanciat correctament amb la vista per paràmetres";	
     	this.vista.actualitzar(); //Printem el tauler inicial (si és mock no farà res).
+    }
+    
+    public int getBanderesRestants() {
+        return this.banderesRestants;
     }
 
     public boolean getPartidaAcabada() {
@@ -53,14 +60,30 @@ public class Joc {
     }
     
     public void clicDret(int x, int y) {
-        if (partidaAcabada)
+
+        if (this.partidaAcabada)
             return;
-        if(!this.tauler.isDestapat(x, y)) { 
-        	// Si la casella esta tapada, podrem posar la bandera.
-        	this.tauler.changeBandera(x, y);
-            this.vista.actualitzar();
+
+        if (this.tauler.isDestapat(x, y))
+            return;
+
+        boolean teniaBandera = this.tauler.isBandera(x, y);
+
+        if (teniaBandera) {
+            this.tauler.changeBandera(x, y);
+            this.banderesRestants++;
         }
+        else {
+            if (this.banderesRestants == 0) {
+                return;
+            }
+            this.tauler.changeBandera(x, y);
+            this.banderesRestants--;
+        }
+
+        this.vista.actualitzar();
     }
+
     
     public void clicEsquerra(int x, int y) {
     	if (this.partidaAcabada)

@@ -25,7 +25,7 @@ public class BuscaminesVista extends JFrame {
 
         JPanel top = new JPanel();
         contBanderes = new JLabel("Banderas restantes: 30");
-        contBanderes.setFont(new Font("Arial", Font.BOLD, 18));
+        contBanderes.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 14));
         top.add(contBanderes);
         add(top, BorderLayout.NORTH);
 
@@ -100,7 +100,7 @@ public class BuscaminesVista extends JFrame {
             }
         }
 
-        contBanderes.setText("Mines restants: " + joc.getBanderesRestants());
+        contBanderes.setText("🚩 " + joc.getBanderesRestants());
 
         // Detectar final de partida
         if (joc.getPartidaAcabada()) {

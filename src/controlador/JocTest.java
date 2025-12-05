@@ -55,10 +55,12 @@ class JocTest {
 		vista.initVista(); //La vista és genera a partir del mock (no fa res).
 		joc.crearVistaDelJoc(vista);
         joc.clicDret(2, 2); // Posem bandera a la posició 2,2
+        assertEquals(29, joc.getBanderesRestants()); // Comprovem que el numero de banderes ha baixat.
         assertTrue(joc.isBandera(2,2)); // Comprovem que la bandera s'ha possat
         
         // Cas on fem clic dret sobre una casella que ja té una bandera (es treu la bandera)
         joc.clicDret(2, 2);
+        assertEquals(30, joc.getBanderesRestants()); // Comprovem que el numero de banderes ha incrementat.  
         assertFalse(joc.isBandera(2,2)); // Comprovem que la bandera s'ha tret.
         
         // Cas on no podrem possar una bandera ja que la casella ja ha estat destapada.
@@ -70,6 +72,7 @@ class JocTest {
 		joc.crearVistaDelJoc(vista);
 		joc.clicEsquerra(2, 2);
         joc.clicDret(2, 2); // Posem bandera a la posició 2,2 (que esta destapada)
+        assertEquals(30, joc.getBanderesRestants()); // Comprovem que el numero de banderes no ha baixat.
         assertFalse(joc.isBandera(2,2)); // Comprovem que la bandera no s'ha possat
     }
 	

@@ -1,12 +1,14 @@
-
 package controlador;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Random;
 import org.junit.jupiter.api.Test;
-
 import model.MockRandom;
+import model.MockTauler;
 import model.Tauler;
 import vista.BuscaminesVista;
 import vista.MockBuscaminesVista;
@@ -116,5 +118,73 @@ class JocTest {
 		assertTrue(joc.getPartidaAcabada()); // Comprovem que la partida s'ha acabat.
 	}
 	
+	@Test
+	public void simulacioPartida() {
+		
+		// Test final de la classe Joc, aquest Test utilitza el Mock de Tauler (per posar las mines on nosaltres volguem) i 
+		// de la vista (per evitar que la vista real s'obri). Aquest test es basa en la lectura d'uns fitxers (simulacio 1 i 2)
+		// que simulen una partida real del nostre buscamines, es van llegint linia a linia els fitxer i s'executen les funcions
+		// clicEsquerra i clicDret segons el que indiqui el fitxer amb les coordenades. Al fnal es comprova si n'ha guanyat la partida
+		// o si ha perdut depenet del fitxer llegit i per tant comprovem el correcte funcionament del joc al complet.
+		// Utilitzem la funció totesDestapadesSenseMina per comprovar si ha guanyat o ha perdut en cada cas.
+		
+		Random r = new Random();
+		Tauler t1 = new MockTauler(r);
+		t1.generaMinesRandom(10, 0);
+		Joc joc =  new Joc(t1);
+		BuscaminesVista vista  = new MockBuscaminesVista(joc); //Creem un mock de la vista.
+		vista.initVista(); //La vista és genera a partir del mock (no fa res)
+		joc.crearVistaDelJoc(vista); 
+		
+		try (BufferedReader br = new BufferedReader(new FileReader("data/simulacio1.txt"))) {
+		    String linea;
+
+		    while ((linea = br.readLine()) != null) {
+		        String[] parts = linea.split(" ");
+
+		        String accion = parts[0];
+		        int x = Integer.parseInt(parts[1]);
+		        int y = Integer.parseInt(parts[2]);
+
+		        if (accion.equals("esq")) joc.clicEsquerra(x, y);
+		        else if (accion.equals("drt")) joc.clicDret(x, y);
+		    }
+		    
+		    // Comprovar que ha guanyat la partida (simulacio 1):
+		    assertTrue(t1.totesDestapadesSenseMines());
+
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		
+		r = new Random();
+		t1 = new MockTauler(r);
+		t1.generaMinesRandom(10, 0);
+		joc =  new Joc(t1);
+		vista  = new MockBuscaminesVista(joc); //Creem un mock de la vista.
+		vista.initVista(); //La vista és genera a partir del mock (no fa res)
+		joc.crearVistaDelJoc(vista);
+		
+		try (BufferedReader br = new BufferedReader(new FileReader("data/simulacio2.txt"))) {
+		    String linea;
+
+		    while ((linea = br.readLine()) != null) {
+		        String[] parts = linea.split(" ");
+
+		        String accion = parts[0];
+		        int x = Integer.parseInt(parts[1]);
+		        int y = Integer.parseInt(parts[2]);
+
+		        if (accion.equals("esq")) joc.clicEsquerra(x, y);
+		        else if (accion.equals("drt")) joc.clicDret(x, y);
+		    }
+		    
+		    // Comprovar que ha perdut la partida (simulacio 2):
+		    assertFalse(t1.totesDestapadesSenseMines());
+
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+	}
 
 }

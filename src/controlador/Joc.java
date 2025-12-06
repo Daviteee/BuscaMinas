@@ -81,14 +81,13 @@ public class Joc {
             this.banderesRestants--;
         }
 
-        this.vista.actualitzar();
     }
 
     
     public void clicEsquerra(int x, int y) {
     	if (this.partidaAcabada)
             return;
-    	if(this.tauler.getCasella(x, y).isBandera())
+    	if(this.tauler.isBandera(x,y))
     		return;
 
     	// Si és el primer clic → generar mines al voltant
@@ -96,7 +95,7 @@ public class Joc {
     	
     	for(int i = 0; i < 13; i++) {
     		for(int j = 0; j < 13; j++) {
-    			if(this.tauler.getCasella(i, j).isDestapat()) {
+    			if(this.tauler.isDestapat(i,j)) {
     				primerClic = false;
     				break;
     			}
@@ -110,18 +109,16 @@ public class Joc {
     	
         this.tauler.destapaCasella(x, y); // Destapem la casella indicada
 
-        if (this.tauler.getCasella(x, y).isMina()) {
+        if (this.tauler.isMina(x,y)) {
             this.partidaAcabada = true;
+            this.tauler.destaparCasellesAmbMines();
             // Mostrar explosió i actualitzar tauler
-            return;
         }
 
         if (this.tauler.totesDestapadesSenseMines()) {
             this.partidaAcabada = true;
             // Mostrar victoria i actulaitzar tauler
-            return;
+            this.tauler.destaparCasellesAmbMines();
         }
-        this.vista.actualitzar();
     }
-
 }

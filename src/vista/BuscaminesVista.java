@@ -41,13 +41,18 @@ public class BuscaminesVista extends JFrame {
                 final int x = i;
                 final int y = j;
 
+                // ⛔ impedir clic izquierdo si la partida ha terminado
                 b.addActionListener(e -> {
+                    if (joc.getPartidaAcabada()) return;
                     joc.clicEsquerra(x, y);
                     actualitzar();
                 });
 
+                // ⛔ impedir clic derecho si la partida ha terminado
                 b.addMouseListener(new java.awt.event.MouseAdapter() {
                     public void mousePressed(java.awt.event.MouseEvent evt) {
+                        if (joc.getPartidaAcabada()) return;
+
                         if (evt.getButton() == java.awt.event.MouseEvent.BUTTON3) {
                             joc.clicDret(x, y);
                             actualitzar();
@@ -77,22 +82,34 @@ public class BuscaminesVista extends JFrame {
                 try {
                     JButton b = botons[i][j];
 
+                    // 🔥 Si la partida ha acabado, mostrar minas
+                    if (joc.getPartidaAcabada() && joc.isMina(i, j)) {
+                        b.setText("💣");
+                        b.setEnabled(false); // estas sí deben quedar deshabilitadas
+                        continue;
+                    }
+
+                    // Casilla destapada
                     if (joc.isDestapat(i, j)) {
-                        if (joc.isMina(i, j)) {
-                            b.setText("💣");
-                        } else {
-                            int n = joc.getNumMinesVoltant(i, j);
-                            b.setText(n == 0 ? "" : String.valueOf(n));
-                        }
-                        b.setEnabled(false);
-                    } else {
+                        int n = joc.getNumMinesVoltant(i, j);
+                        b.setText(n == 0 ? "" : String.valueOf(n));
+                        b.setEnabled(false); // las destapadas nunca son clicables
+                    } 
+                    // Casilla tapada
+                    else {
                         if (joc.isBandera(i, j)) {
                             b.setText("🚩");
                         } else {
                             b.setText("");
                         }
-                        b.setEnabled(!joc.getPartidaAcabada());
+
+                        // ⭐ IMPORTANTE:
+                        // Los botones tapados permanecen habilitados visualmente,
+                        // aunque ya no reciben clics gracias al listener.
+                        b.setEnabled(true);
+                        b.setDisabledIcon(null); 
                     }
+
                 } catch (IllegalArgumentException ex) {
                     botons[i][j].setEnabled(false);
                     botons[i][j].setText("");
@@ -104,24 +121,34 @@ public class BuscaminesVista extends JFrame {
 
         // Detectar final de partida
         if (joc.getPartidaAcabada()) {
+
             boolean minaDestapada = false;
 
-            outer:
             for (int i = 0; i < MIDA; i++) {
                 for (int j = 0; j < MIDA; j++) {
-                    try {
-                        if (joc.isMina(i, j) && joc.isDestapat(i, j)) {
-                            minaDestapada = true;
-                            break outer;
-                        }
-                    } catch (IllegalArgumentException ignored) {}
+                    if (joc.isMina(i, j) && joc.isDestapat(i, j)) {
+                        minaDestapada = true;
+                        break;
+                    }
                 }
+                if (minaDestapada) break;
             }
 
-            if (minaDestapada) {
-                JOptionPane.showMessageDialog(this, "¡Has perdido!");
+            String mensaje = minaDestapada ? "¡Has perdido!" : "¡Has ganado!";
+            JOptionPane.showMessageDialog(this, mensaje);
+
+            int opcion = JOptionPane.showConfirmDialog(
+                    this,
+                    "¿Quieres jugar otra partida?",
+                    "Nueva partida",
+                    JOptionPane.YES_NO_OPTION
+            );
+
+            if (opcion == JOptionPane.YES_OPTION) {
+                joc.reiniciarPartida();
+                actualitzar();
             } else {
-                JOptionPane.showMessageDialog(this, "¡Has ganado!");
+                System.exit(0);
             }
         }
     }

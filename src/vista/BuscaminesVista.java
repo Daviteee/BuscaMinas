@@ -41,14 +41,12 @@ public class BuscaminesVista extends JFrame {
                 final int x = i;
                 final int y = j;
 
-                // ⛔ impedir clic izquierdo si la partida ha terminado
                 b.addActionListener(e -> {
                     if (joc.getPartidaAcabada()) return;
                     joc.clicEsquerra(x, y);
                     actualitzar();
                 });
 
-                // ⛔ impedir clic derecho si la partida ha terminado
                 b.addMouseListener(new java.awt.event.MouseAdapter() {
                     public void mousePressed(java.awt.event.MouseEvent evt) {
                         if (joc.getPartidaAcabada()) return;
@@ -82,10 +80,9 @@ public class BuscaminesVista extends JFrame {
                 try {
                     JButton b = botons[i][j];
 
-                    // 🔥 Si la partida ha acabado, mostrar minas
                     if (joc.getPartidaAcabada() && joc.isMina(i, j)) {
                         b.setText("💣");
-                        b.setEnabled(false); // estas sí deben quedar deshabilitadas
+                        b.setEnabled(false); 
                         continue;
                     }
 
@@ -93,7 +90,7 @@ public class BuscaminesVista extends JFrame {
                     if (joc.isDestapat(i, j)) {
                         int n = joc.getNumMinesVoltant(i, j);
                         b.setText(n == 0 ? "" : String.valueOf(n));
-                        b.setEnabled(false); // las destapadas nunca son clicables
+                        b.setEnabled(false); 
                     } 
                     // Casilla tapada
                     else {
@@ -103,9 +100,7 @@ public class BuscaminesVista extends JFrame {
                             b.setText("");
                         }
 
-                        // ⭐ IMPORTANTE:
-                        // Los botones tapados permanecen habilitados visualmente,
-                        // aunque ya no reciben clics gracias al listener.
+                    
                         b.setEnabled(true);
                         b.setDisabledIcon(null); 
                     }

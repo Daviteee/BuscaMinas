@@ -1,3 +1,4 @@
+
 package model;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -439,7 +440,7 @@ class TaulerTest {
 	
 	@Test
 	public void totesDestapadesSenseMinesTest() {
-		
+		//Funció que comprova si ha guanyat la partida o no.
 		// Cas on estan totes tapades (retorna false)
 		r1 = new Random();
 		t1 = new Tauler(r1);
@@ -495,6 +496,20 @@ class TaulerTest {
 	    }catch(AssertionError e) {
 	    	System.err.println(e.getMessage());
 	    }
+	}
+	
+	@Test
+	void destaparCasellesAmbMines() {
+		//Comprovem que es destapen las casellas que tinguin una mina correctament
+		r1 = new MockRandom(2, 1); //Posem mines a les posicions 12,1 i 11,0
+		t1 = new Tauler(r1);
+		t1.setMaxMines(2);
+		t1.generaMinesRandom(0, 0);
+		t1.destaparCasellesAmbMines();
+		//Comrpovem que s'han destapat correctament les caselles que tenen mina.
+		assertTrue(t1.isDestapat(12, 1));
+		assertTrue(t1.isDestapat(11, 0));
+		
 	}
 	
 }

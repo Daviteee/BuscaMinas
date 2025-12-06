@@ -1,5 +1,7 @@
 package controlador;
 
+import java.util.Random;
+
 import model.Tauler;
 import vista.BuscaminesVista;
 
@@ -33,6 +35,21 @@ public class Joc {
     	//Postcondició per comprovar que s'ha instanciat correctament la vista.
     	assert(this.vista == vista):"Error la vista no s'ha instanciat correctament amb la vista per paràmetres";	
     	this.vista.actualitzar(); //Printem el tauler inicial (si és mock no farà res).
+    }
+    
+    public void reiniciarPartida(){
+    	//Funcionalitat extra per reinciar el joc una altre vegada al joc final amb la mateixa vista.
+    	//Aquesta funció només es demana desde la vista a l'usuari i és com una mena de constructor del tauler 
+    	//com que només és demana per la vista no fa falta que tingui la posibiliatat de mocks, ja que sempre 
+    	//utilitzarà un tauler real i un random real. Amb les postcondicions comprovem que la funció funciona 
+    	//correctament
+    	Random r = new Random();
+        this.tauler = new Tauler(r);
+        this.partidaAcabada = false;
+        this.banderesRestants = 30;
+        assert(!this.partidaAcabada) : "Error la partida s'ha inicialitzat acabada(incorrecte)";
+    	assert(this.banderesRestants == 30) : "Error, el numero de banderes no s'ha inicialitzat correctament";
+    	
     }
     
     public int getBanderesRestants() {

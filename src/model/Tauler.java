@@ -6,7 +6,7 @@ public class Tauler {
 
 	private static final int MIDA = 13;
 	protected Casella[][]tauler;
-	private int nMaxMines;
+	private int nMaxMines; //Atribut que serveix per canviar les mines del tauler per poder realitzar els tests
 	private Random myRandom; //Atribut per poder utilitzar el MockObject de Random i generar les mines a on volem.
 	
 	public Tauler(Random r){
@@ -181,5 +181,19 @@ public class Tauler {
 	    }
 	    invariant();
 	    return true;
+	}
+	
+	public void destaparCasellesAmbMines() {
+		invariant();
+		//Métode que mostra les mines del tauler una vegada ha acabat el joc.
+		for (int i = 0; i < MIDA; i++) {
+	        for (int j = 0; j < MIDA; j++) {
+	            Casella c = getCasella(i, j);
+	            if (c.isMina()) {
+	            	c.destaparCasella();
+	            }
+	        }
+		}
+		invariant();
 	}
 }

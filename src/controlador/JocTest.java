@@ -20,25 +20,29 @@ class JocTest {
 	public void TestConstructorPerParàmetresJoc() {
 		Random r = new Random();
 		Tauler t1 = new Tauler(r);
-		//Constructor per paràmetres per comprovar que s'inicialitza correctament, es comprova amb postcondicions al codi desenvolupat.Si no surt error es correcte.
-		Joc joc = new Joc(t1); // Constructor per parametres (Tauler)
-		BuscaminesVista vista  = new MockBuscaminesVista(joc); //Creem un mock de la vista.
-		vista.initVista(); //La vista és genera a partir del mock (no fa res)
-		
-		//Afegim la vista al controlador (el mockObject). Comprovem que s'inicia correctament la vista al controlador. Això es comprova mitjançant postcondicions
-		//al codi desenvolupat si no surt error està correcte.
+
+		// Constructor per paràmetres: comprovem que s’inicialitza correctament.
+		// Això es comprova mitjançant les postcondicions del codi. Si no es llença cap error, és correcte.
+		Joc joc = new Joc(t1);
+
+		// Creem un mock de la vista per evitar obrir la vista real.
+		BuscaminesVista vista  = new MockBuscaminesVista(joc);
+		vista.initVista(); // El mock no fa res.
+
+		// Assignem la vista al controlador. Es comprova mitjançant postcondicions.
 		joc.crearVistaDelJoc(vista);
 		
-		//Comprovació de les excepcions que han de sortir al constructor. Si tauler és null o si la vista és null. Aquestes comrpovacions es fan al codi desenvolupat
-		//mitjançant precondicions.
+		// Comprovem les excepcions del constructor (tauler null) i del mètode crearVistaDelJoc (vista null),
+		// controlades mitjançant precondicions al codi.
 		try {
 	    	joc = new Joc(null);
-	    }catch(AssertionError e) {
+	    } catch (AssertionError e) {
 	    	System.err.println(e.getMessage());
 	    }
+
 		try {
 	    	joc.crearVistaDelJoc(null);
-	    }catch(AssertionError e) {
+	    } catch (AssertionError e) {
 	    	System.err.println(e.getMessage());
 	    }
 	}
@@ -46,132 +50,143 @@ class JocTest {
 
 	@Test
     public void clicDretTest() {
-		// El clic dret significa posar una bandera a una casella
-		// Casos posibles: Posem la bandera en una casella tapada, posem una bandera en una casella destapada,
-		// treiem una bandera (clic dret sobre una bandera)
+
+		// El clic dret permet posar o treure una bandera.
+		// Casos possibles:
+		// 1. Posar bandera en una casella tapada
+		// 2. Treure bandera si ja n’hi havia
+		// 3. No permetre bandera en una casella destapada
 		
-		// Cas que comproba que el clic dret posa la bandera en una casella tapada (correcte).
+		// Cas 1: Posar bandera correctament
 		Random r = new Random();
 		Tauler t1 = new Tauler(r);
         Joc joc = new Joc(t1);
-        BuscaminesVista vista  = new MockBuscaminesVista(joc); //Creem un mock de la vista.
-		vista.initVista(); //La vista és genera a partir del mock (no fa res).
+
+		BuscaminesVista vista  = new MockBuscaminesVista(joc);
+		vista.initVista();
 		joc.crearVistaDelJoc(vista);
-        joc.clicDret(2, 2); // Posem bandera a la posició 2,2
-        assertEquals(29, joc.getBanderesRestants()); // Comprovem que el numero de banderes ha baixat.
-        assertTrue(joc.isBandera(2,2)); // Comprovem que la bandera s'ha possat
+
+        joc.clicDret(2, 2); 
+        assertEquals(29, joc.getBanderesRestants());
+        assertTrue(joc.isBandera(2,2));
         
-        // Cas on fem clic dret sobre una casella que ja té una bandera (es treu la bandera)
+        // Cas 2: Treure bandera
         joc.clicDret(2, 2);
-        assertEquals(30, joc.getBanderesRestants()); // Comprovem que el numero de banderes ha incrementat.  
-        assertFalse(joc.isBandera(2,2)); // Comprovem que la bandera s'ha tret.
+        assertEquals(30, joc.getBanderesRestants());
+        assertFalse(joc.isBandera(2,2));
         
-        // Cas on no podrem possar una bandera ja que la casella ja ha estat destapada.
+        // Cas 3: No permetre bandera en una casella destapada
         r = new Random();
 		t1 = new Tauler(r);
         joc = new Joc(t1);
-        vista  = new MockBuscaminesVista(joc); //Creem un mock de la vista.
-		vista.initVista(); //La vista és genera a partir del mock (no fa res).
+
+        vista  = new MockBuscaminesVista(joc);
+		vista.initVista();
 		joc.crearVistaDelJoc(vista);
-		joc.clicEsquerra(2, 2);
-        joc.clicDret(2, 2); // Posem bandera a la posició 2,2 (que esta destapada)
-        assertEquals(30, joc.getBanderesRestants()); // Comprovem que el numero de banderes no ha baixat.
-        assertFalse(joc.isBandera(2,2)); // Comprovem que la bandera no s'ha possat
+
+		joc.clicEsquerra(2, 2); // Destapem
+        joc.clicDret(2, 2);
+
+        assertEquals(30, joc.getBanderesRestants());
+        assertFalse(joc.isBandera(2,2));
     }
 	
 	@Test
 	public void clicEsquerraTest() {
-		// El clic esquerra significa destapar una casella
-		// Casos posibles: Destapem la primera casella (mai té mina), destapem una casella ja destapada, 
-		// destapem una casella amb mina (incorrecte), destapem una casella amb bandera (incorrecte).
-		
-		// Path coverage:
-		// En aquest mètode hem decidit realitzar el Path Coverage, ja que compta amb una estructura de condicionals 
-		// perfecte per poder realitzar un testing dels paths adequat.
-		// Path 1 — partida ja acabada → return
-		// Path 2 — casella amb bandera
-		// Path 3 — primer clic → generar mines
-		// Path 4 — clic a una casella ja destapada
-		// Path 5 — clic en una mina (game over)
-		// Path 6 — clic que provoca victoria
-		
-		// Path 1:
-		// Cas on al fer el primer clic la partida s'acaba
+
+		// clicEsquerra destapa caselles.
+		// Casos possibles:
+		// 1. Partida ja acabada → no fa res
+		// 2. Casella amb bandera → no es pot destapar
+		// 3. Primer clic → generar mines
+		// 4. Casella ja destapada → no fa res
+		// 5. Casella amb mina → perdre la partida
+		// 6. Últim clic per guanyar (test complet a simulacioPartida)
+
+		// Path coverage: aquest mètode permet fer test per paths perquè té una estructura condicional clara.
+
+		// Path 1 — partida acabada
 		Random r = new Random();
 		Tauler t1 = new Tauler(r);
         Joc joc = new Joc(t1);
-        BuscaminesVista vista  = new MockBuscaminesVista(joc); //Creem un mock de la vista.
-		vista.initVista(); //La vista és genera a partir del mock (no fa res)
-		joc.crearVistaDelJoc(vista); 
-		joc.setPartidaAcabada(); // Forcem a que la partida estigui acabada quan cliqui
-	    joc.clicEsquerra(0,0); // primer clic (s'acaba la partida ja que totes estan destapades pel primer clic)
+
+        BuscaminesVista vista  = new MockBuscaminesVista(joc);
+		vista.initVista();
+		joc.crearVistaDelJoc(vista);
+
+		joc.setPartidaAcabada(); 
+	    joc.clicEsquerra(0,0); 
 	    assertTrue(joc.getPartidaAcabada());
 	    
-	    //Path 2:
-	    // Cas on destapem una casella que té una bandera (no es pot):
-	 	joc.clicDret(0, 0); // Posem una bandera a la casella 0, 0.
-		joc.clicEsquerra(0, 0); // Intentem destapar la casella 0, 0.
-		assertFalse(joc.isDestapat(0, 0)); // Comprovem que no s'ha destapat la casella amb la bandera.
+	    // Path 2 — casella amb bandera
+	 	joc.clicDret(0, 0);
+		joc.clicEsquerra(0, 0);
+		assertFalse(joc.isDestapat(0, 0));
 		
-		// Path 3:
-		// Cas on destapem la primera casella
+		// Path 3 — primer clic
 		r = new Random();
 		t1 = new Tauler(r);
         joc = new Joc(t1);
-        vista  = new MockBuscaminesVista(joc); //Creem un mock de la vista.
+
+        vista  = new MockBuscaminesVista(joc);
 		vista.initVista();
-		joc.crearVistaDelJoc(vista); 
-		joc.clicEsquerra(6,6); // Destapem la casella 6,6 (com a primera casella)
-		assertTrue(joc.isDestapat(6, 6)); // Comprovem que la casella s'ha destapat.
-		assertFalse(joc.getPartidaAcabada()); // Comprovem que la partida no s'ha acabat.
+		joc.crearVistaDelJoc(vista);
+
+		joc.clicEsquerra(6,6); 
+		assertTrue(joc.isDestapat(6, 6));
+		assertFalse(joc.getPartidaAcabada());
 		
-		// Path 4:
-		// Cas on destapem una casella ja destapada
-		joc.clicEsquerra(6, 6); // Tornem a clicar en la mateixa casella anterior
-		assertTrue(joc.isDestapat(6, 6)); // La casella ha de seguir destapada (no ha de fer res).
+		// Path 4 — casella ja destapada
+		joc.clicEsquerra(6, 6);
+		assertTrue(joc.isDestapat(6, 6));
 		
-		//Path 5:
-		// Cas on destapem una mina (la casella SI que es destapa, però la partida acaba)
-		r = new MockRandom(8, 7);
+		// Path 5 — destapar una mina
+		r = new MockRandom(8, 7); // Mock que controla la mina
 		t1 = new Tauler(r);
 		t1.setMaxMines(1);
+
         joc = new Joc(t1);
-        vista  = new MockBuscaminesVista(joc); //Creem un mock de la vista.
-		vista.initVista(); //La vista és genera a partir del mock (no fa res)
-		joc.crearVistaDelJoc(vista); 
+        vista  = new MockBuscaminesVista(joc);
+		vista.initVista();
+		joc.crearVistaDelJoc(vista);
+
 		joc.clicEsquerra(0, 0); 
-		joc.clicEsquerra(5, 5); // Destapem la casella 12,5 (casella amb mina, predefinida pel MockRandom)
-		assertTrue(joc.isDestapat(12, 5)); // Comprovem que la casella s'ha destapat.
-		assertTrue(joc.getPartidaAcabada()); // Comprovem que la partida s'ha acabat.
+		joc.clicEsquerra(5, 5); // Casella amb mina
+
+		assertTrue(joc.isDestapat(12, 5)); 
+		assertTrue(joc.getPartidaAcabada());
 		
-		// Path 6:
-		// Aquest path és mes complexe de testejar, per això hem dedicat un test complet a aquest path, anomenat simulacioPartida
-		// que es troba just a sota d'aquest test. En aquest Path es juga una partida sencera i es comprova que amb l'ultim clic
-		// es pot guanyar o perdre la partida.
+		// Path 6 — es comprova completament al test simulacioPartida()
 	}
 	
 	@Test
 	public void simulacioPartida() {
 		
-		// Test final de la classe Joc, aquest Test utilitza el Mock de Tauler (per posar las mines on nosaltres volguem) i 
-		// de la vista (per evitar que la vista real s'obri). Aquest test es basa en la lectura d'uns fitxers (simulacio 1 i 2)
-		// que simulen una partida real del nostre buscamines, es van llegint linia a linia els fitxer i s'executen les funcions
-		// clicEsquerra i clicDret segons el que indiqui el fitxer amb les coordenades. Al fnal es comprova si n'ha guanyat la partida
-		// o si ha perdut depenet del fitxer llegit i per tant comprovem el correcte funcionament del joc al complet.
-		// Utilitzem la funció totesDestapadesSenseMina per comprovar si ha guanyat o ha perdut en cada cas.
-		
-		// Aquest test simbolitza el path 6 del path coverage del mètode clicEsquerra, on es comprova que el pot guanyar o perdre
-		// amb l'ultim clic de la partida.
-		
+		// Test complet de la classe Joc.
+		// Utilitza MockTauler per controlar la posició de les mines i MockBuscaminesVista
+		// per evitar obrir la vista real.
+		// Els fitxers simulacio1.txt i simulacio2.txt contenen una seqüència real de clics.
+		// Cada línia indica “esq x y” o “drt x y”.
+		//
+		// Al final:
+		//   simulació 1 → ha de guanyar
+		//   simulació 2 → ha de perdre
+		//
+		// Això comprova el Path 6 del mètode clicEsquerra (condició final de victòria o derrota).
+
 		Random r = new Random();
 		Tauler t1 = new MockTauler(r);
 		t1.generaMinesRandom(10, 0);
-		Joc joc =  new Joc(t1);
-		BuscaminesVista vista  = new MockBuscaminesVista(joc); //Creem un mock de la vista.
-		vista.initVista(); //La vista és genera a partir del mock (no fa res)
+
+		Joc joc = new Joc(t1);
+
+		BuscaminesVista vista  = new MockBuscaminesVista(joc);
+		vista.initVista();
 		joc.crearVistaDelJoc(vista); 
 		
+		// Simulació 1 → ha de guanyar
 		try (BufferedReader br = new BufferedReader(new FileReader("data/simulacio1.txt"))) {
+
 		    String linea;
 
 		    while ((linea = br.readLine()) != null) {
@@ -185,23 +200,27 @@ class JocTest {
 		        else if (accion.equals("drt")) joc.clicDret(x, y);
 		    }
 		    
-		    // Comprovar que ha guanyat la partida (simulacio 1):
-		    assertTrue(t1.totesDestapadesSenseMines());
+		    assertTrue(t1.totesDestapadesSenseMines()); // Ha de guanyar
 
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
 		
-		//Vam haver de canviar el nom de les variables perquè ens donava un error.
+		// Simulació 2 → ha de perdre
 		Random r1 = new Random();
         Tauler t2 = new MockTauler(r1);
         t2.generaMinesRandom(10, 0);
-        Joc joc2 =  new Joc(t2);
-        BuscaminesVista vista2  = new MockBuscaminesVista(joc2); //Creem un mock de la vista.
-        vista2.initVista(); //La vista és genera a partir del mock (no fa res)
-        joc2.crearVistaDelJoc(vista);
+
+        Joc joc2 = new Joc(t2);
+
+        BuscaminesVista vista2  = new MockBuscaminesVista(joc2);
+        vista2.initVista();
+
+        // ⚠️ Probable error original: aquí s'estava passant "vista" en comptes de "vista2".
+        joc2.crearVistaDelJoc(vista2);
 
         try (BufferedReader br = new BufferedReader(new FileReader("data/simulacio2.txt"))) {
+
             String linea;
 
             while ((linea = br.readLine()) != null) {
@@ -211,12 +230,11 @@ class JocTest {
                 int x = Integer.parseInt(parts[1]);
                 int y = Integer.parseInt(parts[2]);
 
-                if (accion.equals("esq")) joc.clicEsquerra(x, y);
-                else if (accion.equals("drt")) joc.clicDret(x, y);
+                if (accion.equals("esq")) joc2.clicEsquerra(x, y);
+                else if (accion.equals("drt")) joc2.clicDret(x, y);
             }
 
-            // Comprovar que ha perdut la partida (simulacio 2):
-            assertFalse(t2.totesDestapadesSenseMines());
+            assertFalse(t2.totesDestapadesSenseMines()); // Ha de perdre
 
         } catch (IOException e) {
             e.printStackTrace();

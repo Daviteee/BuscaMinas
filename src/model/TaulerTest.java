@@ -233,7 +233,8 @@ class TaulerTest {
 		// No comprovem valors com el -1 perque es impossible que el comptador de mines al voltant generi aquest tipus de valor.
 		
 		// En aquest test la crida al mètode generaMinesRandom no té cap rellevància en el resultat del test però es necessàri per poder fer els següents
-		// passos del test, per això la crida al mètode sempre envia les coordenades 0,0. Perque no influeix en el resultat.
+		// passos del test. Per que no hi hagi cap error hem de clicar a generarMinesRandom a una casella llunyana d'on posarem les mines perquè si no no funcionara correctament
+		// per com està fet el codi desenvolupat.
 		
 		// Casella 0,0 (cantonada adalt esquerra):
 		// Generem els següents casos de mines al voltant de la casella 0,0 a traves d'un bucle:

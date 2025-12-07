@@ -1,4 +1,3 @@
-
 package model;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -342,6 +341,7 @@ class TaulerTest {
 	void destapaCasellaTest() {
 		// Test que comprova que una casella ha estat destapada correctament, segons les circumstancies hi ha caselles que no s'han de destapar
 		// o que el seu destapament ha de provocar el destapament d'altres caselles adjacents. Per això utilitzarem un Mock de Random.
+		
 		r1 = new MockRandom(0,0); //Posem una mina a la posció 0,1.
 		t1 = new Tauler(r1); 
 		t1.setMaxMines(1);
@@ -437,6 +437,55 @@ class TaulerTest {
         t1.destapaCasella(12,12);
         assertTrue(t1.isDestapat(12,12));
         assertFalse(t1.isDestapat(11,11)); // bandera talla expansió
+        
+        // Path coverage:
+     	// Path 1 — Coordenadas fora de rang → excepció
+        // Path 2 — Casella ja destapada
+        // Path 3 — Casella amb mina → es destapa i s'acaba la partida
+        // Path 4 — Casella sense mina i amb número > 0
+        // Path 5 — Casella amb 0 mines → expansió recursiva
+
+        // Path 1:
+        Tauler t = new Tauler(new MockRandom(1,0));
+        try {
+            t.destapaCasella(-1, 5); // Intentem destapar una casella fora de rang.
+        }catch(Exception e) {
+        	System.err.println(e.getMessage());
+        }
+        
+        // Path 2:
+        t = new Tauler(new MockRandom(1,0));
+        t.destapaCasella(3, 3);;  // destapem la casella 3,3
+        t.destapaCasella(3, 3);  // No hauria de fer res
+        assertTrue(t.isDestapat(3, 3));
+
+        // Path 3:
+        t = new Tauler(new MockRandom(1, 0));
+        t.setMaxMines(1);
+        t.generaMinesRandom(0, 0);
+        t.destapaCasella(5, 0);
+        assertTrue(t.isDestapat(5, 0)); // Comprovem que esta destapada
+        assertTrue(t.isMina(5, 0));
+
+        // Path 4:
+        t = new Tauler(new MockRandom(1, 0)); // Posem una mina a la posició 5,0
+        t.setMaxMines(1);
+        t.generaMinesRandom(0, 0);
+        t.setNumMinesVoltant();
+        t.destapaCasella(5, 1); // Destapem un veí
+        assertTrue(t.isDestapat(5, 1));
+        assertEquals(1, t.getNumMinesVoltant(5, 1));
+
+        // Path 5:
+        t = new Tauler(new Random());
+        // Cap mina → tots haurien d’expandir-se
+        t.setNumMinesVoltant();
+        t.destapaCasella(6, 6);
+        assertTrue(t.isDestapat(6, 6));
+        assertTrue(t.isDestapat(5, 6));
+        assertTrue(t.isDestapat(7, 6));
+        assertTrue(t.isDestapat(6, 5));
+        assertTrue(t.isDestapat(6, 7));
 	}
 	
 	@Test

@@ -1,3 +1,4 @@
+
 package controlador;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -84,26 +85,52 @@ class JocTest {
 		// Casos posibles: Destapem la primera casella (mai té mina), destapem una casella ja destapada, 
 		// destapem una casella amb mina (incorrecte), destapem una casella amb bandera (incorrecte).
 		
-		// Cas on destapem la primera casella
+		// Path coverage:
+		// En aquest mètode hem decidit realitzar el Path Coverage, ja que compta amb una estructura de condicionals 
+		// perfecte per poder realitzar un testing dels paths adequat.
+		// Path 1 — partida ja acabada → return
+		// Path 2 — casella amb bandera
+		// Path 3 — primer clic → generar mines
+		// Path 4 — clic a una casella ja destapada
+		// Path 5 — clic en una mina (game over)
+		// Path 6 — clic que provoca victoria
+		
+		// Path 1:
+		// Cas on al fer el primer clic la partida s'acaba
 		Random r = new Random();
 		Tauler t1 = new Tauler(r);
         Joc joc = new Joc(t1);
         BuscaminesVista vista  = new MockBuscaminesVista(joc); //Creem un mock de la vista.
 		vista.initVista(); //La vista és genera a partir del mock (no fa res)
 		joc.crearVistaDelJoc(vista); 
+		joc.setPartidaAcabada(); // Forcem a que la partida estigui acabada quan cliqui
+	    joc.clicEsquerra(0,0); // primer clic (s'acaba la partida ja que totes estan destapades pel primer clic)
+	    assertTrue(joc.getPartidaAcabada());
+	    
+	    //Path 2:
+	    // Cas on destapem una casella que té una bandera (no es pot):
+	 	joc.clicDret(0, 0); // Posem una bandera a la casella 0, 0.
+		joc.clicEsquerra(0, 0); // Intentem destapar la casella 0, 0.
+		assertFalse(joc.isDestapat(0, 0)); // Comprovem que no s'ha destapat la casella amb la bandera.
+		
+		// Path 3:
+		// Cas on destapem la primera casella
+		r = new Random();
+		t1 = new Tauler(r);
+        joc = new Joc(t1);
+        vista  = new MockBuscaminesVista(joc); //Creem un mock de la vista.
+		vista.initVista();
+		joc.crearVistaDelJoc(vista); 
 		joc.clicEsquerra(6,6); // Destapem la casella 6,6 (com a primera casella)
 		assertTrue(joc.isDestapat(6, 6)); // Comprovem que la casella s'ha destapat.
 		assertFalse(joc.getPartidaAcabada()); // Comprovem que la partida no s'ha acabat.
 		
+		// Path 4:
 		// Cas on destapem una casella ja destapada
 		joc.clicEsquerra(6, 6); // Tornem a clicar en la mateixa casella anterior
 		assertTrue(joc.isDestapat(6, 6)); // La casella ha de seguir destapada (no ha de fer res).
 		
-		// Cas on destapem una casella que té una bandera (no es pot):
-		joc.clicDret(0, 0); // Posem una bandera a la casella 0, 0.
-		joc.clicEsquerra(0, 0); // Intentem destapar la casella 0, 0.
-		assertFalse(joc.isDestapat(0, 0)); // Comprovem que no s'ha destapat la casella amb la bandera.
-		
+		//Path 5:
 		// Cas on destapem una mina (la casella SI que es destapa, però la partida acaba)
 		r = new MockRandom(8, 7);
 		t1 = new Tauler(r);
@@ -116,6 +143,11 @@ class JocTest {
 		joc.clicEsquerra(5, 5); // Destapem la casella 12,5 (casella amb mina, predefinida pel MockRandom)
 		assertTrue(joc.isDestapat(12, 5)); // Comprovem que la casella s'ha destapat.
 		assertTrue(joc.getPartidaAcabada()); // Comprovem que la partida s'ha acabat.
+		
+		// Path 6:
+		// Aquest path és mes complexe de testejar, per això hem dedicat un test complet a aquest path, anomenat simulacioPartida
+		// que es troba just a sota d'aquest test. En aquest Path es juga una partida sencera i es comprova que amb l'ultim clic
+		// es pot guanyar o perdre la partida.
 	}
 	
 	@Test
@@ -127,6 +159,9 @@ class JocTest {
 		// clicEsquerra i clicDret segons el que indiqui el fitxer amb les coordenades. Al fnal es comprova si n'ha guanyat la partida
 		// o si ha perdut depenet del fitxer llegit i per tant comprovem el correcte funcionament del joc al complet.
 		// Utilitzem la funció totesDestapadesSenseMina per comprovar si ha guanyat o ha perdut en cada cas.
+		
+		// Aquest test simbolitza el path 6 del path coverage del mètode clicEsquerra, on es comprova que el pot guanyar o perdre
+		// amb l'ultim clic de la partida.
 		
 		Random r = new Random();
 		Tauler t1 = new MockTauler(r);

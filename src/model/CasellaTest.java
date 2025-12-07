@@ -11,40 +11,44 @@ class CasellaTest {
 	@BeforeEach
 	void setUp()
 	{
+		// Inicialitzem una casella nova abans de cada test
 		c = new Casella();
 	}
 		
 	@Test
 	void PosarMinaTest() {
-		//Comprovem que l'assingació de la mina a una casella es fa correctament.
+		// Comprovem que la col·locació d'una mina en una casella funciona correctament
 		c.setMina();
 		assertTrue(c.isMina());
+		
 		try {
-			c.setMina(); // Tornem a possar una mina a una casella que ja té mina.
-		}catch(AssertionError e) {
+			c.setMina(); // Intentem tornar a posar una mina en una casella que ja en té una
+		} catch(AssertionError e) {
 			System.err.println(e.getMessage());
 		}
-		
 	}
+	
 	@Test
 	void PosarAndTreureBanderaTest() {
-		//Comprovem que es pot posar banderas i treure correctament en una casella.
+		// Comprovem que es poden posar i treure banderes correctament
 		c.changeBandera();
-		assertTrue(c.isBandera());
+		assertTrue(c.isBandera()); // S'ha col·locat la bandera
+		
 		c.changeBandera();
-		assertFalse(c.isBandera());
+		assertFalse(c.isBandera()); // S'ha retirat la bandera
 	}
 		
 	@Test
 	void DestaparCasellaTest(){
-		//Comprovem que es pot destapar una casella tapada correctament.
-		assertFalse(c.isDestapat());
+		// Comprovem que es pot destapar una casella tapada correctament
+		assertFalse(c.isDestapat()); // Inicialment ha d'estar tapada
+		
 		c.destaparCasella();
-		assertTrue(c.isDestapat());
+		assertTrue(c.isDestapat()); // Ara ha d'estar destapada
 		
 		try {
-			c.destaparCasella(); // Tornem a destapar una casella que ja está destapada.
-		}catch(AssertionError e) {
+			c.destaparCasella(); // Intentem destapar-la de nou, cosa que ha de fallar per l'assert
+		} catch(AssertionError e) {
 			System.err.println(e.getMessage());
 		}
 	}
@@ -52,39 +56,39 @@ class CasellaTest {
 	@Test
 	void setNumMinesVoltantTest() {
 			
-		//Comprovem que es pot posar el nombre de mines al voltant correctament.
-		//Particions equivalents: (0 - 8): Particions equivalents
+		// Comprovem que es pot assignar el nombre de mines al voltant correctament
+		// Particions equivalents del domini: 0 - 8
+		
 		c.setNumMinesVoltant(0);
-		assertEquals(0, c.getNumMinesVoltant()); //Valor frontera
+        // Valor frontera inferior vàlid
+		assertEquals(0, c.getNumMinesVoltant());
 			
 		c.setNumMinesVoltant(8);
-		assertEquals(8, c.getNumMinesVoltant()); //Valor frontera
+		// Valor frontera superior vàlid
+		assertEquals(8, c.getNumMinesVoltant());
 				
 		try {
-			c.setNumMinesVoltant(-1); //Valor limit inferior
-			assertTrue(false);
-				
-		}catch(Exception e) {
+			c.setNumMinesVoltant(-1); // Valor inferior no vàlid
+			assertTrue(false); // Si arriba aquí, hi ha un error
+		} catch(Exception e) {
 			System.err.println(e.getMessage());
 		}
 			
 		try {
-			c.setNumMinesVoltant(9); //Valor limit superior
-			assertTrue(false);
-				
-		}catch(Exception e) {
+			c.setNumMinesVoltant(9); // Valor superior no vàlid
+			assertTrue(false); // Si arriba aquí, hi ha un error
+		} catch(Exception e) {
 			System.err.println(e.getMessage());
 		}
 			
 		c.setNumMinesVoltant(1);
-		assertEquals(1, c.getNumMinesVoltant()); //Valor limit superior
+		assertEquals(1, c.getNumMinesVoltant()); // Valor interior vàlid
 		
 		c.setNumMinesVoltant(4);
-		assertEquals(4, c.getNumMinesVoltant()); //Valor interior
+		assertEquals(4, c.getNumMinesVoltant()); // Valor central vàlid
 			
 		c.setNumMinesVoltant(7);
-		assertEquals(7, c.getNumMinesVoltant()); //Valor limit inferior
-			
+		assertEquals(7, c.getNumMinesVoltant()); // Valor proper al límit superior vàlid
 	}
 		
 }

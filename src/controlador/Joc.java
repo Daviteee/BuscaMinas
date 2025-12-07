@@ -1,3 +1,4 @@
+
 package controlador;
 
 import java.util.Random;
@@ -74,6 +75,10 @@ public class Joc {
     
     public int getNumMinesVoltant(int x, int y) {
     	return this.tauler.getNumMinesVoltant(x, y);	
+    }
+    
+    public void setPartidaAcabada() {
+    	this.partidaAcabada = true;
     }
     
     public void clicDret(int x, int y) {

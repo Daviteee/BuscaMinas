@@ -77,10 +77,10 @@ public class Tauler {
 		
 		int nMines = 0; // Nombre de mines col·locades fins al moment.
 		
-		// Itera fins que hi hagi nMaxMines mines col·locades correctament.
+		// Itera fins que hi hagi nMaxMines mines col·locades correctament. nMaxMines serveix per quan només volem posar x mines en comptes de 30 que son les predeterminades, és a dir per a la realització dels casos de prova de Tauler.
 		while(nMines < nMaxMines) {
-	        int xMina = myRandom.nextInt(13); // Generació de x aleatòria (0–12)
-	        int yMina = myRandom.nextInt(13); // Generació de y aleatòria (0–12)
+	        int xMina = myRandom.nextInt(13); // Generació de x aleatòria (0–12) o utilitzant el mockRandom que retorna una coordenada predefinida.
+	        int yMina = myRandom.nextInt(13); // Generació de y aleatòria (0–12) utilitzant el mockRandom que retorna una coordenada predefinida.
 	        
 	        // No es poden col·locar mines en les 8 caselles adjacents al primer clic.
 	        if(Math.abs(xMina - xPlayer) <= 1 && Math.abs(yMina - yPlayer) <= 1) {

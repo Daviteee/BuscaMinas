@@ -192,34 +192,35 @@ class JocTest {
 		    e.printStackTrace();
 		}
 		
-		r = new Random();
-		t1 = new MockTauler(r);
-		t1.generaMinesRandom(10, 0);
-		joc =  new Joc(t1);
-		vista  = new MockBuscaminesVista(joc); //Creem un mock de la vista.
-		vista.initVista(); //La vista és genera a partir del mock (no fa res)
-		joc.crearVistaDelJoc(vista);
-		
-		try (BufferedReader br = new BufferedReader(new FileReader("data/simulacio2.txt"))) {
-		    String linea;
+		//Vam haver de canviar el nom de les variables perquè ens donava un error.
+		Random r1 = new Random();
+        Tauler t2 = new MockTauler(r1);
+        t2.generaMinesRandom(10, 0);
+        Joc joc2 =  new Joc(t2);
+        BuscaminesVista vista2  = new MockBuscaminesVista(joc2); //Creem un mock de la vista.
+        vista2.initVista(); //La vista és genera a partir del mock (no fa res)
+        joc2.crearVistaDelJoc(vista);
 
-		    while ((linea = br.readLine()) != null) {
-		        String[] parts = linea.split(" ");
+        try (BufferedReader br = new BufferedReader(new FileReader("data/simulacio2.txt"))) {
+            String linea;
 
-		        String accion = parts[0];
-		        int x = Integer.parseInt(parts[1]);
-		        int y = Integer.parseInt(parts[2]);
+            while ((linea = br.readLine()) != null) {
+                String[] parts = linea.split(" ");
 
-		        if (accion.equals("esq")) joc.clicEsquerra(x, y);
-		        else if (accion.equals("drt")) joc.clicDret(x, y);
-		    }
-		    
-		    // Comprovar que ha perdut la partida (simulacio 2):
-		    assertFalse(t1.totesDestapadesSenseMines());
+                String accion = parts[0];
+                int x = Integer.parseInt(parts[1]);
+                int y = Integer.parseInt(parts[2]);
 
-		} catch (IOException e) {
-		    e.printStackTrace();
-		}
-	}
+                if (accion.equals("esq")) joc.clicEsquerra(x, y);
+                else if (accion.equals("drt")) joc.clicDret(x, y);
+            }
+
+            // Comprovar que ha perdut la partida (simulacio 2):
+            assertFalse(t2.totesDestapadesSenseMines());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -1,7 +1,6 @@
 package es.uab.tqs.buscamines.vista;
 
 import es.uab.tqs.buscamines.controlador.Joc;
-import es.uab.tqs.buscamines.vista.Vista;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;

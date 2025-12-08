@@ -2,7 +2,6 @@ package es.uab.tqs.buscamines.controlador;
 
 import java.util.Random;
 import es.uab.tqs.buscamines.model.Tauler;
-import es.uab.tqs.buscamines.vista.BuscaminesVista;
 import es.uab.tqs.buscamines.vista.Vista;
 
 public class Joc {

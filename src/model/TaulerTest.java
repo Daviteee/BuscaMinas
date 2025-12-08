@@ -90,7 +90,7 @@ class TaulerTest {
 		// I comprova que el mètode getCasella fa un control correcte dels limits del tauler.
 		// Utilitzant testing amb particions equivalents, no es pot utilitzar Pairwise Testing ja que com el mètode
 		// reb només 2 parametres no es possible realitzar el pairwise ja que el resultat són totes les combinacions.
-		// LOOP TESTING: Es validen les condicions límit del bucle de comprovació de límits del mètode getCasella.
+		
 		r1 = new Random();
 		t1 = new Tauler(r1);
 		int []valors_x = new int [] {0,0,0,0,0,1,1,1,1,12,12,12,12,12,11,11,11,11,11,6,6,6,6,6};
@@ -522,6 +522,13 @@ class TaulerTest {
 		//Comrpovem que s'han destapat correctament les caselles que tenen mina.
 		assertTrue(t1.isDestapat(12, 1));
 		assertTrue(t1.isDestapat(11, 0));
+		//Segona comprovacio si una mina ja esta destapada no dona error.
+		r1 = new MockRandom(2, 1); //Posem mines a les posicions 12,1 i 11,0
+		t1 = new Tauler(r1);
+		t1.setMaxMines(2);
+		t1.generaMinesRandom(0, 0);
+		t1.destapaCasella(12, 1); //Destapem la casella amb mina
+		t1.destaparCasellesAmbMines(); //Destapem totes les caselles amb mina i hauria de tenir en compte que ja esta destapada la casella amb mina 12,1 i per tant evitar destapar-la.
 		
 	}
 	

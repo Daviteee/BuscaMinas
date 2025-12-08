@@ -1,6 +1,6 @@
 package es.uab.tqs.buscamines.vista;
 
-import controlador.Joc;
+import es.uab.tqs.buscamines.controlador.Joc;
 
 public class MockBuscaminesVista extends BuscaminesVista{
 

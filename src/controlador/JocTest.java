@@ -206,17 +206,16 @@ class JocTest {
 		}
 		
 		// Simulació 2 → ha de perdre
-		Random r1 = new Random();
-        Tauler t2 = new MockTauler(r1);
-        t2.generaMinesRandom(10, 0);
+		r = new Random();
+        t1 = new MockTauler(r);
+        t1.generaMinesRandom(10, 0);
 
-        Joc joc2 = new Joc(t2);
+        joc = new Joc(t1);
 
-        BuscaminesVista vista2  = new MockBuscaminesVista(joc2);
-        vista2.initVista();
+        vista = new MockBuscaminesVista(joc);
+        vista.initVista();
 
-        // ⚠️ Probable error original: aquí s'estava passant "vista" en comptes de "vista2".
-        joc2.crearVistaDelJoc(vista2);
+        joc.crearVistaDelJoc(vista);
 
         try (BufferedReader br = new BufferedReader(new FileReader("data/simulacio2.txt"))) {
 
@@ -229,11 +228,11 @@ class JocTest {
                 int x = Integer.parseInt(parts[1]);
                 int y = Integer.parseInt(parts[2]);
 
-                if (accion.equals("esq")) joc2.clicEsquerra(x, y);
-                else if (accion.equals("drt")) joc2.clicDret(x, y);
+                if (accion.equals("esq")) joc.clicEsquerra(x, y);
+                else if (accion.equals("drt")) joc.clicDret(x, y);
             }
 
-            assertFalse(t2.totesDestapadesSenseMines()); // Ha de perdre
+            assertFalse(t1.totesDestapadesSenseMines()); // Ha de perdre
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -3,12 +3,13 @@ package es.uab.tqs.buscamines.controlador;
 import java.util.Random;
 import es.uab.tqs.buscamines.model.Tauler;
 import es.uab.tqs.buscamines.vista.BuscaminesVista;
+import es.uab.tqs.buscamines.vista.Vista;
 
 public class Joc {
 	
 	private Tauler tauler;
     private boolean partidaAcabada;
-    private BuscaminesVista vista;
+    private Vista vista;
     private int banderesRestants;
 
     public Joc(Tauler t) { 
@@ -28,7 +29,7 @@ public class Joc {
     	assert(this.vista == null) : "Error: la vista no s’ha inicialitzat a null correctament";
     }
     
-    public void crearVistaDelJoc(BuscaminesVista vista) { 
+    public void crearVistaDelJoc(Vista vista) { 
     	// Funció que assigna la vista del joc al controlador. S’utilitza per poder instanciar un mock de vista.
     	// Precondició per comprovar que la vista no és null.
     	assert(vista != null): "Error: la vista és null";	

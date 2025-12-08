@@ -9,18 +9,13 @@ import org.junit.jupiter.api.Test;
 import es.uab.tqs.buscamines.model.MockRandom;
 import es.uab.tqs.buscamines.model.MockTauler;
 import es.uab.tqs.buscamines.model.Tauler;
-import es.uab.tqs.buscamines.vista.BuscaminesVista;
 import es.uab.tqs.buscamines.vista.MockBuscaminesVista;
 import es.uab.tqs.buscamines.controlador.Joc;
 import es.uab.tqs.buscamines.model.Casella;
-import org.junit.jupiter.api.BeforeAll;
+import es.uab.tqs.buscamines.vista.Vista;
 
 class JocTest {
 
-	@BeforeAll
-    public static void setupHeadless() {
-        System.setProperty("java.awt.headless", "true");
-    }
 	
 	@Test
 	public void TestConstructorPerParàmetresJoc() {
@@ -32,7 +27,7 @@ class JocTest {
 		Joc joc = new Joc(t1);
 
 		// Creem un mock de la vista per evitar obrir la vista real.
-		BuscaminesVista vista  = new MockBuscaminesVista(joc);
+		Vista vista  = new MockBuscaminesVista();
 		vista.initVista(); // El mock no fa res.
 
 		// Assignem la vista al controlador. Es comprova mitjançant postcondicions.
@@ -68,7 +63,7 @@ class JocTest {
 		Tauler t1 = new Tauler(r);
         Joc joc = new Joc(t1);
 
-		BuscaminesVista vista  = new MockBuscaminesVista(joc);
+		Vista vista  = new MockBuscaminesVista();
 		vista.initVista();
 		joc.crearVistaDelJoc(vista);
 
@@ -86,7 +81,7 @@ class JocTest {
 		t1 = new Tauler(r);
         joc = new Joc(t1);
 
-        vista  = new MockBuscaminesVista(joc);
+        vista  = new MockBuscaminesVista();
 		vista.initVista();
 		joc.crearVistaDelJoc(vista);
 
@@ -116,7 +111,7 @@ class JocTest {
 		Tauler t1 = new Tauler(r);
         Joc joc = new Joc(t1);
 
-        BuscaminesVista vista  = new MockBuscaminesVista(joc);
+        Vista vista  = new MockBuscaminesVista();
 		vista.initVista();
 		joc.crearVistaDelJoc(vista);
 
@@ -134,7 +129,7 @@ class JocTest {
 		t1 = new Tauler(r);
         joc = new Joc(t1);
 
-        vista  = new MockBuscaminesVista(joc);
+        vista  = new MockBuscaminesVista();
 		vista.initVista();
 		joc.crearVistaDelJoc(vista);
 
@@ -152,7 +147,7 @@ class JocTest {
 		t1.setMaxMines(1);
 
         joc = new Joc(t1);
-        vista  = new MockBuscaminesVista(joc);
+        vista  = new MockBuscaminesVista();
 		vista.initVista();
 		joc.crearVistaDelJoc(vista);
 
@@ -186,7 +181,7 @@ class JocTest {
 
 		Joc joc = new Joc(t1);
 
-		BuscaminesVista vista  = new MockBuscaminesVista(joc);
+		Vista vista  = new MockBuscaminesVista();
 		vista.initVista();
 		joc.crearVistaDelJoc(vista); 
 		
@@ -219,7 +214,7 @@ class JocTest {
 
         joc = new Joc(t1);
 
-        vista = new MockBuscaminesVista(joc);
+        vista = new MockBuscaminesVista();
         vista.initVista();
 
         joc.crearVistaDelJoc(vista);

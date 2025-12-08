@@ -4,11 +4,9 @@ import es.uab.tqs.buscamines.controlador.Joc;
 
 public class MockBuscaminesVista extends BuscaminesVista{
 
-	private Joc joc;
-
 	//Mock object per a quan realitzem els test de joc no ens mostri la vista, ja que no és necesària.
 	public MockBuscaminesVista(Joc joc) {
-		this.joc = joc;
+		super(joc);
 	}
 	//Aquesta funció no fa res ja que no ha d'iniciar cap vista
 	public void initVista() {

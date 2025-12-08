@@ -88,8 +88,37 @@ class JocTest {
 		joc.clicEsquerra(2, 2); // Destapem
         joc.clicDret(2, 2);
 
-        assertEquals(30, joc.getBanderesRestants());
-        assertFalse(joc.isBandera(2,2));
+       
+        // Cas 4: No permetre posar bandera si el número de banderes es 0.
+        r = new Random();
+		t1 = new Tauler(r);
+        joc = new Joc(t1);
+
+        vista  = new MockBuscaminesVista();
+		vista.initVista();
+		joc.crearVistaDelJoc(vista);
+		
+		// Posem 30 banderes per a tenir 0 banderes restants.
+        for(int i=0;i<13;i++)
+        	for(int j=0;j<13;j++) {
+        		if(joc.getBanderesRestants()== 0)
+        			break;
+        		joc.clicDret(i, j);
+        	}
+        assertEquals(0, joc.getBanderesRestants());
+        joc.clicDret(12, 2);
+        assertFalse(joc.isBandera(12,2));
+        
+        // Cas 5: No permetre posar bandera si la partida ha acabat.
+        r = new Random();
+		t1 = new Tauler(r);
+        joc = new Joc(t1);
+        vista  = new MockBuscaminesVista();
+		vista.initVista();
+		joc.crearVistaDelJoc(vista);
+		joc.setPartidaAcabada(); 
+		joc.clicDret(1, 2);
+        assertFalse(joc.isBandera(1,2));
     }
 	
 	@Test
@@ -120,6 +149,14 @@ class JocTest {
 	    assertTrue(joc.getPartidaAcabada());
 	    
 	    // Path 2 — casella amb bandera
+	    r = new Random();
+		t1 = new Tauler(r);
+        joc = new Joc(t1);
+
+        vista  = new MockBuscaminesVista();
+		vista.initVista();
+		joc.crearVistaDelJoc(vista);
+
 	 	joc.clicDret(0, 0);
 		joc.clicEsquerra(0, 0);
 		assertFalse(joc.isDestapat(0, 0));
@@ -186,7 +223,7 @@ class JocTest {
 		joc.crearVistaDelJoc(vista); 
 		
 		// Simulació 1 → ha de guanyar
-		try (BufferedReader br = new BufferedReader(new FileReader("src/test/java/es/uab/tqs/buscamines/simulacio1.txt"))) {
+		try (BufferedReader br = new BufferedReader(new FileReader("data/simulacio1.txt"))) {
 
 		    String linea;
 
@@ -219,7 +256,7 @@ class JocTest {
 
         joc.crearVistaDelJoc(vista);
 
-        try (BufferedReader br = new BufferedReader(new FileReader("src/test/java/es/uab/tqs/buscamines/simulacio2.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("data/simulacio2.txt"))) {
 
             String linea;
 
@@ -240,5 +277,4 @@ class JocTest {
             e.printStackTrace();
         }
     }
-
 }

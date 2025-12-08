@@ -191,7 +191,7 @@ class JocTest {
 		joc.crearVistaDelJoc(vista); 
 		
 		// Simulació 1 → ha de guanyar
-		try (BufferedReader br = new BufferedReader(new FileReader("data/simulacio1.txt"))) {
+		try (BufferedReader br = new BufferedReader(new FileReader("src/test/java/es/uab/tqs/buscamines/simulacio1.txt"))) {
 
 		    String linea;
 
@@ -224,7 +224,7 @@ class JocTest {
 
         joc.crearVistaDelJoc(vista);
 
-        try (BufferedReader br = new BufferedReader(new FileReader("data/simulacio2.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("src/test/java/es/uab/tqs/buscamines/simulacio2.txt"))) {
 
             String linea;
 

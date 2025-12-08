@@ -1,8 +1,4 @@
 package es.uab.tqs.buscamines.vista;
-
-import es.uab.tqs.buscamines.controlador.Joc;
-import es.uab.tqs.buscamines.vista.Vista;
-
 public class MockBuscaminesVista implements Vista{
 
 	//Mock object per a quan realitzem els test de joc no ens mostri la vista, ja que no és necesària.

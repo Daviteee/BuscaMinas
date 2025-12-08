@@ -11,7 +11,6 @@ import es.uab.tqs.buscamines.model.MockTauler;
 import es.uab.tqs.buscamines.model.Tauler;
 import es.uab.tqs.buscamines.vista.MockBuscaminesVista;
 import es.uab.tqs.buscamines.controlador.Joc;
-import es.uab.tqs.buscamines.model.Casella;
 import es.uab.tqs.buscamines.vista.Vista;
 
 class JocTest {

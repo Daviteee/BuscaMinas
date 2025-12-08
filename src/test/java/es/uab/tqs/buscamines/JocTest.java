@@ -13,8 +13,14 @@ import es.uab.tqs.buscamines.vista.BuscaminesVista;
 import es.uab.tqs.buscamines.vista.MockBuscaminesVista;
 import es.uab.tqs.buscamines.controlador.Joc;
 import es.uab.tqs.buscamines.model.Casella;
+import org.junit.jupiter.api.BeforeAll;
 
 class JocTest {
+
+	@BeforeAll
+    public static void setupHeadless() {
+        System.setProperty("java.awt.headless", "true");
+    }
 	
 	@Test
 	public void TestConstructorPerParàmetresJoc() {

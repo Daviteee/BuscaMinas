@@ -3,6 +3,9 @@ package es.uab.tqs.buscamines;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.Random;
 import org.junit.jupiter.api.Test;
+import es.uab.tqs.buscamines.model.Tauler;
+import es.uab.tqs.buscamines.model.Casella;
+import es.uab.tqs.buscamines.model.MockRandom;
 
 class TaulerTest {
 

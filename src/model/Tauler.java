@@ -190,11 +190,11 @@ public class Tauler {
 	
 	public void destaparCasellesAmbMines() {
 		invariant();
-		// Destapa totes les caselles que són mines.
+		// Destapa totes les caselles que són mines, excepte si alguna d'aquestes esta destapada (ha perdut l'usuari).
 		for (int i = 0; i < MIDA; i++) {
 	        for (int j = 0; j < MIDA; j++) {
 	            Casella c = getCasella(i, j);
-	            if (c.isMina()) {
+	            if (c.isMina() && !c.isDestapat()) {
 	            	c.destaparCasella();
 	            }
 	        }

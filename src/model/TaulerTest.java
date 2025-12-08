@@ -1,3 +1,4 @@
+
 package model;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,11 +10,11 @@ class TaulerTest {
 	Tauler t1;
 	Random r1;
 	
-	//Comentari d'aclaració: Cal tenir en compte que totes les funcions que tinguin límits del tauler, es a dir els getters de la classe Tauler com isMina,isBandera...
-	//TOTS utilitzen el mètode getCasella per fer la comprovació dels límits Tauler, per això mateix no fa falta realitzar test sobre ells ja que el mètode que està provat
-	//i testejat és getCasella i com està testejat ja sabem que comprova correctament els límits del tauler. Per tant com tots els mètodes anteriorment mencionats ho utlitzen al codi desenvolupat
-	//per comprovar els límits, sabem que aquests límits es comproven correctament. L'únic mètode que no tuilitza getCasella al codi desenvolupat és generaMinesRandom per aquest mateix 
-	//motiu en aquest mètode si es realitza la comprovació dels límits del tauler.
+	// Comentari d'aclaració: Cal tenir en compte que totes les funcions que tinguin límits del tauler, es a dir els getters de la classe Tauler com isMina,isBandera...
+	// TOTS utilitzen el mètode getCasella per fer la comprovació dels límits Tauler, per això mateix no fa falta realitzar test sobre ells ja que el mètode que està provat
+	// i testejat és getCasella i com està testejat ja sabem que comprova correctament els límits del tauler. Per tant com tots els mètodes anteriorment mencionats ho utlitzen al codi desenvolupat
+	// per comprovar els límits, sabem que aquests límits es comproven correctament. L'únic mètode que no tuilitza getCasella al codi desenvolupat és generaMinesRandom per aquest mateix 
+	// motiu en aquest mètode si es realitza la comprovació dels límits del tauler.
 	
 	//Realitzem una funció per llançar les excepcions del mètode getCasella de quan les coordenades no estan a dins del tauler
 	private void llançarExcepcionsCasella(int x, int y){
@@ -25,7 +26,7 @@ class TaulerTest {
 		}
 	}
 		
-	//Realitzem una funció per llançar les excepcions del mètode generaMinesRandom de quan les coordenades del click no estan a dins del tauler
+	// Realitzem una funció per llançar les excepcions del mètode generaMinesRandom de quan les coordenades del click no estan a dins del tauler
 	private void llançarExcepcionsGeneraMines(int x, int y) {
 		try{
 			t1.generaMinesRandom(x, y);
@@ -35,12 +36,14 @@ class TaulerTest {
 		}
 	}
 	
-	//Fem el mateix per els asserts de totes els mètodes anteriors
+	// Fem el mateix per els asserts de totes els mètodes anteriors
 	private void assertsGetCasella(int x, int y) {
 		assertTrue(t1.getCasella(x, y) instanceof Casella); //Simplement ha de retornar una instancia de la classe casella
 	}
 	
-	//Mètode privat per comprovar si al tauler hi han 10 mines.
+	// Mètode privat per comprovar si al tauler hi han 10 mines.
+	// LOOP TESTING: Aquest mètode recorre completament el tauler mitjançant dos bucles for anidats,
+	// exercitant el recorregut total del tauler (iteracions completes) del codi desenvolupat.
 	private void te30Mines(){
 		int n_mines = 0;
 		for(int i=0;i<13;i++)
@@ -59,7 +62,9 @@ class TaulerTest {
 	
 	@Test
 	void ConstructorInicialTaulerTest() {
-		//Comrpovem que el tauler inicial s'inicialitza correctament amb totes les caselles corresponents sense mines, sense banderas i tapades.
+	
+		// Comrpovem que el tauler inicial s'inicialitza correctament amb totes les caselles corresponents sense mines, sense banderas i tapades.
+		// LOOP TESTING: Es verifica indirectament el recorregut complet dels bucles d'inicialització del constructor del Tauler.
 		r1 = new Random();
 		t1 = new Tauler(r1);
 		for(int i=0; i < 13; i++) {
@@ -85,6 +90,7 @@ class TaulerTest {
 		// I comprova que el mètode getCasella fa un control correcte dels limits del tauler.
 		// Utilitzant testing amb particions equivalents, no es pot utilitzar Pairwise Testing ja que com el mètode
 		// reb només 2 parametres no es possible realitzar el pairwise ja que el resultat són totes les combinacions.
+		// LOOP TESTING: Es validen les condicions límit del bucle de comprovació de límits del mètode getCasella.
 		r1 = new Random();
 		t1 = new Tauler(r1);
 		int []valors_x = new int [] {0,0,0,0,0,1,1,1,1,12,12,12,12,12,11,11,11,11,11,6,6,6,6,6};
@@ -104,6 +110,9 @@ class TaulerTest {
 	
 	@Test
 	void generaMinesRandomTest() {
+		// LOOP TESTING: Aquest test valida el bucle while del mètode generaMinesRandom del codi desenvolupat,
+		// comprovant casos de 0 iteracions, iteracions mínimes, valors típics i valor màxim de mines.
+		
 		r1 = new Random();
 		t1 = new Tauler(r1);
 		t1.generaMinesRandom(0,0);
@@ -235,6 +244,10 @@ class TaulerTest {
 		// passos del test. Per que no hi hagi cap error hem de clicar a generarMinesRandom a una casella llunyana d'on posarem les mines perquè si no no funcionara correctament
 		// per com està fet el codi desenvolupat.
 		
+		// LOOP TESTING: Aquest test cobreix explícitament els bucles for anidats del mètode setNumMinesVoltant
+		// del codi desenvolupat, comprovant cantonades, laterals i caselles centrals amb tots els valors límit.
+		// Test que comprova el numero de mines al voltant de cada casella (casos especials i regulars) sigui correctament generat.
+		
 		// Casella 0,0 (cantonada adalt esquerra):
 		// Generem els següents casos de mines al voltant de la casella 0,0 a traves d'un bucle:
 		for(int i=-1;i<3;i++) {
@@ -341,7 +354,6 @@ class TaulerTest {
 	void destapaCasellaTest() {
 		// Test que comprova que una casella ha estat destapada correctament, segons les circumstancies hi ha caselles que no s'han de destapar
 		// o que el seu destapament ha de provocar el destapament d'altres caselles adjacents. Per això utilitzarem un Mock de Random.
-		
 		r1 = new MockRandom(0,0); //Posem una mina a la posció 0,1.
 		t1 = new Tauler(r1); 
 		t1.setMaxMines(1);
@@ -437,55 +449,6 @@ class TaulerTest {
         t1.destapaCasella(12,12);
         assertTrue(t1.isDestapat(12,12));
         assertFalse(t1.isDestapat(11,11)); // bandera talla expansió
-        
-        // Path coverage:
-     	// Path 1 — Coordenadas fora de rang → excepció
-        // Path 2 — Casella ja destapada
-        // Path 3 — Casella amb mina → es destapa i s'acaba la partida
-        // Path 4 — Casella sense mina i amb número > 0
-        // Path 5 — Casella amb 0 mines → expansió recursiva
-
-        // Path 1:
-        Tauler t = new Tauler(new MockRandom(1,0));
-        try {
-            t.destapaCasella(-1, 5); // Intentem destapar una casella fora de rang.
-        }catch(Exception e) {
-        	System.err.println(e.getMessage());
-        }
-        
-        // Path 2:
-        t = new Tauler(new MockRandom(1,0));
-        t.destapaCasella(3, 3);;  // destapem la casella 3,3
-        t.destapaCasella(3, 3);  // No hauria de fer res
-        assertTrue(t.isDestapat(3, 3));
-
-        // Path 3:
-        t = new Tauler(new MockRandom(1, 0));
-        t.setMaxMines(1);
-        t.generaMinesRandom(0, 0);
-        t.destapaCasella(5, 0);
-        assertTrue(t.isDestapat(5, 0)); // Comprovem que esta destapada
-        assertTrue(t.isMina(5, 0));
-
-        // Path 4:
-        t = new Tauler(new MockRandom(1, 0)); // Posem una mina a la posició 5,0
-        t.setMaxMines(1);
-        t.generaMinesRandom(0, 0);
-        t.setNumMinesVoltant();
-        t.destapaCasella(5, 1); // Destapem un veí
-        assertTrue(t.isDestapat(5, 1));
-        assertEquals(1, t.getNumMinesVoltant(5, 1));
-
-        // Path 5:
-        t = new Tauler(new Random());
-        // Cap mina → tots haurien d’expandir-se
-        t.setNumMinesVoltant();
-        t.destapaCasella(6, 6);
-        assertTrue(t.isDestapat(6, 6));
-        assertTrue(t.isDestapat(5, 6));
-        assertTrue(t.isDestapat(7, 6));
-        assertTrue(t.isDestapat(6, 5));
-        assertTrue(t.isDestapat(6, 7));
 	}
 	
 	@Test

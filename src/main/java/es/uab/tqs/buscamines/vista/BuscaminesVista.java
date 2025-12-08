@@ -1,7 +1,7 @@
 package es.uab.tqs.buscamines.vista;
 
 import es.uab.tqs.buscamines.controlador.Joc;
-
+import es.uab.tqs.buscamines.vista.Vista;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuscaminesVista extends JFrame {
+public class BuscaminesVista extends JFrame implements Vista{
 
     private JButton[][] caselles;
     private static final int MIDA = 13;

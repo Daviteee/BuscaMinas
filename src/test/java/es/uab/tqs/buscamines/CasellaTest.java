@@ -1,5 +1,6 @@
 package es.uab.tqs.buscamines;
 
+import es.uab.tqs.buscamines.model.Casella;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
